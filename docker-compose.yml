@@ -1,0 +1,11 @@
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: titantech_db
+    ports:
+      - "27017:27017"
+    volumes:
+      # This mounts your JS script and JSON files into the init folder
+      - .:/docker-entrypoint-initdb.d
+    environment:
+      - MONGO_INITDB_DATABASE=titantechparts
