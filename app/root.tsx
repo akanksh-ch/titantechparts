@@ -5,10 +5,14 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation,
 } from "react-router";
 
 import type { Route } from "./+types/root";
 import "./app.css";
+
+import { Header } from "~/components/Header";
+import { CartProvider, useCart } from "~/context/cart";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -41,8 +45,25 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+function AppShell() {
+  const location = useLocation();
+  const { cartItemCount } = useCart();
+  const isLoginPage = location.pathname === "/login";
+
+  return (
+    <>
+      {!isLoginPage && <Header cartItemCount={cartItemCount} />}
+      <Outlet />
+    </>
+  );
+}
+
 export default function App() {
-  return <Outlet />;
+  return (
+    <CartProvider>
+      <AppShell />
+    </CartProvider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
