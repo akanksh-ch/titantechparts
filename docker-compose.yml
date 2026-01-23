@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      # Use the service name 'mongodb' as hostname
+      MONGO_URL: mongodb://mongodb:27017/TitanTech
+    depends_on:
+      - mongodb
+    networks:
+      - titantech-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: development-dependencies-env
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8000 # For client-side calls (browser -> backend)
+    command: [ "npm", "run", "dev", "--", "--host" ]
+    depends_on:
+      - backend
+    networks:
+      - titantech-network
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: TitanTech
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - titantech-network
+
+volumes:
+  mongodb_data:
+
+
+networks:
+  titantech-network:
+    driver: bridge
