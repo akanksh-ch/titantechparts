@@ -9,7 +9,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      MONGO_URL: mongodb://mongodb_container:27017/TitanTech
+      MONGO_URL: mongodb://titantech_db:27017/titantechparts
     depends_on:
       - mongodb
     volumes:
@@ -46,7 +46,8 @@ services:
       MONGO_INITDB_DATABASE: titantechparts
     volumes:
       - mongodb_data:/data/db
-      - .:/docker-entrypoint-initdb.d
+      # Mount the backend directory so init-db.js and Validator files are available
+      - ./backend:/docker-entrypoint-initdb.d
     networks:
       - titantech-network
 
