@@ -34,8 +34,8 @@ validatorFiles.forEach(f => {
 });
 
 // 3. Setup IDs for Seeding (example seeding still assumes User / Inventory / Orders exist)
-const dummyUserId = ObjectId();
-const dummyItemId = ObjectId();
+const dummyUserId = new ObjectId();
+const dummyItemId = new ObjectId();
 
 // 4. Seed User (only if User collection exists)
 if (db.getCollectionNames().includes('User')) {
