@@ -5,6 +5,7 @@ on:
     branches:
       - frontend
       - backend
+      - main
   # Run automatically every hour
   schedule:
     - cron: '0 * * * *'
