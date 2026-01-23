@@ -1,11 +1,60 @@
+version: '3.8'
+
 services:
+  backend:
+    container_name: backend_app
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      MONGO_URL: mongodb://titantech_db:27017/titantechparts
+    depends_on:
+      - mongodb
+    volumes:
+      - ./backend:/app # Hot reload for backend
+    networks:
+      - titantech-network
+
+  frontend:
+    container_name: frontend_app
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: development-dependencies-env
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    # Ensure we bind to 0.0.0.0. Overriding command to be safe.
+    command: [ "npm", "run", "dev", "--", "--host", "0.0.0.0" ]
+    volumes:
+      - ./frontend:/app # Hot reload for frontend
+      - /app/node_modules # Prevent host node_modules from overwriting container's
+    depends_on:
+      - backend
+    networks:
+      - titantech-network
+
   mongodb:
     image: mongo:latest
     container_name: titantech_db
     ports:
       - "27017:27017"
-    volumes:
-      # This mounts your JS script and JSON files into the init folder
-      - .:/docker-entrypoint-initdb.d
     environment:
-      - MONGO_INITDB_DATABASE=titantechparts
+      MONGO_INITDB_DATABASE: titantechparts
+    volumes:
+      - mongodb_data:/data/db
+      # Mount the backend directory so init-db.js and Validator files are available
+      - ./backend:/docker-entrypoint-initdb.d
+    networks:
+      - titantech-network
+
+volumes:
+  mongodb_data:
+
+
+networks:
+  titantech-network:
+    driver: bridge
