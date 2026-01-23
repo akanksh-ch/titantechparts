@@ -1,6 +1,10 @@
 name: Update Submodules
 
 on:
+  push:
+    branches:
+      - frontend
+      - backend
   # Run automatically every hour
   schedule:
     - cron: '0 * * * *'
