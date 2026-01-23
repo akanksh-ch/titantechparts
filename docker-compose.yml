@@ -28,7 +28,7 @@ services:
     environment:
       - VITE_API_URL=http://localhost:8000
     # Ensure we bind to 0.0.0.0. Overriding command to be safe.
-    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+    command: [ "npm", "run", "dev", "--", "--host", "0.0.0.0" ]
     volumes:
       - ./frontend:/app # Hot reload for frontend
       - /app/node_modules # Prevent host node_modules from overwriting container's
@@ -38,19 +38,21 @@ services:
       - titantech-network
 
   mongodb:
-    container_name: mongodb_container
     image: mongo:latest
+    container_name: titantech_db
     ports:
       - "27017:27017"
     environment:
-      MONGO_INITDB_DATABASE: TitanTech
+      MONGO_INITDB_DATABASE: titantechparts
     volumes:
       - mongodb_data:/data/db
+      - .:/docker-entrypoint-initdb.d
     networks:
       - titantech-network
 
 volumes:
   mongodb_data:
+
 
 networks:
   titantech-network:
