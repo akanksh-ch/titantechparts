@@ -1,6 +1,5 @@
 // init-db.js
 // Dynamic validator-based collection creation from Validator-*.JSON in CWD
-
 // Switch to titantechparts database
 db = db.getSiblingDB('titantechparts');
 
@@ -28,6 +27,7 @@ validatorFiles.forEach(f => {
 
     db.createCollection(collectionName, { validator: schema });
     print(`--- SUCCESS: Created collection ${collectionName} with validator from ${f.name} ---`);
+
   } catch (e) {
     print(`--- CRITICAL ERROR creating ${collectionName} from ${f.name}: ${e.message} ---`);
   }
@@ -50,8 +50,13 @@ if (db.getCollectionNames().includes('User')) {
       isActive: true,
       createdAt: new Date()
     });
+
     print("--- SUCCESS: User seeded ---");
-  } catch (e) { print("--- FAILED User seed: " + e.message); }
+
+  } catch (e) {
+    print("--- FAILED User seed: " + e.message);
+  }
+
 } else {
   print("--- SKIP: User collection not found (no matching Validator-User.JSON?) ---");
 }
@@ -64,14 +69,19 @@ if (db.getCollectionNames().includes('Inventory')) {
       name: "Performance Exhaust",
       sku: "EXH-99",
       description: "High-flow cat-back exhaust",
-      price: Double(599.99), // Must be double
+      price: 599.99,
       currency: "GBP",
-      stock: NumberInt(10), // Must be int
+      stock: 10,
       isActive: true,
       createdAt: new Date()
     });
+
     print("--- SUCCESS: Inventory seeded ---");
-  } catch (e) { print("--- FAILED Inventory seed: " + e.message); }
+
+  } catch (e) {
+    print("--- FAILED Inventory seed: " + e.message);
+  }
+
 } else {
   print("--- SKIP: Inventory collection not found (no matching Validator-Inventory.JSON?) ---");
 }
@@ -81,19 +91,24 @@ if (db.getCollectionNames().includes('Orders')) {
   try {
     db.Orders.insertOne({
       userId: dummyUserId,
-      amount: Double(599.99), // Must be double
+      amount: 599.99,
       currency: "GBP",
       status: "paid",
       createdAt: new Date(),
       items: [{
         inventoryId: dummyItemId,
-        quantity: NumberInt(1), // Must be int
-        unitPrice: Double(599.99),
-        lineTotal: Double(599.99)
+        quantity: 1,
+        unitPrice: 599.99,
+        lineTotal: 599.99
       }]
     });
+
     print("--- SUCCESS: Orders seeded ---");
-  } catch (e) { print("--- FAILED Orders seed: " + e.message); }
+
+  } catch (e) {
+    print("--- FAILED Orders seed: " + e.message);
+  }
+
 } else {
   print("--- SKIP: Orders collection not found (no matching Validator-Orders.JSON?) ---");
 }
