@@ -1,0 +1,56 @@
+{
+  "$jsonSchema": {
+    "bsonType": "object",
+    "required": ["name", "sku", "price", "currency", "stock", "createdAt"],
+    "additionalProperties": false,
+    "properties": {
+      "_id": {
+        "bsonType": "objectId",
+        "description": "Inventory item identifier"
+      },
+      "name": {
+        "bsonType": "string",
+        "minLength": 1,
+        "maxLength": 128,
+        "description": "Human-readable item name"
+      },
+      "sku": {
+        "bsonType": "string",
+        "minLength": 1,
+        "maxLength": 64,
+        "description": "Stock keeping unit / code"
+      },
+      "description": {
+        "bsonType": "string",
+        "description": "Optional item description"
+      },
+      "price": {
+        "bsonType": "double",
+        "minimum": 0,
+        "description": "Current unit price"
+      },
+      "currency": {
+        "bsonType": "string",
+        "enum": ["GBP", "USD", "EUR"],
+        "description": "ISO-like currency code"
+      },
+      "stock": {
+        "bsonType": "int",
+        "minimum": 0,
+        "description": "Units available in stock"
+      },
+      "isActive": {
+        "bsonType": "bool",
+        "description": "Whether item is sellable"
+      },
+      "createdAt": {
+        "bsonType": "date",
+        "description": "Creation timestamp"
+      },
+      "updatedAt": {
+        "bsonType": "date",
+        "description": "Last update timestamp"
+      }
+    }
+  }
+}
