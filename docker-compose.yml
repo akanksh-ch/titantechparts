@@ -2,20 +2,23 @@ version: '3.8'
 
 services:
   backend:
+    container_name: backend_app
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
     environment:
-      # Use the service name 'mongodb' as hostname
-      MONGO_URL: mongodb://mongodb:27017/TitanTech
+      MONGO_URL: mongodb://mongodb_container:27017/TitanTech
     depends_on:
       - mongodb
+    volumes:
+      - ./backend:/app # Hot reload for backend
     networks:
       - titantech-network
 
   frontend:
+    container_name: frontend_app
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -23,14 +26,19 @@ services:
     ports:
       - "5173:5173"
     environment:
-      - VITE_API_URL=http://localhost:8000 # For client-side calls (browser -> backend)
-    command: [ "npm", "run", "dev", "--", "--host" ]
+      - VITE_API_URL=http://localhost:8000
+    # Ensure we bind to 0.0.0.0. Overriding command to be safe.
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+    volumes:
+      - ./frontend:/app # Hot reload for frontend
+      - /app/node_modules # Prevent host node_modules from overwriting container's
     depends_on:
       - backend
     networks:
       - titantech-network
 
   mongodb:
+    container_name: mongodb_container
     image: mongo:latest
     ports:
       - "27017:27017"
@@ -43,7 +51,6 @@ services:
 
 volumes:
   mongodb_data:
-
 
 networks:
   titantech-network:
