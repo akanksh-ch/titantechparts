@@ -3,12 +3,25 @@ version: '3.8'
 services:
   mongodb:
     image: mongo:latest
+    container_name: mongodb
     ports:
       - "27017:27017"
     environment:
-      MONGO_INITDB_DATABASE: TitanTech
+      MONGO_INITDB_DATABASE: titantechparts
     volumes:
       - mongodb_data:/data/db
 
+  backend:
+    build: .
+    container_name: fastapi-backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongodb
+    environment:
+      MONGO_URL: mongodb://mongodb:27017/titantechparts
+    restart: unless-stopped
+
 volumes:
-    mongodb_data:
+  mongodb_data:
+
