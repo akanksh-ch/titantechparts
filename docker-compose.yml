@@ -1,0 +1,148 @@
+version: '3.8'
+
+services:
+  # Main Node.js application service
+  app:
+    # Build from the provided Dockerfile
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: final
+    
+    # Service name for network reference
+    container_name: nodejs-app
+    
+    # Port mappings - adjust as needed for your app
+    ports:
+      - "3000:3000"
+      - "8080:8080"
+    
+    # Environment variables
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+    
+    # Volume mounts for development (comment out for production)
+    volumes:
+      - .:/app
+      - /app/node_modules
+    
+    # Restart policy
+    restart: unless-stopped
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000', (res) => { process.exit(res.statusCode === 200 ? 0 : 1); })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Development environment variant (optional)
+  app-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development-dependencies-env
+    
+    container_name: nodejs-app-dev
+    
+    ports:
+      - "3001:3000"
+    
+    environment:
+      NODE_ENV: development
+      DEBUG: "*"
+    
+    volumes:
+      - .:/app
+      - /app/node_modules
+    
+    # Run with npm run dev or similar
+    command: npm run dev
+    
+    stdin_open: true
+    tty: true
+    
+    restart: unless-stopped
+    
+    # No health check for dev environment
+    profiles:
+      - dev
+
+  # Optional: Redis cache service (if needed)
+  redis:
+    image: redis:7-alpine
+    container_name: nodejs-redis
+    
+    ports:
+      - "6379:6379"
+    
+    volumes:
+      - redis-data:/data
+    
+    restart: unless-stopped
+    
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    
+    profiles:
+      - with-cache
+
+  # Optional: MongoDB service (if needed)
+  mongodb:
+    image: mongo:7-alpine
+    container_name: nodejs-mongodb
+    
+    ports:
+      - "27017:27017"
+    
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: myapp
+    
+    volumes:
+      - mongo-data:/data/db
+    
+    restart: unless-stopped
+    
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    
+    profiles:
+      - with-db
+
+# Named volumes for data persistence
+volumes:
+  redis-data:
+  mongo-data:
+
+# Networks
+networks:
+  default:
+    name: nodejs-network
+    driver: bridge
