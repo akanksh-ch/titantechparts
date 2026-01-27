@@ -53,6 +53,14 @@ class UserResponse(UserBase, MongoBaseModel):
     createdAt: datetime
     updatedAt: Optional[datetime] = None
 
+# --- Auth Models ---
+class Token(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+
+class TokenData(BaseModel):
+    username: Optional[str] = None
+
 # --- Inventory Models ---
 class InventoryBase(BaseModel):
     name: str

@@ -5,7 +5,7 @@ from passlib.context import CryptContext
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from app.database import db
-from app.models import UserInDB, UserResponse
+from app.models import UserInDB, UserResponse, Token, TokenData
 
 # CONFIG
 SECRET_KEY = "supersecretkey_for_dev_only" # Change for prod
@@ -31,7 +31,15 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
-async def get_current_user(token: str = Depends(oauth2_scheme)):
+async def authenticate_user(username: str, password: str):
+    user_doc = await db["Users"].find_one({"username": username})
+    if not user_doc:
+        return False
+    if not verify_password(password, user_doc.get("passwordHash")):
+        return False
+    return UserInDB(**user_doc)
+
+async def get_current_user(token: str = Depends(oauth2_scheme)) -> UserResponse:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -48,9 +56,9 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     user_doc = await db["Users"].find_one({"username": username})
     if user_doc is None:
         raise credentials_exception
-    return UserInDB(**user_doc)
+    return UserResponse(**user_doc)
 
-async def get_current_active_user(current_user: UserInDB = Depends(get_current_user)):
+async def get_current_active_user(current_user: UserResponse = Depends(get_current_user)) -> UserResponse:
     if not current_user.isActive:
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
