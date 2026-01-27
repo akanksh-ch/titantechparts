@@ -1,29 +1,38 @@
 // init-db.js
-// Dynamic validator-based collection creation from Validator-*.JSON in CWD
+// Modern mongosh script for dynamic validator-based collection creation
 
 // Switch to titantechparts database
 db = db.getSiblingDB('titantechparts');
 
-// 1. Discover validator files in current working directory
-// mongosh provides listFiles() which returns an array of { name, isDirectory, ... }
-const validatorFiles = listFiles()
-  .filter(f => f.name.match(/^Validator-.*\.JSON$/));
+// Directory where Docker/Podman mounts your files
+const initPath = '/docker-entrypoint-initdb.d/';
 
-print(`--- Found ${validatorFiles.length} validator file(s) in CWD ---`);
+// 1. Discover validator files in the entrypoint directory
+// Replaced listFiles() with global fs.readdirSync()
+const validatorFiles = fs.readdirSync(initPath)
+  .filter(fileName => fileName.match(/^Validator-.*\.JSON$/))
+  .map(fileName => ({ name: fileName }));
+
+print(`--- Found ${validatorFiles.length} validator file(s) in ${initPath} ---`);
 
 // 2. Create collections with validators based on discovered files
 validatorFiles.forEach(f => {
-  // Derive collection name: Validator-User.JSON -> User, Validator-Inventory.JSON -> Inventory, etc.
+  // Derive collection name: Validator-User.JSON -> User
   const collectionName = f.name
     .replace(/^Validator-/, '')
     .replace(/\.JSON$/, '');
 
+  const fullFilePath = initPath + f.name;
+
   try {
-    const schema = JSON.parse(cat(f.name));
+    // FIX: Replaced cat(f.name) with fs.readFileSync()
+    // cat() does not exist in modern mongosh
+    const rawData = fs.readFileSync(fullFilePath, 'utf8');
+    const schema = JSON.parse(rawData);
 
     // Drop existing collection for clean init
     if (db.getCollectionNames().includes(collectionName)) {
-      db[collectionName].drop();
+      db.getCollection(collectionName).drop();
     }
 
     db.createCollection(collectionName, { validator: schema });
@@ -33,13 +42,12 @@ validatorFiles.forEach(f => {
   }
 });
 
-// 3. Setup IDs for Seeding (example seeding still assumes User / Inventory / Orders exist)
+// 3. Setup IDs for Seeding
 const dummyUserId = new ObjectId();
 const dummyItemId = new ObjectId();
 
-// 4. Seed User (only if User collection exists)
+// 4. Seed User
 if (db.getCollectionNames().includes('User')) {
-    // passwordHash MUST be 60-100 characters
     try {
         db.User.insertOne({
             _id: dummyUserId,
@@ -53,10 +61,10 @@ if (db.getCollectionNames().includes('User')) {
         print("--- SUCCESS: User seeded ---");
     } catch (e) { print("--- FAILED User seed: " + e.message); }
 } else {
-    print("--- SKIP: User collection not found (no matching Validator-User.JSON?) ---");
+    print("--- SKIP: User collection not found ---");
 }
 
-// 5. Seed Inventory (only if Inventory collection exists)
+// 5. Seed Inventory
 if (db.getCollectionNames().includes('Inventory')) {
   try {
     db.Inventory.insertOne({
@@ -64,30 +72,30 @@ if (db.getCollectionNames().includes('Inventory')) {
       name: "Performance Exhaust",
       sku: "EXH-99",
       description: "High-flow cat-back exhaust",
-      price: Double(599.99), // Must be double
+      price: Double(599.99), 
       currency: "GBP",
-      stock: NumberInt(10), // Must be int
+      stock: NumberInt(10), 
       isActive: true,
       createdAt: new Date()
     });
     print("--- SUCCESS: Inventory seeded ---");
   } catch (e) { print("--- FAILED Inventory seed: " + e.message); }
 } else {
-  print("--- SKIP: Inventory collection not found (no matching Validator-Inventory.JSON?) ---");
+  print("--- SKIP: Inventory collection not found ---");
 }
 
-// 6. Seed Orders (only if Orders collection exists)
+// 6. Seed Orders
 if (db.getCollectionNames().includes('Orders')) {
   try {
     db.Orders.insertOne({
       userId: dummyUserId,
-      amount: Double(599.99), // Must be double
+      amount: Double(599.99),
       currency: "GBP",
       status: "paid",
       createdAt: new Date(),
       items: [{
         inventoryId: dummyItemId,
-        quantity: NumberInt(1), // Must be int
+        quantity: NumberInt(1),
         unitPrice: Double(599.99),
         lineTotal: Double(599.99)
       }]
@@ -95,7 +103,7 @@ if (db.getCollectionNames().includes('Orders')) {
     print("--- SUCCESS: Orders seeded ---");
   } catch (e) { print("--- FAILED Orders seed: " + e.message); }
 } else {
-  print("--- SKIP: Orders collection not found (no matching Validator-Orders.JSON?) ---");
+  print("--- SKIP: Orders collection not found ---");
 }
 
 print("--- Database initialisation complete with dynamic validators ---");
