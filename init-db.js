@@ -17,10 +17,10 @@ print(`--- Found ${validatorFiles.length} validator file(s) in ${initPath} ---`)
 
 // 2. Create collections with validators based on discovered files
 validatorFiles.forEach(f => {
-  // Derive collection name: Validator-User.JSON -> User
+  // Derive collection name: Validator-User.json -> User
   const collectionName = f.name
     .replace(/^Validator-/, '')
-    .replace(/\.JSON$/, '');
+    .replace(/\.json$/, '');
 
   const fullFilePath = initPath + f.name;
 
