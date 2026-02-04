@@ -22,7 +22,7 @@ db.Inventory.insertMany([
         date: new Date("2025-12-02T09:10:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "GPU",
     stock: 12,
     createdAt: new Date("2025-11-01T08:00:00Z")
@@ -48,7 +48,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-05T11:05:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "GPU",
     stock: 25,
     createdAt: new Date("2025-11-05T10:15:00Z")
@@ -74,7 +74,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-02T13:20:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "GPU",
     stock: 40,
     createdAt: new Date("2025-11-10T09:30:00Z")
@@ -100,7 +100,7 @@ db.Inventory.insertMany([
         date: new Date("2025-12-30T17:45:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "GPU",
     stock: 60,
     createdAt: new Date("2025-11-12T14:50:00Z")
@@ -126,7 +126,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-08T08:55:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "GPU",
     stock: 33,
     createdAt: new Date("2025-11-18T07:45:00Z")
@@ -152,7 +152,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-04T09:45:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "CPU",
     stock: 35,
     createdAt: new Date("2025-11-01T08:00:00Z")
@@ -178,7 +178,7 @@ db.Inventory.insertMany([
         date: new Date("2025-12-28T19:05:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "CPU",
     stock: 22,
     createdAt: new Date("2025-11-03T10:15:00Z")
@@ -204,7 +204,7 @@ db.Inventory.insertMany([
         date: new Date("2025-12-30T13:20:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "CPU",
     stock: 48,
     createdAt: new Date("2025-11-08T09:30:00Z")
@@ -230,7 +230,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-01T17:45:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "CPU",
     stock: 28,
     createdAt: new Date("2025-11-12T14:50:00Z")
@@ -256,7 +256,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-06T08:55:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "CPU",
     stock: 60,
     createdAt: new Date("2025-11-18T07:45:00Z")
@@ -284,7 +284,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-03T09:40:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Memory",
     stock: 52,
     createdAt: new Date("2025-11-05T08:00:00Z")
@@ -310,7 +310,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-07T11:15:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Memory",
     stock: 30,
     createdAt: new Date("2025-11-10T10:20:00Z")
@@ -336,7 +336,7 @@ db.Inventory.insertMany([
         date: new Date("2025-12-31T16:45:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Memory",
     stock: 64,
     createdAt: new Date("2025-11-15T09:45:00Z")
@@ -362,7 +362,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-02T17:20:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Memory",
     stock: 41,
     createdAt: new Date("2025-11-18T14:10:00Z")
@@ -388,7 +388,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-06T08:50:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Memory",
     stock: 27,
     createdAt: new Date("2025-11-22T07:55:00Z")
@@ -416,7 +416,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-03T09:55:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Motherboard",
     stock: 18,
     createdAt: new Date("2025-11-06T08:00:00Z")
@@ -442,7 +442,7 @@ db.Inventory.insertMany([
         date: new Date("2025-12-29T11:30:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Motherboard",
     stock: 26,
     createdAt: new Date("2025-11-09T10:10:00Z")
@@ -468,7 +468,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-01T12:05:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Motherboard",
     stock: 34,
     createdAt: new Date("2025-11-14T09:35:00Z")
@@ -494,7 +494,7 @@ db.Inventory.insertMany([
         date: new Date("2025-12-30T18:25:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Motherboard",
     stock: 29,
     createdAt: new Date("2025-11-18T14:20:00Z")
@@ -520,7 +520,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-05T08:40:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Motherboard",
     stock: 47,
     createdAt: new Date("2025-11-22T07:55:00Z")
@@ -548,7 +548,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-04T09:30:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Power Supply",
     stock: 32,
     createdAt: new Date("2025-11-05T08:00:00Z")
@@ -574,7 +574,7 @@ db.Inventory.insertMany([
         date: new Date("2025-12-27T11:45:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Power Supply",
     stock: 27,
     createdAt: new Date("2025-11-08T10:25:00Z")
@@ -600,7 +600,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-02T12:05:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Power Supply",
     stock: 19,
     createdAt: new Date("2025-11-14T09:40:00Z")
@@ -626,7 +626,7 @@ db.Inventory.insertMany([
         date: new Date("2025-12-31T18:15:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Power Supply",
     stock: 38,
     createdAt: new Date("2025-11-19T14:15:00Z")
@@ -652,7 +652,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-06T08:45:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Power Supply",
     stock: 54,
     createdAt: new Date("2025-11-23T07:55:00Z")
@@ -680,7 +680,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-03T09:50:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Case",
     stock: 24,
     createdAt: new Date("2025-11-06T08:00:00Z")
@@ -706,7 +706,7 @@ db.Inventory.insertMany([
         date: new Date("2025-12-28T11:25:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Case",
     stock: 31,
     createdAt: new Date("2025-11-10T10:20:00Z")
@@ -732,7 +732,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-02T12:00:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Case",
     stock: 19,
     createdAt: new Date("2025-11-14T09:40:00Z")
@@ -758,7 +758,7 @@ db.Inventory.insertMany([
         date: new Date("2025-12-31T18:10:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Case",
     stock: 43,
     createdAt: new Date("2025-11-18T14:15:00Z")
@@ -784,7 +784,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-06T08:40:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Case",
     stock: 37,
     createdAt: new Date("2025-11-22T07:55:00Z")
@@ -812,7 +812,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-06T10:20:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "CPU Cooler",
     stock: 28,
     createdAt: new Date("2025-11-08T08:00:00Z")
@@ -838,7 +838,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-01T12:10:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "CPU Cooler",
     stock: 16,
     createdAt: new Date("2025-11-12T10:30:00Z")
@@ -864,7 +864,7 @@ db.Inventory.insertMany([
         date: new Date("2025-12-31T14:25:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "CPU Cooler",
     stock: 35,
     createdAt: new Date("2025-11-17T09:20:00Z")
@@ -890,7 +890,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-03T17:40:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "CPU Cooler",
     stock: 22,
     createdAt: new Date("2025-11-21T14:10:00Z")
@@ -916,7 +916,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-08T09:05:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "CPU Cooler",
     stock: 49,
     createdAt: new Date("2025-11-25T07:45:00Z")
@@ -944,7 +944,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-05T10:15:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Storage",
     stock: 41,
     createdAt: new Date("2025-11-07T08:00:00Z")
@@ -970,7 +970,7 @@ db.Inventory.insertMany([
         date: new Date("2025-12-30T11:20:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Storage",
     stock: 58,
     createdAt: new Date("2025-11-11T10:30:00Z")
@@ -996,7 +996,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-01T13:00:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Storage",
     stock: 67,
     createdAt: new Date("2025-11-16T09:25:00Z")
@@ -1022,7 +1022,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-04T17:35:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Storage",
     stock: 15,
     createdAt: new Date("2025-11-20T14:00:00Z")
@@ -1048,7 +1048,7 @@ db.Inventory.insertMany([
         date: new Date("2026-01-07T08:30:00Z")
       }
     ],
-    imageUrl: "",
+    imageUrl: "./Sale.jpg",
     category: "Storage",
     stock: 33,
     createdAt: new Date("2025-11-24T07:50:00Z")
