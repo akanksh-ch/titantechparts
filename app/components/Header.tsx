@@ -1,6 +1,6 @@
 import { ShoppingCart, Search, User, ShoppingBag, LogOut } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router';
-import { useAuth } from '~/contexts/AuthContext';
+import { isAuthenticated, getCurrentUsername, logout } from '~/utils/auth';
 
 interface HeaderProps {
   cartItemCount?: number;
@@ -10,7 +10,8 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const currentPath = location.pathname;
-  const { isAuthenticated, user, logout } = useAuth();
+  const authenticated = isAuthenticated();
+  const username = getCurrentUsername();
 
   const handleLogout = () => {
     logout();
@@ -48,7 +49,7 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
             >
               Shop
             </Link>
-            {isAuthenticated && (
+            {authenticated && (
               <Link
                 to="/orders"
                 className={`hover:text-primary transition-colors ${currentPath === '/orders' ? 'text-primary' : 'text-foreground'
@@ -82,10 +83,10 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
             </Link>
 
             {/* Auth Section */}
-            {isAuthenticated ? (
+            {authenticated ? (
               <div className="flex items-center gap-2">
                 <span className="text-sm text-muted-foreground hidden sm:inline">
-                  {user?.username}
+                  {username}
                 </span>
                 <button
                   onClick={handleLogout}

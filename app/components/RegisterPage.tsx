@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { ShoppingBag } from 'lucide-react';
-import { useAuth } from '~/contexts/AuthContext';
+import { register } from '~/utils/auth';
 
 export function RegisterPage() {
     const navigate = useNavigate();
-    const { register } = useAuth();
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

@@ -13,7 +13,6 @@ import "./app.css";
 
 import { Header } from "~/components/Header";
 import { CartProvider, useCart } from "~/context/cart";
-import { AuthProvider } from "~/contexts/AuthContext";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -62,11 +61,9 @@ function AppShell() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <CartProvider>
-        <AppShell />
-      </CartProvider>
-    </AuthProvider>
+    <CartProvider>
+      <AppShell />
+    </CartProvider>
   );
 }
 

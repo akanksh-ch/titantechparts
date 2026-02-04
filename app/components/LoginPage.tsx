@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { ShoppingBag, Eye, EyeOff } from 'lucide-react';
-import { useAuth } from '~/contexts/AuthContext';
+import { login } from '~/utils/auth';
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const { login } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
