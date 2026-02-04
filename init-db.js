@@ -10,7 +10,7 @@ const initPath = '/docker-entrypoint-initdb.d/';
 // 1. Discover validator files in the entrypoint directory
 // Replaced listFiles() with global fs.readdirSync()
 const validatorFiles = fs.readdirSync(initPath)
-  .filter(fileName => fileName.match(/^Validator-.*\.JSON$/))
+  .filter(fileName => fileName.match(/^Validator-.*\.json$/))
   .map(fileName => ({ name: fileName }));
 
 print(`--- Found ${validatorFiles.length} validator file(s) in ${initPath} ---`);
@@ -42,68 +42,25 @@ validatorFiles.forEach(f => {
   }
 });
 
-// 3. Setup IDs for Seeding
-const dummyUserId = new ObjectId();
-const dummyItemId = new ObjectId();
-
-// 4. Seed User
-if (db.getCollectionNames().includes('User')) {
-    try {
-        db.User.insertOne({
-            _id: dummyUserId,
-            email: "test@titantech.io",
-            passwordHash: "$2b$12$Kcy9pP86iW52IeK2S6X10.8A3.qRjG.8J7K6L5M4N3O2P1Q0R1S2T4U5V6W7X8Y9Z0",
-            username: "test_user",
-            roles: ["user"],
-            isActive: true,
-            createdAt: new Date()
-        });
-        print("--- SUCCESS: User seeded ---");
-    } catch (e) { print("--- FAILED User seed: " + e.message); }
-} else {
-    print("--- SKIP: User collection not found ---");
+try {
+  load(initPath + "SeedUsers.js");
+  print("--- SUCCESS: Loaded SeedUsers.js ---");
+} catch (e) {
+  print("--- SKIP/FAIL: SeedUsers.js (" + e.message + ") ---");
 }
 
-// 5. Seed Inventory
-if (db.getCollectionNames().includes('Inventory')) {
-  try {
-    db.Inventory.insertOne({
-      _id: dummyItemId,
-      name: "Performance Exhaust",
-      sku: "EXH-99",
-      description: "High-flow cat-back exhaust",
-      price: Double(599.99), 
-      currency: "GBP",
-      stock: NumberInt(10), 
-      isActive: true,
-      createdAt: new Date()
-    });
-    print("--- SUCCESS: Inventory seeded ---");
-  } catch (e) { print("--- FAILED Inventory seed: " + e.message); }
-} else {
-  print("--- SKIP: Inventory collection not found ---");
+try {
+  load(initPath + "SeedInventory.js");
+  print("--- SUCCESS: Loaded SeedInventory.js ---");
+} catch (e) {
+  print("--- SKIP/FAIL: SeedInventory.js (" + e.message + ") ---");
 }
 
-// 6. Seed Orders
-if (db.getCollectionNames().includes('Orders')) {
-  try {
-    db.Orders.insertOne({
-      userId: dummyUserId,
-      amount: Double(599.99),
-      currency: "GBP",
-      status: "paid",
-      createdAt: new Date(),
-      items: [{
-        inventoryId: dummyItemId,
-        quantity: NumberInt(1),
-        unitPrice: Double(599.99),
-        lineTotal: Double(599.99)
-      }]
-    });
-    print("--- SUCCESS: Orders seeded ---");
-  } catch (e) { print("--- FAILED Orders seed: " + e.message); }
-} else {
-  print("--- SKIP: Orders collection not found ---");
+try {
+  load(initPath + "SeedOrders.js");
+  print("--- SUCCESS: Loaded SeedOrders.js ---");
+} catch (e) {
+  print("--- SKIP/FAIL: SeedOrders.js (" + e.message + ") ---");
 }
 
 print("--- Database initialisation complete with dynamic validators ---");
