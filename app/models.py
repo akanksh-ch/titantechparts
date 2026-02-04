@@ -83,7 +83,7 @@ class InventoryUpdate(BaseModel):
     isActive: Optional[bool] = None
 
 class InventoryInDB(InventoryBase, MongoBaseModel):
-    createdAt: datetime = Field(default_factory=datetime.utcnow)
+    createdAt: Optional[datetime] = None
     updatedAt: Optional[datetime] = None
 
 # --- Order Models ---
