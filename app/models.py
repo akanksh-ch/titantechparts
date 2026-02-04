@@ -69,6 +69,7 @@ class InventoryBase(BaseModel):
     price: float
     currency: str = "USD"
     stock: int
+    category: Optional[str] = None
     isActive: bool = True
 
 class InventoryCreate(InventoryBase):
