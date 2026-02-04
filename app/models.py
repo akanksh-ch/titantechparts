@@ -50,7 +50,7 @@ class UserInDB(UserBase, MongoBaseModel):
     updatedAt: Optional[datetime] = None
 
 class UserResponse(UserBase, MongoBaseModel):
-    createdAt: datetime
+    createdAt: Optional[datetime] = None
     updatedAt: Optional[datetime] = None
 
 # --- Auth Models ---
