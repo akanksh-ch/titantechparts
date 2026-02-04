@@ -13,6 +13,7 @@ import "./app.css";
 
 import { Header } from "~/components/Header";
 import { CartProvider, useCart } from "~/context/cart";
+import { AuthProvider } from "~/contexts/AuthContext";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -49,10 +50,11 @@ function AppShell() {
   const location = useLocation();
   const { cartItemCount } = useCart();
   const isLoginPage = location.pathname === "/login";
+  const isRegisterPage = location.pathname === "/register";
 
   return (
     <>
-      {!isLoginPage && <Header cartItemCount={cartItemCount} />}
+      {!isLoginPage && !isRegisterPage && <Header cartItemCount={cartItemCount} />}
       <Outlet />
     </>
   );
@@ -60,9 +62,11 @@ function AppShell() {
 
 export default function App() {
   return (
-    <CartProvider>
-      <AppShell />
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        <AppShell />
+      </CartProvider>
+    </AuthProvider>
   );
 }
 
