@@ -1,6 +1,6 @@
 import { jwtDecode } from 'jwt-decode';
 
-const API_BASE = '/api';  // Will be proxied or set via env
+const API_BASE = 'http://localhost:8000';  // Backend API server
 
 interface DecodedToken {
     sub: string;  // username or email
