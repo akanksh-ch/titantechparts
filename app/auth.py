@@ -1,7 +1,8 @@
 from datetime import datetime, timedelta
 from typing import Optional
 from jose import JWTError, jwt
-from passlib.context import CryptContext
+from argon2 import PasswordHasher
+from argon2.exceptions import VerifyMismatchError
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from app.database import db
@@ -12,14 +13,20 @@ SECRET_KEY = "supersecretkey_for_dev_only" # Change for prod
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_hasher = PasswordHasher()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
+    """Verify a password against an argon2 hash"""
+    try:
+        pwd_hasher.verify(hashed_password, plain_password)
+        return True
+    except VerifyMismatchError:
+        return False
 
 def get_password_hash(password):
-    return pwd_context.hash(password)
+    """Hash a password using argon2"""
+    return pwd_hasher.hash(password)
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
-from datetime import timedelta
+from datetime import timedelta, datetime
 from app.auth import (
     create_access_token, 
     ACCESS_TOKEN_EXPIRE_MINUTES,
@@ -56,6 +56,7 @@ async def register(user_data: UserCreate):
     # Create new user
     user_dict = user_data.model_dump()
     user_dict["passwordHash"] = get_password_hash(user_data.password)
+    user_dict["createdAt"] = datetime.utcnow()
     del user_dict["password"]
     
     result = await db["Users"].insert_one(user_dict)
