@@ -69,6 +69,7 @@ class InventoryBase(BaseModel):
     price: float
     currency: str = "USD"
     stock: int
+    category: Optional[str] = None
     isActive: bool = True
 
 class InventoryCreate(InventoryBase):
@@ -83,7 +84,7 @@ class InventoryUpdate(BaseModel):
     isActive: Optional[bool] = None
 
 class InventoryInDB(InventoryBase, MongoBaseModel):
-    createdAt: datetime = Field(default_factory=datetime.utcnow)
+    createdAt: Optional[datetime] = None
     updatedAt: Optional[datetime] = None
 
 # --- Order Models ---
