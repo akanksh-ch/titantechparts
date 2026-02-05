@@ -1,0 +1,104 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "ShopHub" [ref=e5] [cursor=pointer]:
+        - /url: /home
+        - img [ref=e7]
+        - generic [ref=e10]: ShopHub
+      - navigation [ref=e11]:
+        - link "Home" [ref=e12] [cursor=pointer]:
+          - /url: /home
+        - link "Shop" [ref=e13] [cursor=pointer]:
+          - /url: /search
+        - link "Orders" [ref=e14] [cursor=pointer]:
+          - /url: /orders
+      - generic [ref=e15]:
+        - link "Search" [ref=e16] [cursor=pointer]:
+          - /url: /search
+          - img [ref=e17]
+        - link "Cart" [ref=e20] [cursor=pointer]:
+          - /url: /checkout
+          - img [ref=e21]
+        - generic [ref=e25]:
+          - generic [ref=e26]: shopper_1770289522356
+          - button "Logout" [ref=e27]:
+            - img [ref=e28]
+  - generic [ref=e31]:
+    - generic [ref=e34]:
+      - heading "Upgrade Your Battlestation" [level=1] [ref=e35]
+      - paragraph [ref=e36]: Discover high-performance PC parts at unbeatable prices. From flagship GPUs to ultra-fast storage, we have everything you need to build your dream rig.
+      - link "Shop Components" [ref=e37] [cursor=pointer]:
+        - /url: /search
+        - text: Shop Components
+        - img [ref=e38]
+    - generic [ref=e40]:
+      - heading "Shop by Component" [level=2] [ref=e41]
+      - generic [ref=e42]:
+        - link "GPU" [ref=e43] [cursor=pointer]:
+          - /url: /search?category=GPU
+        - link "CPU" [ref=e44] [cursor=pointer]:
+          - /url: /search?category=CPU
+        - link "Memory" [ref=e45] [cursor=pointer]:
+          - /url: /search?category=Memory
+        - link "Motherboard" [ref=e46] [cursor=pointer]:
+          - /url: /search?category=Motherboard
+        - link "Storage" [ref=e47] [cursor=pointer]:
+          - /url: /search?category=Storage
+        - link "Power Supply" [ref=e48] [cursor=pointer]:
+          - /url: /search?category=Power Supply
+    - generic [ref=e49]:
+      - generic [ref=e50]:
+        - heading "Featured Products" [level=2] [ref=e51]
+        - link "View All" [ref=e52] [cursor=pointer]:
+          - /url: /search
+          - text: View All
+          - img [ref=e53]
+      - generic [ref=e55]:
+        - generic [ref=e56]:
+          - img "Error loading image" [ref=e60]
+          - generic [ref=e61]:
+            - paragraph [ref=e62]: GPU
+            - heading "NVIDIA RTX 4080" [level=3] [ref=e63]
+            - generic [ref=e64]:
+              - generic [ref=e65]:
+                - img [ref=e66]
+                - generic [ref=e68]: "4.5"
+              - generic [ref=e69]: (21)
+            - generic [ref=e70]:
+              - generic [ref=e71]: $1199.99
+              - button "Add to Cart" [ref=e72]
+        - generic [ref=e73]:
+          - img "Error loading image" [ref=e77]
+          - generic [ref=e78]:
+            - paragraph [ref=e79]: CPU
+            - heading "AMD Ryzen 9 7950X" [level=3] [ref=e80]
+            - generic [ref=e81]:
+              - generic [ref=e82]:
+                - img [ref=e83]
+                - generic [ref=e85]: "4.5"
+              - generic [ref=e86]: (31)
+            - generic [ref=e87]:
+              - generic [ref=e88]: $599.99
+              - button "Add to Cart" [ref=e89]
+        - generic [ref=e90]:
+          - img "Error loading image" [ref=e94]
+          - generic [ref=e95]:
+            - paragraph [ref=e96]: Memory
+            - heading "Corsair Vengeance 32GB" [level=3] [ref=e97]
+            - generic [ref=e98]:
+              - generic [ref=e99]:
+                - img [ref=e100]
+                - generic [ref=e102]: "4.5"
+              - generic [ref=e103]: (32)
+            - generic [ref=e104]:
+              - generic [ref=e105]: $129.99
+              - button "Add to Cart" [ref=e106]
+    - generic [ref=e109]:
+      - heading "Build Your Dream PC Today" [level=2] [ref=e110]
+      - paragraph [ref=e111]: "Get an extra 5% off your first build with code: BUILD5"
+      - link "Start Building" [ref=e112] [cursor=pointer]:
+        - /url: /search
+```
