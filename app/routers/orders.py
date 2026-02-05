@@ -37,6 +37,8 @@ async def create_order(order_create: OrderCreate, current_user: dict = Depends(g
         
         items_data.append(OrderItem(
             inventoryId=str(inventory_id),
+            name=inventory_item["name"],
+            image=inventory_item.get("imageUrl") or inventory_item.get("image"), # Handle both keys if inconsistent
             quantity=quantity,
             unitPrice=unit_price,
             lineTotal=line_total
