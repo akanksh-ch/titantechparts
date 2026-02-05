@@ -18,24 +18,8 @@ router = APIRouter(
 
 @router.get("/", response_model=List[InventoryInDB])
 async def read_inventory():
-    try:
-        inventory = await db["Inventory"].find().to_list(1000)
-        print(f"DEBUG: Found {len(inventory)} items in MongoDB")
-        
-        # Convert to models with error handling
-        result = []
-        for item in inventory:
-            try:
-                result.append(InventoryInDB(**item))
-            except Exception as e:
-                print(f"ERROR converting item {item.get('_id')}: {e}")
-                continue
-        
-        print(f"DEBUG: Returning {len(result)} items after conversion")
-        return result
-    except Exception as e:
-        print(f"ERROR in read_inventory: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+    inventory = await db["Inventory"].find().to_list(1000)
+    return [InventoryInDB(**item) for item in inventory]
 
 @router.post("/", response_model=InventoryInDB)
 async def create_inventory_item(item: InventoryCreate, current_user: dict = Depends(get_current_active_user)):
