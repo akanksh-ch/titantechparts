@@ -19,7 +19,14 @@ router = APIRouter(
 @router.get("/", response_model=List[InventoryInDB])
 async def read_inventory():
     inventory = await db["Inventory"].find().to_list(1000)
-    return [InventoryInDB(**item) for item in inventory]
+    result = []
+    for item in inventory:
+        try:
+            result.append(InventoryInDB(**item))
+        except Exception as e:
+            print(f"Failed to validate item {item.get('_id')}: {e}")
+            continue
+    return result
 
 @router.post("/", response_model=InventoryInDB)
 async def create_inventory_item(item: InventoryCreate, current_user: dict = Depends(get_current_active_user)):

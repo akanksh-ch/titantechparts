@@ -64,13 +64,13 @@ class TokenData(BaseModel):
 # --- Inventory Models ---
 class InventoryBase(BaseModel):
     name: str
-    sku: str
+    sku: Optional[str] = None
     description: Optional[str] = None
     price: float
     currency: str = "USD"
     stock: int
     category: Optional[str] = None
-    isActive: bool = True
+    isActive: Optional[bool] = True
 
 class InventoryCreate(InventoryBase):
     pass
