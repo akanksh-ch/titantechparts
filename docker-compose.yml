@@ -4,7 +4,7 @@ services:
   backend:
     container_name: backend_app
     build:
-      context: ./backend
+      context: ../backend
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
@@ -13,14 +13,14 @@ services:
     depends_on:
       - mongodb
     volumes:
-      - ./backend:/app # Hot reload for backend
+      - ../backend:/app # Hot reload for backend
     networks:
       - titantech-network
 
   frontend:
     container_name: frontend_app
     build:
-      context: ./frontend
+      context: ../frontend
       dockerfile: Dockerfile
       target: development-dependencies-env
     ports:
@@ -30,7 +30,7 @@ services:
     # Ensure we bind to 0.0.0.0. Overriding command to be safe.
     command: [ "npm", "run", "dev", "--", "--host", "0.0.0.0" ]
     volumes:
-      - ./frontend:/app # Hot reload for frontend
+      - ../frontend:/app # Hot reload for frontend
       - /app/node_modules # Prevent host node_modules from overwriting container's
     depends_on:
       - backend
