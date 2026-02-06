@@ -12,6 +12,9 @@ interface DecodedToken {
  * Check if user is authenticated by validating token in localStorage
  */
 export const isAuthenticated = (): boolean => {
+    // SSR safety: localStorage only exists in browser
+    if (typeof window === 'undefined') return false;
+
     const token = localStorage.getItem('token');
     if (!token) return false;
 
@@ -134,6 +137,7 @@ export const register = async (
  * Logout user by clearing localStorage
  */
 export const logout = () => {
+    if (typeof window === 'undefined') return;
     localStorage.removeItem('token');
     localStorage.removeItem('username');
 };
@@ -142,6 +146,7 @@ export const logout = () => {
  * Get current username from localStorage
  */
 export const getCurrentUsername = (): string | null => {
+    if (typeof window === 'undefined') return null;
     return localStorage.getItem('username');
 };
 
@@ -151,7 +156,7 @@ export const getCurrentUsername = (): string | null => {
  * @param options - Fetch options
  */
 export const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
-    const token = localStorage.getItem('token');
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
     const headers = {
         'Content-Type': 'application/json',
