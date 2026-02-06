@@ -1,12 +1,62 @@
 {
   "$jsonSchema": {
     "bsonType": "object",
-    "required": ["email", "passwordHash", "createdAt"],
+    "required": ["email", "passwordHash", "createdAt", "wishlist"],
     "additionalProperties": false,
     "properties": {
       "_id": {
         "bsonType": "objectId",
         "description": "User identifier"
+      },
+      "wishlist": {
+        "bsonType": "array",
+        "description": "List of inventory items the user is interested in",
+        "items": {
+          "bsonType": "object",
+          "properties": {
+            "_id": {
+              "bsonType": "objectId",
+              "description": "Inventory item identifier"
+            },
+            "name": {
+              "bsonType": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Product name"
+            },
+            "price": {
+              "bsonType": "double",
+              "minimum": 0,
+              "description": "Product price"
+            },
+            "rating": {
+              "bsonType": "double",
+              "minimum": 0,
+              "maximum": 5,
+              "description": "Product rating (0-5 scale)"
+            },
+            "imageUrl": {
+              "bsonType": "string",
+              "description": "Product image URL"
+            },
+            "category": {
+              "bsonType": "string",
+              "enum": ["CPU", "CPU Cooler", "Motherboard", "Memory", "Storage", "GPU", "Power Supply", "Case"],
+              "description": "Product category"
+            },
+            "stock": {
+              "bsonType": "int",
+              "minimum": 0,
+              "description": "Units in stock"
+            },
+            "createdAt": {
+              "bsonType": "date",
+              "description": "Creation timestamp"
+            }
+          },
+          "required": ["_id", "name", "price", "rating", "imageUrl", "category", "stock", "createdAt"],
+          "additionalProperties": false
+        }
       },
       "email": {
         "bsonType": "string",
