@@ -6,8 +6,9 @@ app = FastAPI(title="TitanTechParts Backend")
 
 origins = [
     "http://localhost:3000",
+    "http://localhost:5173",  # React Router dev server
+    "http://localhost:5174",  # Previous port (keep for compatibility)
     "http://localhost:8080",
-    "*", # For development
 ]
 
 app.add_middleware(
