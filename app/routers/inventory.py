@@ -22,6 +22,11 @@ async def read_inventory():
     result = []
     for item in inventory:
         try:
+            #Convert nested ObjectIds to strings for JSON serialization
+            if 'reviews' in item and item['reviews']:
+                for review in item['reviews']:
+                    if 'reviewerId' in review and review['reviewerId']:
+                        review['reviewerId'] = str(review['reviewerId'])
             result.append(InventoryInDB(**item))
         except Exception as e:
             print(f"Failed to validate item {item.get('_id')}: {e}")

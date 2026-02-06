@@ -61,15 +61,34 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     username: Optional[str] = None
 
+# --- Review Model ---
+class Review(BaseModel):
+    reviewerId: Optional[PyObjectId] = None
+    reviewer: str
+    text: str
+    rating: float
+    date: datetime
+    
+    model_config = ConfigDict(
+        arbitrary_types_allowed=True,
+    )
+
 # --- Inventory Models ---
 class InventoryBase(BaseModel):
+    model_config = ConfigDict(
+        extra='ignore',  # Ignore extra fields in database
+    )
+    
     name: str
-    sku: Optional[str] = None
+    sku: Optional[str] = ""
     description: Optional[str] = None
     price: float
     currency: str = "USD"
     stock: int
     category: Optional[str] = None
+    imageUrl: Optional[str] = None
+    rating: Optional[float] = None
+    reviews: Optional[List[Any]] = None  # Accept any structure for reviews
     isActive: Optional[bool] = True
 
 class InventoryCreate(InventoryBase):
