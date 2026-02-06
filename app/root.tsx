@@ -49,10 +49,11 @@ function AppShell() {
   const location = useLocation();
   const { cartItemCount } = useCart();
   const isLoginPage = location.pathname === "/login";
+  const isRegisterPage = location.pathname === "/register";
 
   return (
     <>
-      {!isLoginPage && <Header cartItemCount={cartItemCount} />}
+      {!isLoginPage && !isRegisterPage && <Header cartItemCount={cartItemCount} />}
       <Outlet />
     </>
   );

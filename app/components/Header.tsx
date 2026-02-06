@@ -1,5 +1,6 @@
-import { ShoppingCart, Search, User, ShoppingBag } from 'lucide-react';
-import { Link, useLocation } from 'react-router';
+import { ShoppingCart, Search, User, ShoppingBag, LogOut } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router';
+import { isAuthenticated, getCurrentUsername, logout } from '~/utils/auth';
 
 interface HeaderProps {
   cartItemCount?: number;
@@ -7,14 +8,22 @@ interface HeaderProps {
 
 export function Header({ cartItemCount = 0 }: HeaderProps) {
   const location = useLocation();
+  const navigate = useNavigate();
   const currentPath = location.pathname;
+  const authenticated = isAuthenticated();
+  const username = getCurrentUsername();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
     <header className="bg-card border-b border-border sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link 
+          <Link
             to="/home"
             className="flex items-center gap-2 hover:opacity-80 transition-opacity"
           >
@@ -28,28 +37,27 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
           <nav className="hidden md:flex items-center gap-6">
             <Link
               to="/home"
-              className={`hover:text-primary transition-colors ${
-                currentPath === '/home' ? 'text-primary' : 'text-foreground'
-              }`}
+              className={`hover:text-primary transition-colors ${currentPath === '/home' ? 'text-primary' : 'text-foreground'
+                }`}
             >
               Home
             </Link>
             <Link
               to="/search"
-              className={`hover:text-primary transition-colors ${
-                currentPath === '/search' ? 'text-primary' : 'text-foreground'
-              }`}
+              className={`hover:text-primary transition-colors ${currentPath === '/search' ? 'text-primary' : 'text-foreground'
+                }`}
             >
               Shop
             </Link>
-            <Link
-              to="/orders"
-              className={`hover:text-primary transition-colors ${
-                currentPath === '/orders' ? 'text-primary' : 'text-foreground'
-              }`}
-            >
-              Orders
-            </Link>
+            {authenticated && (
+              <Link
+                to="/orders"
+                className={`hover:text-primary transition-colors ${currentPath === '/orders' ? 'text-primary' : 'text-foreground'
+                  }`}
+              >
+                Orders
+              </Link>
+            )}
           </nav>
 
           {/* Actions */}
@@ -73,13 +81,31 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
                 </span>
               )}
             </Link>
-            <Link
-              to="/login"
-              className="p-2 hover:bg-accent rounded-lg transition-colors"
-              aria-label="Account"
-            >
-              <User className="w-5 h-5" />
-            </Link>
+
+            {/* Auth Section */}
+            {authenticated ? (
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground hidden sm:inline">
+                  {username}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="p-2 hover:bg-accent rounded-lg transition-colors"
+                  aria-label="Logout"
+                  title="Logout"
+                >
+                  <LogOut className="w-5 h-5" />
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className="p-2 hover:bg-accent rounded-lg transition-colors"
+                aria-label="Login"
+              >
+                <User className="w-5 h-5" />
+              </Link>
+            )}
           </div>
         </div>
       </div>
