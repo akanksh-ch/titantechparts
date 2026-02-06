@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router';
 import { Search, Star, SlidersHorizontal } from 'lucide-react';
 import { ImageWithFallback } from '~/components/figma/ImageWithFallback';
 import { inventoryApi } from '~/utils/api';
@@ -19,8 +20,9 @@ interface Product {
 }
 
 export function SearchPage({ onAddToCart }: SearchPageProps) {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'All');
   const [sortBy, setSortBy] = useState('Relevance');
   const [priceRange, setPriceRange] = useState([0, 3000]);
   const [showFilters, setShowFilters] = useState(false);
@@ -67,6 +69,16 @@ export function SearchPage({ onAddToCart }: SearchPageProps) {
 
     fetchInventory();
   }, []);
+
+  // Sync state with URL params
+  useEffect(() => {
+    const category = searchParams.get('category');
+    if (category) {
+      setSelectedCategory(category);
+    } else {
+      setSelectedCategory('All');
+    }
+  }, [searchParams]);
 
   const filteredProducts = products
     .filter(product => {
@@ -120,10 +132,18 @@ export function SearchPage({ onAddToCart }: SearchPageProps) {
                   {categories.map((category) => (
                     <button
                       key={category}
-                      onClick={() => setSelectedCategory(category)}
+                      onClick={() => {
+                        setSelectedCategory(category);
+                        if (category === 'All') {
+                          searchParams.delete('category');
+                        } else {
+                          searchParams.set('category', category);
+                        }
+                        setSearchParams(searchParams);
+                      }}
                       className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${selectedCategory === category
-                          ? 'bg-primary text-primary-foreground'
-                          : 'hover:bg-accent'
+                        ? 'bg-primary text-primary-foreground'
+                        : 'hover:bg-accent'
                         }`}
                     >
                       {category}

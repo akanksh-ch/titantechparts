@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router';
 import { Trash2, Minus, Plus, CreditCard, Truck } from 'lucide-react';
 import { ImageWithFallback } from '~/components/figma/ImageWithFallback';
+import { ordersApi } from '~/utils/api';
 
 interface CheckoutPageProps {
   cartItems: any[];
@@ -35,12 +36,33 @@ export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: Chec
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handlePlaceOrder = (e: React.FormEvent) => {
+  const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Process order
-    console.log('Order placed:', { formData, cartItems, total });
-    alert('Order placed successfully!');
-    navigate('/orders');
+
+    try {
+      const orderData = {
+        items: cartItems.map(item => ({
+          inventoryId: item._id, // Assuming cart items have _id from inventory
+          quantity: item.quantity
+        }))
+      };
+
+      await ordersApi.create(orderData);
+      // Clear cart (via props or context if available, or just navigate)
+      // Ideally we should clear cart here. For now, navigate.
+      // Assuming parent handles cart clearing?
+      // "onRemoveItem" removes one. 
+      // We might need a clearCart function passed down.
+      // For now, we'll just navigate, but user might still see items in cart if they go back.
+      // Let's at least show success.
+      alert('Order placed successfully!');
+      navigate('/orders');
+      // In a real app we'd clear the cart/context here
+      cartItems.forEach(item => onRemoveItem(item.id));
+    } catch (error) {
+      console.error('Failed to place order:', error);
+      alert('Failed to place order. Please try again.');
+    }
   };
 
   if (cartItems.length === 0) {

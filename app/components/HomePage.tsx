@@ -100,7 +100,7 @@ export function HomePage({ onAddToCart }: HomePageProps) {
               >
                 <div className="aspect-square overflow-hidden bg-muted relative group">
                   <ImageWithFallback
-                    src={product.image || 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800&auto=format&fit=crop&q=60'}
+                    src={product.image || './Sale.jpg'}
                     alt={product.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
