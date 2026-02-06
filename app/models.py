@@ -90,6 +90,8 @@ class InventoryInDB(InventoryBase, MongoBaseModel):
 # --- Order Models ---
 class OrderItem(BaseModel):
     inventoryId: str 
+    name: str
+    image: Optional[str] = None
     quantity: int
     unitPrice: float
     lineTotal: float
