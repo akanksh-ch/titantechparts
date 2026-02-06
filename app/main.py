@@ -25,4 +25,4 @@ app.include_router(orders.router)
 
 @app.get("/")
 async def root():
-    return {"message": "Welcome to TitanTechParts API - Henry was here!"}
+    return {"message": "Welcome to TitanTechParts API Henry was here!"}
