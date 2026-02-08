@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router';
-import { Trash2, Minus, Plus, CreditCard, Truck } from 'lucide-react';
-import { ImageWithFallback } from '~/components/figma/ImageWithFallback';
-import { ordersApi } from '~/utils/api';
+import { useState } from "react";
+import { useNavigate, Link } from "react-router";
+import { Trash2, Minus, Plus, CreditCard, Truck } from "lucide-react";
+import { ImageWithFallback } from "~/components/figma/ImageWithFallback";
+import { ordersApi } from "~/utils/api";
 
 interface CheckoutPageProps {
   cartItems: any[];
@@ -10,24 +10,31 @@ interface CheckoutPageProps {
   onRemoveItem: (id: number) => void;
 }
 
-export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: CheckoutPageProps) {
+export function CheckoutPage({
+  cartItems,
+  onUpdateQuantity,
+  onRemoveItem,
+}: CheckoutPageProps) {
   const navigate = useNavigate();
-  const [step, setStep] = useState<'cart' | 'checkout'>('cart');
+  const [step, setStep] = useState<"cart" | "checkout">("cart");
   const [formData, setFormData] = useState({
-    email: '',
-    firstName: '',
-    lastName: '',
-    address: '',
-    city: '',
-    state: '',
-    zipCode: '',
-    cardNumber: '',
-    cardName: '',
-    expiryDate: '',
-    cvv: ''
+    email: "",
+    firstName: "",
+    lastName: "",
+    address: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    cardNumber: "",
+    cardName: "",
+    expiryDate: "",
+    cvv: "",
   });
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const subtotal = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0,
+  );
   const shipping = subtotal > 50 ? 0 : 9.99;
   const tax = subtotal * 0.08;
   const total = subtotal + shipping + tax;
@@ -41,27 +48,27 @@ export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: Chec
 
     try {
       const orderData = {
-        items: cartItems.map(item => ({
+        items: cartItems.map((item) => ({
           inventoryId: item._id, // Assuming cart items have _id from inventory
-          quantity: item.quantity
-        }))
+          quantity: item.quantity,
+        })),
       };
 
       await ordersApi.create(orderData);
       // Clear cart (via props or context if available, or just navigate)
       // Ideally we should clear cart here. For now, navigate.
       // Assuming parent handles cart clearing?
-      // "onRemoveItem" removes one. 
+      // "onRemoveItem" removes one.
       // We might need a clearCart function passed down.
       // For now, we'll just navigate, but user might still see items in cart if they go back.
       // Let's at least show success.
-      alert('Order placed successfully!');
-      navigate('/orders');
+      alert("Order placed successfully!");
+      navigate("/orders");
       // In a real app we'd clear the cart/context here
-      cartItems.forEach(item => onRemoveItem(item.id));
+      cartItems.forEach((item) => onRemoveItem(item.id));
     } catch (error) {
-      console.error('Failed to place order:', error);
-      alert('Failed to place order. Please try again.');
+      console.error("Failed to place order:", error);
+      alert("Failed to place order. Please try again.");
     }
   };
 
@@ -70,9 +77,11 @@ export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: Chec
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <h2 className="mb-4">Your cart is empty</h2>
-          <p className="text-muted-foreground mb-6">Add some items to get started!</p>
+          <p className="text-muted-foreground mb-6">
+            Add some items to get started!
+          </p>
           <button
-            onClick={() => navigate('/search')}
+            onClick={() => navigate("/search")}
             className="bg-primary text-primary-foreground px-6 py-3 rounded-lg hover:opacity-90 transition-opacity"
           >
             Continue Shopping
@@ -85,12 +94,14 @@ export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: Chec
   return (
     <div className="min-h-screen bg-background py-8">
       <div className="max-w-7xl mx-auto px-4">
-        <h1 className="mb-8">{step === 'cart' ? 'Shopping Cart' : 'Checkout'}</h1>
+        <h1 className="mb-8">
+          {step === "cart" ? "Shopping Cart" : "Checkout"}
+        </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2">
-            {step === 'cart' ? (
+            {step === "cart" ? (
               <div className="space-y-4">
                 {cartItems.map((item) => (
                   <div
@@ -106,7 +117,9 @@ export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: Chec
                     </div>
                     <div className="flex-1">
                       <h3 className="mb-1">{item.name}</h3>
-                      <p className="text-sm text-muted-foreground mb-2">{item.category}</p>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        {item.category}
+                      </p>
                       <p className="text-lg">${item.price}</p>
                     </div>
                     <div className="flex flex-col items-end justify-between">
@@ -118,14 +131,21 @@ export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: Chec
                       </button>
                       <div className="flex items-center gap-2 border border-border rounded-lg">
                         <button
-                          onClick={() => onUpdateQuantity(item.id, Math.max(1, item.quantity - 1))}
+                          onClick={() =>
+                            onUpdateQuantity(
+                              item.id,
+                              Math.max(1, item.quantity - 1),
+                            )
+                          }
                           className="p-2 hover:bg-accent transition-colors"
                         >
                           <Minus className="w-4 h-4" />
                         </button>
                         <span className="w-8 text-center">{item.quantity}</span>
                         <button
-                          onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
+                          onClick={() =>
+                            onUpdateQuantity(item.id, item.quantity + 1)
+                          }
                           className="p-2 hover:bg-accent transition-colors"
                         >
                           <Plus className="w-4 h-4" />
@@ -142,7 +162,9 @@ export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: Chec
                   <h3 className="mb-4">Contact Information</h3>
                   <div className="space-y-4">
                     <div>
-                      <label htmlFor="email" className="block mb-2">Email</label>
+                      <label htmlFor="email" className="block mb-2">
+                        Email
+                      </label>
                       <input
                         id="email"
                         name="email"
@@ -150,6 +172,7 @@ export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: Chec
                         value={formData.email}
                         onChange={handleInputChange}
                         className="w-full px-4 py-2 bg-input-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
+                        placeholder="you@example.com"
                         required
                       />
                     </div>
@@ -164,7 +187,9 @@ export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: Chec
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="firstName" className="block mb-2">First Name</label>
+                      <label htmlFor="firstName" className="block mb-2">
+                        First Name
+                      </label>
                       <input
                         id="firstName"
                         name="firstName"
@@ -172,11 +197,14 @@ export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: Chec
                         value={formData.firstName}
                         onChange={handleInputChange}
                         className="w-full px-4 py-2 bg-input-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
+                        placeholder="John"
                         required
                       />
                     </div>
                     <div>
-                      <label htmlFor="lastName" className="block mb-2">Last Name</label>
+                      <label htmlFor="lastName" className="block mb-2">
+                        Last Name
+                      </label>
                       <input
                         id="lastName"
                         name="lastName"
@@ -184,11 +212,14 @@ export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: Chec
                         value={formData.lastName}
                         onChange={handleInputChange}
                         className="w-full px-4 py-2 bg-input-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
+                        placeholder="Doe"
                         required
                       />
                     </div>
                     <div className="md:col-span-2">
-                      <label htmlFor="address" className="block mb-2">Address</label>
+                      <label htmlFor="address" className="block mb-2">
+                        Address
+                      </label>
                       <input
                         id="address"
                         name="address"
@@ -196,11 +227,14 @@ export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: Chec
                         value={formData.address}
                         onChange={handleInputChange}
                         className="w-full px-4 py-2 bg-input-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
+                        placeholder="123 Main Street"
                         required
                       />
                     </div>
                     <div>
-                      <label htmlFor="city" className="block mb-2">City</label>
+                      <label htmlFor="city" className="block mb-2">
+                        City
+                      </label>
                       <input
                         id="city"
                         name="city"
@@ -208,11 +242,14 @@ export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: Chec
                         value={formData.city}
                         onChange={handleInputChange}
                         className="w-full px-4 py-2 bg-input-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
+                        placeholder="New York"
                         required
                       />
                     </div>
                     <div>
-                      <label htmlFor="state" className="block mb-2">State</label>
+                      <label htmlFor="state" className="block mb-2">
+                        State
+                      </label>
                       <input
                         id="state"
                         name="state"
@@ -220,11 +257,14 @@ export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: Chec
                         value={formData.state}
                         onChange={handleInputChange}
                         className="w-full px-4 py-2 bg-input-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
+                        placeholder="CA"
                         required
                       />
                     </div>
                     <div className="md:col-span-2">
-                      <label htmlFor="zipCode" className="block mb-2">ZIP Code</label>
+                      <label htmlFor="zipCode" className="block mb-2">
+                        ZIP Code
+                      </label>
                       <input
                         id="zipCode"
                         name="zipCode"
@@ -232,6 +272,7 @@ export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: Chec
                         value={formData.zipCode}
                         onChange={handleInputChange}
                         className="w-full px-4 py-2 bg-input-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
+                        placeholder="10001"
                         required
                       />
                     </div>
@@ -246,7 +287,9 @@ export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: Chec
                   </h3>
                   <div className="space-y-4">
                     <div>
-                      <label htmlFor="cardNumber" className="block mb-2">Card Number</label>
+                      <label htmlFor="cardNumber" className="block mb-2">
+                        Card Number
+                      </label>
                       <input
                         id="cardNumber"
                         name="cardNumber"
@@ -259,7 +302,9 @@ export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: Chec
                       />
                     </div>
                     <div>
-                      <label htmlFor="cardName" className="block mb-2">Name on Card</label>
+                      <label htmlFor="cardName" className="block mb-2">
+                        Name on Card
+                      </label>
                       <input
                         id="cardName"
                         name="cardName"
@@ -267,12 +312,15 @@ export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: Chec
                         value={formData.cardName}
                         onChange={handleInputChange}
                         className="w-full px-4 py-2 bg-input-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
+                        placeholder="John Doe"
                         required
                       />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label htmlFor="expiryDate" className="block mb-2">Expiry Date</label>
+                        <label htmlFor="expiryDate" className="block mb-2">
+                          Expiry Date
+                        </label>
                         <input
                           id="expiryDate"
                           name="expiryDate"
@@ -285,7 +333,9 @@ export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: Chec
                         />
                       </div>
                       <div>
-                        <label htmlFor="cvv" className="block mb-2">CVV</label>
+                        <label htmlFor="cvv" className="block mb-2">
+                          CVV
+                        </label>
                         <input
                           id="cvv"
                           name="cvv"
@@ -315,7 +365,9 @@ export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: Chec
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Shipping</span>
-                  <span>{shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}</span>
+                  <span>
+                    {shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Tax</span>
@@ -335,9 +387,9 @@ export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: Chec
                 </p>
               )}
 
-              {step === 'cart' ? (
+              {step === "cart" ? (
                 <button
-                  onClick={() => setStep('checkout')}
+                  onClick={() => setStep("checkout")}
                   className="w-full bg-primary text-primary-foreground py-3 rounded-lg hover:opacity-90 transition-opacity"
                 >
                   Proceed to Checkout
@@ -352,7 +404,7 @@ export function CheckoutPage({ cartItems, onUpdateQuantity, onRemoveItem }: Chec
                     Place Order
                   </button>
                   <button
-                    onClick={() => setStep('cart')}
+                    onClick={() => setStep("cart")}
                     className="w-full border border-border py-3 rounded-lg hover:bg-accent transition-colors"
                   >
                     Back to Cart

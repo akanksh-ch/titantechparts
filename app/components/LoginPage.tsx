@@ -1,26 +1,26 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
-import { ShoppingBag, Eye, EyeOff } from 'lucide-react';
-import { login } from '~/utils/auth';
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import { ShoppingBag, Eye, EyeOff } from "lucide-react";
+import { login } from "~/utils/auth";
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setIsLoading(true);
 
     try {
       await login(username, password);
-      navigate('/home');
+      navigate("/home");
     } catch (err: any) {
-      setError(err.message || 'Login failed. Please check your credentials.');
+      setError(err.message || "Login failed. Please check your credentials.");
     } finally {
       setIsLoading(false);
     }
@@ -35,7 +35,9 @@ export function LoginPage() {
             <ShoppingBag className="w-8 h-8 text-primary-foreground" />
           </div>
           <h1 className="mb-2">Welcome Back</h1>
-          <p className="text-muted-foreground">Sign in to your account to continue shopping</p>
+          <p className="text-muted-foreground">
+            Sign in to your account to continue shopping
+          </p>
         </div>
 
         {/* Login Form */}
@@ -73,7 +75,7 @@ export function LoginPage() {
               <div className="relative">
                 <input
                   id="password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full px-4 py-2 bg-input-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring pr-12"
@@ -102,16 +104,23 @@ export function LoginPage() {
               className="w-full bg-primary text-primary-foreground py-2.5 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
               disabled={isLoading}
             >
-              {isLoading ? 'Signing in...' : 'Sign In'}
+              {isLoading ? "Signing in..." : "Sign In"}
+            </button>
+
+            {/* Continue Without Login */}
+            <button
+              type="button"
+              onClick={() => navigate("/home")}
+              className="w-full mt-3 bg-secondary text-secondary-foreground py-2.5 rounded-lg hover:opacity-90 transition-opacity"
+            >
+              Continue Without Logging In
             </button>
           </form>
         </div>
-
-        {/* Sign Up Link */}
         <p className="text-center mt-6 text-muted-foreground">
-          Don't have an account?{' '}
+          Don't have an account?{" "}
           <button
-            onClick={() => navigate('/register')}
+            onClick={() => navigate("/register")}
             className="text-primary hover:underline"
             disabled={isLoading}
           >
