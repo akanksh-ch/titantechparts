@@ -11,6 +11,11 @@ import { useEffect, useState } from "react";
 import { ImageWithFallback } from "~/components/figma/ImageWithFallback";
 import { ordersApi } from "~/utils/api";
 import { getCurrentUsername } from "~/utils/auth";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "~/components/ui/tooltip";
 
 interface OrderItem {
   inventoryId: string;
@@ -323,25 +328,55 @@ export function OrderHistoryPage() {
                   <div className="flex gap-3 pt-4 border-t border-border">
                     {order.status === "delivered" && (
                       <>
-                        <button className="px-4 py-2 border border-border rounded-lg hover:bg-accent transition-colors">
-                          Buy Again
-                        </button>
-                        <button
-                          onClick={() => openReturnModal(order._id)}
-                          className="px-4 py-2 bg-destructive text-destructive-foreground rounded-lg hover:opacity-90 transition-opacity"
-                        >
-                          Return Order
-                        </button>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <button className="px-4 py-2 border border-border rounded-lg hover:bg-accent transition-colors">
+                              Buy Again
+                            </button>
+                          </TooltipTrigger>
+                          <TooltipContent sideOffset={4}>
+                            Buy this item again
+                          </TooltipContent>
+                        </Tooltip>
+
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <button
+                              onClick={() => openReturnModal(order._id)}
+                              className="px-4 py-2 bg-destructive text-destructive-foreground rounded-lg hover:opacity-90 transition-opacity"
+                            >
+                              Return Order
+                            </button>
+                          </TooltipTrigger>
+                          <TooltipContent sideOffset={4}>
+                            Return whole order
+                          </TooltipContent>
+                        </Tooltip>
                       </>
                     )}
                     {order.status === "shipped" && order.trackingNumber && (
-                      <button className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity">
-                        Track Package
-                      </button>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <button className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity">
+                            Track Package
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent sideOffset={4}>
+                          Track your package
+                        </TooltipContent>
+                      </Tooltip>
                     )}
-                    <button className="px-4 py-2 border border-border rounded-lg hover:bg-accent transition-colors">
-                      View Details
-                    </button>
+
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button className="px-4 py-2 border border-border rounded-lg hover:bg-accent transition-colors">
+                          View Details
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent sideOffset={4}>
+                        View order details
+                      </TooltipContent>
+                    </Tooltip>
                   </div>
                 </div>
               </div>

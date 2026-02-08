@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router";
 import { Search, Star, SlidersHorizontal, Heart } from "lucide-react";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "~/components/ui/tooltip";
 import { ImageWithFallback } from "~/components/figma/ImageWithFallback";
 import { inventoryApi } from "~/utils/api";
 import { useWishlist } from "~/context/wishlist";
@@ -253,31 +258,38 @@ export function SearchPage({ onAddToCart }: SearchPageProps) {
                         alt={product.name}
                         className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                       />
-                      <button
-                        onClick={() => {
-                          if (isInWishlist(product._id)) {
-                            removeFromWishlist(product._id);
-                          } else {
-                            addToWishlist({
-                              id: product._id,
-                              name: product.name,
-                              price: product.price,
-                              image: product.imageUrl,
-                              category: product.category,
-                            });
-                          }
-                        }}
-                        className="absolute top-2 right-2 p-2 bg-white rounded-full hover:bg-gray-100 transition-colors shadow-md"
-                        aria-label="Add to wishlist"
-                      >
-                        <Heart
-                          className={`w-5 h-5 ${
-                            isInWishlist(product._id)
-                              ? "fill-red-500 text-red-500"
-                              : "text-gray-400"
-                          }`}
-                        />
-                      </button>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <button
+                            onClick={() => {
+                              if (isInWishlist(product._id)) {
+                                removeFromWishlist(product._id);
+                              } else {
+                                addToWishlist({
+                                  id: product._id,
+                                  name: product.name,
+                                  price: product.price,
+                                  image: product.imageUrl,
+                                  category: product.category,
+                                });
+                              }
+                            }}
+                            className="absolute top-2 right-2 p-2 bg-white rounded-full hover:bg-gray-100 transition-colors shadow-md"
+                            aria-label="Add to wishlist"
+                          >
+                            <Heart
+                              className={`w-5 h-5 ${
+                                isInWishlist(product._id)
+                                  ? "fill-red-500 text-red-500"
+                                  : "text-gray-400"
+                              }`}
+                            />
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent sideOffset={4}>
+                          Add to wishlist
+                        </TooltipContent>
+                      </Tooltip>
                       {product.stock === 0 && (
                         <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
                           <span className="bg-destructive text-destructive-foreground px-4 py-2 rounded-lg">
