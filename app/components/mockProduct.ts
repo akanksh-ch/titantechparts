@@ -1,4 +1,20 @@
-export const mockProduct = {
+export interface Review {
+  id: number;
+  name: string;
+  rating: number;
+  text: string;
+}
+
+export interface Product {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+  reviews: Review[];
+}
+
+export const mockProduct: Product = {
   id: 1,
   title: "Ultimate Gaming Keyboard",
   description:

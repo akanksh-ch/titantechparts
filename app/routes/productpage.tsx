@@ -1,5 +1,5 @@
-import { ProductPage } from "~/components/ProductPage";
+import ProductPage from "~/components/ProductPage";
 
-export default function RegisterRoute() {
+export default function ProductPageRoute() {
     return <ProductPage />;
 }
