@@ -23,7 +23,7 @@ rating: 4,
 date: new Date("2025-12-02T09:10:00Z")
 }
 ],
-imageUrl: "NVIDIA-GeForce-RTX-4090-24GB-GDDR6X.jpg",
+imageUrl: "./images/NVIDIA-GeForce-RTX-4090-24GB-GDDR6X.jpg",
 category: "GPU",
 stock: 12,
 createdAt: new Date("2025-11-01T08:00:00Z")
@@ -50,7 +50,7 @@ rating: 4,
 date: new Date("2026-01-05T11:05:00Z")
 }
 ],
-imageUrl: "AMD-Radeon-RX-7900-XTX-24GB-GDDR6.jpg",
+imageUrl: "./images/AMD-Radeon-RX-7900-XTX-24GB-GDDR6.jpg",
 category: "GPU",
 stock: 25,
 createdAt: new Date("2025-11-05T10:15:00Z")
@@ -77,7 +77,7 @@ rating: 4,
 date: new Date("2026-01-02T13:20:00Z")
 }
 ],
-imageUrl: "NVIDIA-GeForce-RTX-4070-SUPER-12GB-GDDR6X.jpg",
+imageUrl: "./images/NVIDIA-GeForce-RTX-4070-SUPER-12GB-GDDR6X.jpg",
 category: "GPU",
 stock: 40,
 createdAt: new Date("2025-11-10T09:30:00Z")
@@ -104,7 +104,7 @@ rating: 4,
 date: new Date("2025-12-30T17:45:00Z")
 }
 ],
-imageUrl: "NVIDIA-GeForce-RTX-4060-Ti-8GB-GDDR6.jpg",
+imageUrl: "./images/NVIDIA-GeForce-RTX-4060-Ti-8GB-GDDR6.jpg",
 category: "GPU",
 stock: 60,
 createdAt: new Date("2025-11-12T14:50:00Z")
@@ -131,7 +131,7 @@ rating: 4,
 date: new Date("2026-01-08T08:55:00Z")
 }
 ],
-imageUrl: "AMD-Radeon-RX-7800-XT-16GB-GDDR6.jpg",
+imageUrl: "./images/AMD-Radeon-RX-7800-XT-16GB-GDDR6.jpg",
 category: "GPU",
 stock: 33,
 createdAt: new Date("2025-11-18T07:45:00Z")
@@ -158,7 +158,7 @@ rating: 4,
 date: new Date("2026-01-04T09:45:00Z")
 }
 ],
-imageUrl: "Intel-Core-i9-14900K.jpg",
+imageUrl: "./images/Intel-Core-i9-14900K.jpg",
 category: "CPU",
 stock: 35,
 createdAt: new Date("2025-11-01T08:00:00Z")
@@ -185,7 +185,7 @@ rating: 4,
 date: new Date("2025-12-28T19:05:00Z")
 }
 ],
-imageUrl: "AMD-Ryzen-9-7950X.jpg",
+imageUrl: "./images/AMD-Ryzen-9-7950X.jpg",
 category: "CPU",
 stock: 22,
 createdAt: new Date("2025-11-03T10:15:00Z")
@@ -212,7 +212,7 @@ rating: 4,
 date: new Date("2025-12-30T13:20:00Z")
 }
 ],
-imageUrl: "Intel-Core-i5-14600K.jpg",
+imageUrl: "./images/Intel-Core-i5-14600K.jpg",
 category: "CPU",
 stock: 48,
 createdAt: new Date("2025-11-08T09:30:00Z")
@@ -239,7 +239,7 @@ rating: 4,
 date: new Date("2026-01-01T17:45:00Z")
 }
 ],
-imageUrl: "AMD-Ryzen-7-7800X3D.jpg",
+imageUrl: "./images/AMD-Ryzen-7-7800X3D.jpg",
 category: "CPU",
 stock: 28,
 createdAt: new Date("2025-11-12T14:50:00Z")
@@ -266,7 +266,7 @@ rating: 4,
 date: new Date("2026-01-06T08:55:00Z")
 }
 ],
-imageUrl: "Intel-Core-i3-14100.jpg",
+imageUrl: "./images/Intel-Core-i3-14100.jpg",
 category: "CPU",
 stock: 60,
 createdAt: new Date("2025-11-18T07:45:00Z")
@@ -293,7 +293,7 @@ rating: 4,
 date: new Date("2026-01-03T09:40:00Z")
 }
 ],
-imageUrl: "Corsair Vengeance 32GB (2x16GB) DDR5 6000MHz C36.jpeg",
+imageUrl: "./images/Corsair Vengeance 32GB (2x16GB) DDR5 6000MHz C36.jpeg",
 category: "Memory",
 stock: 52,
 createdAt: new Date("2025-11-05T08:00:00Z")
@@ -320,7 +320,7 @@ rating: 4,
 date: new Date("2026-01-07T11:15:00Z")
 }
 ],
-imageUrl: "G.Skill-Trident-Z5-RGB-32GB-2x16GB-DDR5-6800MHz-CL34.jpg",
+imageUrl: "./images/G.Skill-Trident-Z5-RGB-32GB-2x16GB-DDR5-6800MHz-CL34.jpg",
 category: "Memory",
 stock: 30,
 createdAt: new Date("2025-11-10T10:20:00Z")
@@ -347,7 +347,7 @@ rating: 4,
 date: new Date("2025-12-31T16:45:00Z")
 }
 ],
-imageUrl: "Kingston-FURY-Beast-32GB-2x16GB-DDR5-5600MHz.jpg",
+imageUrl: "./images/Kingston-FURY-Beast-32GB-2x16GB-DDR5-5600MHz.jpg",
 category: "Memory",
 stock: 64,
 createdAt: new Date("2025-11-15T09:45:00Z")
@@ -374,7 +374,7 @@ rating: 4,
 date: new Date("2026-01-02T17:20:00Z")
 }
 ],
-imageUrl: "Crucial-Pro-32GB-2x16GB-DDR5-6000MHz.jpg",
+imageUrl: "./images/Crucial-Pro-32GB-2x16GB-DDR5-6000MHz.jpg",
 category: "Memory",
 stock: 41,
 createdAt: new Date("2025-11-18T14:10:00Z")
@@ -401,7 +401,7 @@ rating: 4,
 date: new Date("2026-01-06T08:50:00Z")
 }
 ],
-imageUrl: "Corsair-Vengeance-64GB-2x32GB-DDR5-5200MHz.jpg",
+imageUrl: "./images/Corsair-Vengeance-64GB-2x32GB-DDR5-5200MHz.jpg",
 category: "Memory",
 stock: 27,
 createdAt: new Date("2025-11-22T07:55:00Z")
@@ -428,7 +428,7 @@ rating: 4,
 date: new Date("2026-01-03T09:55:00Z")
 }
 ],
-imageUrl: "ASUS-ROG-Strix-Z790-F-Gaming-WiFi-II.jpg",
+imageUrl: "./images/ASUS-ROG-Strix-Z790-F-Gaming-WiFi-II.jpg",
 category: "Motherboard",
 stock: 18,
 createdAt: new Date("2025-11-06T08:00:00Z")
@@ -455,7 +455,7 @@ rating: 4,
 date: new Date("2025-12-29T11:30:00Z")
 }
 ],
-imageUrl: "MSI MAG B650 Tomahawk WiFi.jpeg",
+imageUrl: "./images/MSI MAG B650 Tomahawk WiFi.jpeg",
 category: "Motherboard",
 stock: 26,
 createdAt: new Date("2025-11-09T10:10:00Z")
@@ -482,7 +482,7 @@ rating: 5,
 date: new Date("2026-01-01T12:05:00Z")
 }
 ],
-imageUrl: "Gigabyte Z790 AORUS Elite AX.png",
+imageUrl: "./images/Gigabyte Z790 AORUS Elite AX.png",
 category: "Motherboard",
 stock: 34,
 createdAt: new Date("2025-11-14T09:35:00Z")
@@ -509,7 +509,7 @@ rating: 4,
 date: new Date("2025-12-30T18:25:00Z")
 }
 ],
-imageUrl: "ASUS-TUF-Gaming-B650-PLUS-WiFi.jpg",
+imageUrl: "./images/ASUS-TUF-Gaming-B650-PLUS-WiFi.jpg",
 category: "Motherboard",
 stock: 29,
 createdAt: new Date("2025-11-18T14:20:00Z")
@@ -536,7 +536,7 @@ rating: 4,
 date: new Date("2026-01-05T08:40:00Z")
 }
 ],
-imageUrl: "ASRock-B760M-Pro-RS.jpg",
+imageUrl: "./images/ASRock-B760M-Pro-RS.jpg",
 category: "Motherboard",
 stock: 47,
 createdAt: new Date("2025-11-22T07:55:00Z")
@@ -563,7 +563,7 @@ rating: 5,
 date: new Date("2026-01-04T09:30:00Z")
 }
 ],
-imageUrl: "Corsair-RM850x-850W-80-Gold-Fully-Modular.jpg",
+imageUrl: "./images/Corsair-RM850x-850W-80-Gold-Fully-Modular.jpg",
 category: "Power Supply",
 stock: 32,
 createdAt: new Date("2025-11-05T08:00:00Z")
@@ -590,7 +590,7 @@ rating: 4,
 date: new Date("2025-12-27T11:45:00Z")
 }
 ],
-imageUrl: "Seasonic-Focus-GX-750-750W-80-Gold-Fully-Modular.jpg",
+imageUrl: "./images/Seasonic-Focus-GX-750-750W-80-Gold-Fully-Modular.jpg",
 category: "Power Supply",
 stock: 27,
 createdAt: new Date("2025-11-08T10:25:00Z")
@@ -617,7 +617,7 @@ rating: 4,
 date: new Date("2026-01-02T12:05:00Z")
 }
 ],
-imageUrl: "EVGA SuperNOVA 1000 G6 1000W 80+ Gold Fully Modular.jpeg",
+imageUrl: "./images/EVGA SuperNOVA 1000 G6 1000W 80+ Gold Fully Modular.jpeg",
 category: "Power Supply",
 stock: 19,
 createdAt: new Date("2025-11-14T09:40:00Z")
@@ -644,7 +644,7 @@ rating: 4,
 date: new Date("2025-12-31T18:15:00Z")
 }
 ],
-imageUrl: "be-quiet-Pure-Power-12-M-650W-80-Gold-Modular.jpg",
+imageUrl: "./images/be-quiet-Pure-Power-12-M-650W-80-Gold-Modular.jpg",
 category: "Power Supply",
 stock: 38,
 createdAt: new Date("2025-11-19T14:15:00Z")
@@ -671,7 +671,7 @@ rating: 4,
 date: new Date("2026-01-06T08:45:00Z")
 }
 ],
-imageUrl: "Corsair-CX550M-550W-80-Bronze-Semi-Modular.jpg",
+imageUrl: "./images/Corsair-CX550M-550W-80-Bronze-Semi-Modular.jpg",
 category: "Power Supply",
 stock: 54,
 createdAt: new Date("2025-11-23T07:55:00Z")
@@ -698,7 +698,7 @@ rating: 4,
 date: new Date("2026-01-03T09:50:00Z")
 }
 ],
-imageUrl: "NZXT-H7-Flow-Mid-Tower-ATX-Case.jpg",
+imageUrl: "./images/NZXT-H7-Flow-Mid-Tower-ATX-Case.jpg",
 category: "Case",
 stock: 24,
 createdAt: new Date("2025-11-06T08:00:00Z")
@@ -725,7 +725,7 @@ rating: 4,
 date: new Date("2025-12-28T11:25:00Z")
 }
 ],
-imageUrl: "Fractal-Design-Meshify-2-Compact.jpg",
+imageUrl: "./images/Fractal-Design-Meshify-2-Compact.jpg",
 category: "Case",
 stock: 31,
 createdAt: new Date("2025-11-10T10:20:00Z")
@@ -752,7 +752,7 @@ rating: 4,
 date: new Date("2026-01-02T12:00:00Z")
 }
 ],
-imageUrl: "Lian Li LANCOOL III RGB.jpeg",
+imageUrl: "./images/Lian Li LANCOOL III RGB.jpeg",
 category: "Case",
 stock: 19,
 createdAt: new Date("2025-11-14T09:40:00Z")
@@ -779,7 +779,7 @@ rating: 4,
 date: new Date("2025-12-31T18:10:00Z")
 }
 ],
-imageUrl: "Corsair-4000D-Airflow-Mid-Tower.jpg",
+imageUrl: "./images/Corsair-4000D-Airflow-Mid-Tower.jpg",
 category: "Case",
 stock: 43,
 createdAt: new Date("2025-11-18T14:15:00Z")
@@ -806,7 +806,7 @@ rating: 4,
 date: new Date("2026-01-06T08:40:00Z")
 }
 ],
-imageUrl: "Phanteks-Eclipse-G360A.jpg",
+imageUrl: "./images/Phanteks-Eclipse-G360A.jpg",
 category: "Case",
 stock: 37,
 createdAt: new Date("2025-11-22T07:55:00Z")
@@ -833,7 +833,7 @@ rating: 5,
 date: new Date("2026-01-06T10:20:00Z")
 }
 ],
-imageUrl: "Noctua NH-D15 chromax.black.jpeg",
+imageUrl: "./images/Noctua NH-D15 chromax.black.jpeg",
 category: "CPU Cooler",
 stock: 28,
 createdAt: new Date("2025-11-08T08:00:00Z")
@@ -860,7 +860,7 @@ rating: 4,
 date: new Date("2026-01-01T12:10:00Z")
 }
 ],
-imageUrl: "NZXT-Kraken-Elite-360-RGB-AIO.jpg",
+imageUrl: "./images/NZXT-Kraken-Elite-360-RGB-AIO.jpg",
 category: "CPU Cooler",
 stock: 16,
 createdAt: new Date("2025-11-12T10:30:00Z")
@@ -887,7 +887,7 @@ rating: 4,
 date: new Date("2025-12-31T14:25:00Z")
 }
 ],
-imageUrl: "be-quiet-Dark-Rock-Pro-5.jpg",
+imageUrl: "./images/be-quiet-Dark-Rock-Pro-5.jpg",
 category: "CPU Cooler",
 stock: 35,
 createdAt: new Date("2025-11-17T09:20:00Z")
@@ -914,7 +914,7 @@ rating: 4,
 date: new Date("2026-01-03T17:40:00Z")
 }
 ],
-imageUrl: "Corsair iCUE H150i Elite LCD XT.jpeg",
+imageUrl: "./images/Corsair iCUE H150i Elite LCD XT.jpeg",
 category: "CPU Cooler",
 stock: 22,
 createdAt: new Date("2025-11-21T14:10:00Z")
@@ -941,7 +941,7 @@ rating: 4,
 date: new Date("2026-01-08T09:05:00Z")
 }
 ],
-imageUrl: "Thermalright-Peerless-Assassin-120-SE.jpg",
+imageUrl: "./images/Thermalright-Peerless-Assassin-120-SE.jpg",
 category: "CPU Cooler",
 stock: 49,
 createdAt: new Date("2025-11-25T07:45:00Z")
@@ -968,7 +968,7 @@ rating: 5,
 date: new Date("2026-01-05T10:15:00Z")
 }
 ],
-imageUrl: "Samsung-990-PRO-2TB-PCIe-4.0-NVMe-SSD.jpg",
+imageUrl: "./images/Samsung-990-PRO-2TB-PCIe-4.0-NVMe-SSD.jpg",
 category: "Storage",
 stock: 41,
 createdAt: new Date("2025-11-07T08:00:00Z")
@@ -995,7 +995,7 @@ rating: 4,
 date: new Date("2025-12-30T11:20:00Z")
 }
 ],
-imageUrl: "WD-Black-SN850X-1TB-PCIe-4.0-NVMe-SSD.jpg",
+imageUrl: "./images/WD-Black-SN850X-1TB-PCIe-4.0-NVMe-SSD.jpg",
 category: "Storage",
 stock: 58,
 createdAt: new Date("2025-11-11T10:30:00Z")
@@ -1022,7 +1022,7 @@ rating: 4,
 date: new Date("2026-01-01T13:00:00Z")
 }
 ],
-imageUrl: "Seagate-Barracuda-4TB-7200RPM-SATA-HDD.jpg",
+imageUrl: "./images/Seagate-Barracuda-4TB-7200RPM-SATA-HDD.jpg",
 category: "Storage",
 stock: 67,
 createdAt: new Date("2025-11-16T09:25:00Z")
@@ -1049,7 +1049,7 @@ rating: 4,
 date: new Date("2026-01-04T17:35:00Z")
 }
 ],
-imageUrl: "Crucial-T500-4TB-PCIe-5.0-NVMe-SSD.jpg",
+imageUrl: "./images/Crucial-T500-4TB-PCIe-5.0-NVMe-SSD.jpg",
 category: "Storage",
 stock: 15,
 createdAt: new Date("2025-11-20T14:00:00Z")
@@ -1076,7 +1076,7 @@ rating: 4,
 date: new Date("2026-01-07T08:30:00Z")
 }
 ],
-imageUrl: "Samsung-870-EVO-2TB-SATA-SSD.jpg",
+imageUrl: "./images/Samsung-870-EVO-2TB-SATA-SSD.jpg",
 category: "Storage",
 stock: 33,
 createdAt: new Date("2025-11-24T07:50:00Z")
