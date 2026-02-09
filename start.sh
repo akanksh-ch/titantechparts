@@ -46,36 +46,67 @@ fi
 
 echo -e "${GREEN}Using: $COMPOSE_CMD${NC}"
 
-# 2. Check for sibling directories
-FRONTEND_DIR="../frontend"
-BACKEND_DIR="../backend"
+# 2. Get the repository URL from git config
+REPO_URL=$(git config --get remote.origin.url)
+if [ -z "$REPO_URL" ]; then
+    echo -e "${RED}✗ Could not determine repository URL${NC}"
+    exit 1
+fi
 
-# 3. Start Backend Services
+echo -e "${GREEN}Repository: $REPO_URL${NC}"
+
+# 3. Pull/Clone frontend branch
+echo -e "\n${GREEN}=== Fetching Frontend ===${NC}"
+if [ -d "frontend/.git" ]; then
+    echo "Frontend directory exists, pulling latest..."
+    cd frontend
+    git fetch origin frontend || echo -e "${YELLOW}Warning: Could not fetch origin frontend${NC}"
+    git reset --hard origin/frontend || echo -e "${YELLOW}Warning: Could not reset to origin/frontend${NC}"
+    cd ..
+else
+    echo "Cloning frontend branch..."
+    git clone -b frontend "$REPO_URL" frontend
+fi
+echo -e "${GREEN}✓ Frontend updated${NC}"
+
+# 4. Pull/Clone backend branch
+echo -e "\n${GREEN}=== Fetching Backend ===${NC}"
+if [ -d "backend/.git" ]; then
+    echo "Backend directory exists, pulling latest..."
+    cd backend
+    git fetch origin backend || echo -e "${YELLOW}Warning: Could not fetch origin backend${NC}"
+    git reset --hard origin/backend || echo -e "${YELLOW}Warning: Could not reset to origin/backend${NC}"
+    cd ..
+else
+    echo "Cloning backend branch..."
+    git clone -b backend "$REPO_URL" backend
+fi
+echo -e "${GREEN}✓ Backend updated${NC}"
+
+# 5. Start Backend Services
 echo -e "\n${GREEN}=== Starting Backend Services ===${NC}"
-if [ -d "$BACKEND_DIR" ]; then
-    echo "Found backend directory at $BACKEND_DIR"
-    cd "$BACKEND_DIR"
+if [ -d "backend" ]; then
+    cd backend
     echo "Building and starting backend containers..."
     $COMPOSE_CMD down 2>/dev/null || true
     $COMPOSE_CMD up -d --build
-    cd - > /dev/null
+    cd ..
 else
-    echo -e "${RED}✗ Backend directory not found at ../backend${NC}"
-    echo -e "${YELLOW}Please ensure the backend branch is cloned as a sibling directory.${NC}"
+    echo -e "${RED}✗ Backend directory not found! Cloning failed?${NC}"
+    exit 1
 fi
 
-# 4. Start Frontend Services
+# 6. Start Frontend Services
 echo -e "\n${GREEN}=== Starting Frontend Services ===${NC}"
-if [ -d "$FRONTEND_DIR" ]; then
-    echo "Found frontend directory at $FRONTEND_DIR"
-    cd "$FRONTEND_DIR"
+if [ -d "frontend" ]; then
+    cd frontend
     echo "Building and starting frontend containers..."
     $COMPOSE_CMD down 2>/dev/null || true
     $COMPOSE_CMD up -d --build
-    cd - > /dev/null
+    cd ..
 else
-    echo -e "${RED}✗ Frontend directory not found at ../frontend${NC}"
-    echo -e "${YELLOW}Please ensure the frontend branch is cloned as a sibling directory.${NC}"
+    echo -e "${RED}✗ Frontend directory not found! Cloning failed?${NC}"
+    exit 1
 fi
 
 # 5. Show status
