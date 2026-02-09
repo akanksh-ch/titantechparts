@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e  # Exit on error
+# set -e  # Exit on error (Disabled to allow manual handling of missing folders)
 
 # Colors for output
 RED='\033[0;31m'
@@ -8,7 +8,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-echo -e "${GREEN}=== TitanTechParts Deployment Script ===${NC}"
+echo -e "${GREEN}=== TitanTechParts Deployment Script (Updated) ===${NC}"
 
 # 1. Detect container runtime (Docker or Podman)
 CONTAINER_CMD=""
@@ -46,56 +46,46 @@ fi
 
 echo -e "${GREEN}Using: $COMPOSE_CMD${NC}"
 
-# 2. Get the repository URL from git config
-REPO_URL=$(git config --get remote.origin.url)
-if [ -z "$REPO_URL" ]; then
-    echo -e "${RED}✗ Could not determine repository URL${NC}"
-    exit 1
-fi
+# 2. Check for sibling directories
+FRONTEND_DIR="../frontend"
+BACKEND_DIR="../backend"
 
-echo -e "${GREEN}Repository: $REPO_URL${NC}"
-
-# 3. Pull/Clone frontend branch
-echo -e "\n${GREEN}=== Fetching Frontend ===${NC}"
-if [ -d "frontend/.git" ]; then
-    echo "Frontend directory exists, pulling latest..."
-    cd frontend
-    git fetch origin frontend
-    git reset --hard origin/frontend
-    cd ..
+# 3. Start Backend Services
+echo -e "\n${GREEN}=== Starting Backend Services ===${NC}"
+if [ -d "$BACKEND_DIR" ]; then
+    echo "Found backend directory at $BACKEND_DIR"
+    cd "$BACKEND_DIR"
+    echo "Building and starting backend containers..."
+    $COMPOSE_CMD down 2>/dev/null || true
+    $COMPOSE_CMD up -d --build
+    cd - > /dev/null
 else
-    echo "Cloning frontend branch..."
-    git clone -b frontend "$REPO_URL" frontend
+    echo -e "${RED}✗ Backend directory not found at ../backend${NC}"
+    echo -e "${YELLOW}Please ensure the backend branch is cloned as a sibling directory.${NC}"
 fi
-echo -e "${GREEN}✓ Frontend updated${NC}"
 
-# 4. Pull/Clone backend branch
-echo -e "\n${GREEN}=== Fetching Backend ===${NC}"
-if [ -d "backend/.git" ]; then
-    echo "Backend directory exists, pulling latest..."
-    cd backend
-    git fetch origin backend
-    git reset --hard origin/backend
-    cd ..
+# 4. Start Frontend Services
+echo -e "\n${GREEN}=== Starting Frontend Services ===${NC}"
+if [ -d "$FRONTEND_DIR" ]; then
+    echo "Found frontend directory at $FRONTEND_DIR"
+    cd "$FRONTEND_DIR"
+    echo "Building and starting frontend containers..."
+    $COMPOSE_CMD down 2>/dev/null || true
+    $COMPOSE_CMD up -d --build
+    cd - > /dev/null
 else
-    echo "Cloning backend branch..."
-    git clone -b backend "$REPO_URL" backend
+    echo -e "${RED}✗ Frontend directory not found at ../frontend${NC}"
+    echo -e "${YELLOW}Please ensure the frontend branch is cloned as a sibling directory.${NC}"
 fi
-echo -e "${GREEN}✓ Backend updated${NC}"
 
-# 5. Stop existing containers (if any)
-echo -e "\n${GREEN}=== Stopping existing containers ===${NC}"
-$COMPOSE_CMD down 2>/dev/null || true
-
-# 6. Start services with docker-compose
-echo -e "\n${GREEN}=== Starting services ===${NC}"
-$COMPOSE_CMD up -d
-
-# 7. Show status
+# 5. Show status
 echo -e "\n${GREEN}=== Container Status ===${NC}"
-$COMPOSE_CMD ps
+if [ "$CONTAINER_CMD" = "docker" ]; then
+    docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+else
+    podman ps
+fi
 
 echo -e "\n${GREEN}=== Deployment Complete! ===${NC}"
-echo -e "${YELLOW}Frontend and backend services are now running in detached mode${NC}"
-echo -e "${YELLOW}Use '$COMPOSE_CMD logs -f' to view logs${NC}"
-echo -e "${YELLOW}Use '$COMPOSE_CMD down' to stop services${NC}"
+echo -e "${YELLOW}Backend API should be running at http://localhost:8000${NC}"
+echo -e "${YELLOW}Frontend should be running at http://localhost:5173${NC}"
