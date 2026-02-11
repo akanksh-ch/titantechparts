@@ -41,12 +41,12 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
             to="/home"
             className="flex items-center gap-1 sm:gap-2 hover:opacity-80 transition-opacity flex-shrink-0"
           >
-            <div className="bg-primary rounded-full p-1.5 sm:p-2">
-              <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5 text-primary-foreground" />
-            </div>
-            <span className="font-medium text-sm sm:text-base hidden xs:inline">
-              ShopHub
-            </span>
+            <img
+              src="/TTP_Logo.png"
+              alt="TitanTechParts Logo"
+              className="h-10 w-auto"
+            />
+            <span className="font-medium">TitanTechParts</span>
           </Link>
 
           {/* Navigation */}
@@ -58,6 +58,9 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
               }`}
             >
               Home
+            </Link>
+            <Link to="/about" className="about-link">
+              About Us
             </Link>
             <Link
               to="/search"

@@ -1,0 +1,45 @@
+.product-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  font-family: Arial, sans-serif;
+}
+
+.product-image {
+  width: 100%;
+  height: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.product-title {
+  margin: 1rem 0;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.product-description {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.product-price {
+  font-size: 1.8rem;
+  color: #2a7ae2;
+  margin: 0.5rem 0;
+  font-weight: bold;
+}
+
+.reviews-section {
+  margin-top: 2rem;
+}
+
+.review {
+  border-top: 1px solid #eee;
+  padding: 0.75rem 0;
+}
+
+.stars {
+  color: #f5a623; /* gold star color */
+  margin: 0.25rem 0;
+}

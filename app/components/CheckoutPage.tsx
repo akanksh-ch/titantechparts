@@ -230,24 +230,21 @@ export function CheckoutPage({
                     key={item.id}
                     className="bg-card border border-border rounded-lg p-3 sm:p-4 flex gap-3 sm:gap-4 flex-col xs:flex-row"
                   >
-                    <div className="w-20 h-20 sm:w-24 sm:h-24 bg-muted rounded-lg overflow-hidden flex-shrink-0">
-                      <ImageWithFallback
-                        src={item.image}
-                        alt={item.name}
-                        className="w-full h-full object-cover"
-                      />
+                    <div className="w-24 h-24 bg-muted rounded-lg overflow-hidden flex-shrink-0">
+                      <Link to={`/product/${item.id}`}>
+                        <ImageWithFallback
+                          src={item.image}
+                          alt={item.name}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </Link>
                     </div>
-                    <div className="flex-1 flex flex-col justify-between">
-                      <div>
-                        <h3 className="mb-1 text-sm sm:text-base font-semibold">
-                          {item.name}
-                        </h3>
-                        <p className="text-xs sm:text-sm text-muted-foreground mb-2">
-                          {item.category}
-                        </p>
-                      </div>
-                      <p className="text-base sm:text-lg font-bold">
-                        ${item.price}
+                    <div className="flex-1">
+                      <Link to={`/product/${item.id}`} className="hover:text-primary transition-colors">
+                        <h3 className="mb-1">{item.name}</h3>
+                      </Link>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        {item.category}
                       </p>
                     </div>
                     <div className="flex flex-col items-end justify-between">

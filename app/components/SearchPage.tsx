@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router";
+import { useSearchParams, Link } from "react-router";
 import { Search, Star, SlidersHorizontal, Heart } from "lucide-react";
 import * as Slider from "@radix-ui/react-slider";
 import {
@@ -195,11 +195,10 @@ export function SearchPage({ onAddToCart }: SearchPageProps) {
                         }
                         setSearchParams(searchParams);
                       }}
-                      className={`w-full text-left px-3 py-2 rounded-lg transition-colors text-sm ${
-                        selectedCategory === category
-                          ? "bg-primary text-primary-foreground"
-                          : "hover:bg-accent"
-                      }`}
+                      className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${selectedCategory === category
+                        ? "bg-primary text-primary-foreground"
+                        : "hover:bg-accent"
+                        }`}
                     >
                       {category}
                     </button>
@@ -247,11 +246,13 @@ export function SearchPage({ onAddToCart }: SearchPageProps) {
                     className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex flex-col"
                   >
                     <div className="aspect-square overflow-hidden bg-muted relative">
-                      <ImageWithFallback
-                        src={product.imageUrl}
-                        alt={product.name}
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                      />
+                      <Link to={`/product/${product._id}`}>
+                        <ImageWithFallback
+                          src={product.imageUrl}
+                          alt={product.name}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </Link>
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <button
@@ -272,11 +273,10 @@ export function SearchPage({ onAddToCart }: SearchPageProps) {
                             aria-label="Add to wishlist"
                           >
                             <Heart
-                              className={`w-4 h-4 sm:w-5 sm:h-5 ${
-                                isInWishlist(product._id)
-                                  ? "fill-red-500 text-red-500"
-                                  : "text-gray-400"
-                              }`}
+                              className={`w-5 h-5 ${isInWishlist(product._id)
+                                ? "fill-red-500 text-red-500"
+                                : "text-gray-400"
+                                }`}
                             />
                           </button>
                         </TooltipTrigger>
@@ -296,9 +296,11 @@ export function SearchPage({ onAddToCart }: SearchPageProps) {
                       <p className="text-xs sm:text-sm text-muted-foreground mb-1">
                         {product.category}
                       </p>
-                      <h3 className="mb-2 line-clamp-2 text-sm sm:text-base">
-                        {product.name}
-                      </h3>
+                      <Link to={`/product/${product._id}`} className="block">
+                        <h3 className="mb-2 hover:text-primary transition-colors">
+                          {product.name}
+                        </h3>
+                      </Link>
                       <div className="flex items-center gap-2 mb-3">
                         <div className="flex items-center gap-1">
                           <Star className="w-3 h-3 sm:w-4 sm:h-4 fill-yellow-400 text-yellow-400" />
@@ -315,15 +317,7 @@ export function SearchPage({ onAddToCart }: SearchPageProps) {
                           ${product.price.toFixed(2)}
                         </span>
                         <button
-                          onClick={() =>
-                            onAddToCart({
-                              id: product._id,
-                              name: product.name,
-                              price: product.price,
-                              image: product.imageUrl || "",
-                              category: product.category,
-                            })
-                          }
+                          onClick={() => onAddToCart({ ...product, id: product._id })}
                           disabled={product.stock === 0}
                           className="bg-primary text-primary-foreground px-2 sm:px-4 py-2 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm whitespace-nowrap"
                         >
