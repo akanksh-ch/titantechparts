@@ -1,4 +1,5 @@
 import { Heart, ShoppingCart, Trash2 } from "lucide-react";
+import { Link } from "react-router";
 import { useWishlist } from "~/context/wishlist";
 import { Button } from "~/components/ui/button";
 import { ImageWithFallback } from "~/components/figma/ImageWithFallback";
@@ -56,18 +57,22 @@ export function WishlistPage({ onAddToCart }: WishlistPageProps) {
               >
                 {/* Product Image */}
                 <div className="w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-muted">
-                  <ImageWithFallback
-                    src={item.image}
-                    alt={item.name}
-                    className="w-full h-full object-cover"
-                  />
+                  <Link to={`/product/${item.id}`}>
+                    <ImageWithFallback
+                      src={item.image}
+                      alt={item.name}
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                    />
+                  </Link>
                 </div>
 
                 {/* Product Details */}
                 <div className="flex-1">
                   <div className="flex justify-between items-start mb-2">
                     <div>
-                      <h3 className="font-semibold text-lg">{item.name}</h3>
+                      <Link to={`/product/${item.id}`} className="hover:text-primary transition-colors">
+                        <h3 className="font-semibold text-lg">{item.name}</h3>
+                      </Link>
                       <p className="text-sm text-muted-foreground">
                         {item.category}
                       </p>

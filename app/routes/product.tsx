@@ -102,7 +102,7 @@ export default function ProductPage() {
 
                         <div className="flex flex-col sm:flex-row gap-4 mb-12">
                             <button
-                                onClick={() => addToCart(product)}
+                                onClick={() => addToCart({ ...product, id: product._id || product.id })}
                                 className="flex-1 bg-primary text-primary-foreground px-8 py-4 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2 font-semibold text-lg"
                             >
                                 <ShoppingCart className="w-5 h-5" />

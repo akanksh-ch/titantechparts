@@ -323,7 +323,7 @@ export function SearchPage({ onAddToCart }: SearchPageProps) {
                           ${product.price.toFixed(2)}
                         </span>
                         <button
-                          onClick={() => onAddToCart(product)}
+                          onClick={() => onAddToCart({ ...product, id: product._id })}
                           disabled={product.stock === 0}
                           className="bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                         >

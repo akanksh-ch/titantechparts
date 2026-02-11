@@ -109,14 +109,18 @@ export function CheckoutPage({
                     className="bg-card border border-border rounded-lg p-4 flex gap-4"
                   >
                     <div className="w-24 h-24 bg-muted rounded-lg overflow-hidden flex-shrink-0">
-                      <ImageWithFallback
-                        src={item.image}
-                        alt={item.name}
-                        className="w-full h-full object-cover"
-                      />
+                      <Link to={`/product/${item.id}`}>
+                        <ImageWithFallback
+                          src={item.image}
+                          alt={item.name}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </Link>
                     </div>
                     <div className="flex-1">
-                      <h3 className="mb-1">{item.name}</h3>
+                      <Link to={`/product/${item.id}`} className="hover:text-primary transition-colors">
+                        <h3 className="mb-1">{item.name}</h3>
+                      </Link>
                       <p className="text-sm text-muted-foreground mb-2">
                         {item.category}
                       </p>
