@@ -160,7 +160,7 @@ export function HomePage({ onAddToCart }: HomePageProps) {
                       <span className="text-sm">{product.rating || "4.5"}</span>
                     </div>
                     <span className="text-sm text-muted-foreground">
-                      ({product.reviews || Math.floor(Math.random() * 50) + 10})
+                      ({product.reviews?.length || Math.floor(Math.random() * 50) + 10})
                     </span>
                   </div>
                   <div className="flex items-center justify-between mt-2">

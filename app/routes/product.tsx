@@ -2,7 +2,7 @@ import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { inventoryApi } from "~/utils/api";
 import { ImageWithFallback } from "~/components/figma/ImageWithFallback";
-import { Star, ShoppingCart, Heart, ArrowLeft, User } from "lucide-react";
+import { Star, ShoppingCart, Heart, ArrowLeft, User, ArrowRight } from "lucide-react";
 import { useCart } from "~/context/cart";
 import { useWishlist } from "~/context/wishlist";
 import { Link } from "react-router";
@@ -124,8 +124,8 @@ export default function ProductPage() {
                                     }
                                 }}
                                 className={`flex items-center justify-center px-6 py-4 rounded-lg border-2 transition-colors ${isInWishlist(product._id || product.id)
-                                        ? "border-red-500 text-red-500 bg-red-50"
-                                        : "border-border hover:border-primary hover:text-primary"
+                                    ? "border-red-500 text-red-500 bg-red-50"
+                                    : "border-border hover:border-primary hover:text-primary"
                                     }`}
                             >
                                 <Heart className={`w-6 h-6 ${isInWishlist(product._id || product.id) ? "fill-current" : ""}`} />
@@ -162,7 +162,7 @@ export default function ProductPage() {
                                                 <User className="w-5 h-5 text-primary" />
                                             </div>
                                             <div>
-                                                <span className="font-medium block">{review.user || "Anonymous User"}</span>
+                                                <span className="font-medium block">{review.reviewer || review.user || "Anonymous User"}</span>
                                                 <div className="flex items-center gap-1 mt-1">
                                                     {[...Array(5)].map((_, i) => (
                                                         <Star
