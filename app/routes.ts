@@ -11,6 +11,8 @@ export default [
   route("search", "routes/search.tsx"),
   route("checkout", "routes/checkout.tsx"),
   route("orders", "routes/orders.tsx"),
+  route("wishlist", "routes/wishlist.tsx"),
+  route("product/:id", "routes/product.tsx"),
   route("login", "routes/login.tsx"),
-  route("productpage", "routes/ProductPage.tsx"),
+  route("register", "routes/register.tsx"),
 ] satisfies RouteConfig;
