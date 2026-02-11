@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, EmailStr, ConfigDict
-from typing import List, Optional, Any
+from typing import List, Optional, Any, Dict
 from datetime import datetime
 from bson import ObjectId
 from pydantic_core import core_schema
@@ -64,13 +64,14 @@ class TokenData(BaseModel):
 # --- Inventory Models ---
 class InventoryBase(BaseModel):
     name: str
-    sku: Optional[str] = None
-    description: Optional[str] = None
     price: float
+    rating: float
+    reviews: 
     currency: str = "USD"
     stock: int
     category: Optional[str] = None
     isActive: Optional[bool] = True
+    reviews: List[Dict[str, Any]] = []
 
 class InventoryCreate(InventoryBase):
     pass
