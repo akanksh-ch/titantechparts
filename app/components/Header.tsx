@@ -41,10 +41,12 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
             to="/home"
             className="flex items-center gap-2 hover:opacity-80 transition-opacity"
           >
-            <div className="bg-primary rounded-full p-2">
-              <ShoppingBag className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <span className="font-medium">ShopHub</span>
+            <img
+              src="/TTP_Logo.png"
+              alt="TitanTechParts Logo"
+              className="h-10 w-auto"
+            />
+            <span className="font-medium">TitanTechParts</span>
           </Link>
 
           {/* Navigation */}
