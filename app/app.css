@@ -1,0 +1,18 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* Make Tailwind scan app files */
+@source "./**/*.{js,ts,jsx,tsx}";
+
+/* Fonts + theme tokens pulled in from the other zip */
+/*@import "./styles/fonts.css";*/
+@import "./styles/theme.css";
+
+html,
+body {
+  @apply bg-background text-foreground;
+
+  @media (prefers-color-scheme: dark) {
+    color-scheme: dark;
+  }
+}

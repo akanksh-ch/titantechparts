@@ -1,6 +1,8 @@
 # titantechparts
 An e-commerce website for computer parts.
 
+<image src="./doc/preview.gif">
+
 ## How to run
 
 ```
@@ -11,4 +13,11 @@ podman-compose up
 
 # Using docker
 docker-compose up
+```
+
+### Development
+
+```
+npm install
+npm run dev
 ```
