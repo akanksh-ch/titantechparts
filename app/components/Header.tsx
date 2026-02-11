@@ -57,6 +57,9 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
             >
               Home
             </Link>
+            <Link to="/about" className="about-link">
+              About Us
+            </Link>
             <Link
               to="/search"
               className={`hover:text-primary transition-colors ${
