@@ -17,12 +17,20 @@ router = APIRouter(
     tags=["inventory"],
 )
 
-@router.get("/", response_model=List[InventoryInDB])
+@router.get("", response_model=List[InventoryInDB])
 async def read_inventory():
     inventory = await db["Inventory"].find().to_list(1000)
     result = []
     for item in inventory:
         try:
+            # Manually convert ObjectId to string to avoid Pydantic serialization issues
+            if "_id" in item:
+                item["_id"] = str(item["_id"])
+            
+            for review in item.get("reviews", []):
+                if "reviewerId" in review:
+                    review["reviewerId"] = str(review["reviewerId"])
+
             result.append(InventoryInDB(**item))
         except Exception as e:
             print(f"Failed to validate item {item.get('_id')}: {e}")
@@ -52,5 +60,13 @@ async def read_inventory_item(id: str):
     item = await db["Inventory"].find_one({"_id": ObjectId(id)})
     if item is None:
         raise HTTPException(status_code=404, detail="Item not found")
+    
+    # Manually convert ObjectId to string to avoid Pydantic serialization issues
+    if "_id" in item:
+        item["_id"] = str(item["_id"])
+        
+    for review in item.get("reviews", []):
+        if "reviewerId" in review:
+            review["reviewerId"] = str(review["reviewerId"])
         
     return InventoryInDB(**item)

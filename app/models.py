@@ -1,33 +1,17 @@
-from pydantic import BaseModel, Field, EmailStr, ConfigDict
-from typing import List, Optional, Any, Dict
+from typing import Any, Dict, List, Optional
 from datetime import datetime
 from bson import ObjectId
-from pydantic_core import core_schema
-
-class PyObjectId(ObjectId):
-    @classmethod
-    def __get_pydantic_core_schema__(
-        cls, _source_type: Any, _handler: Any
-    ) -> core_schema.CoreSchema:
-        return core_schema.json_or_python_schema(
-            json_schema=core_schema.str_schema(),
-            python_schema=core_schema.union_schema([
-                core_schema.is_instance_schema(ObjectId),
-                core_schema.no_info_plain_validator_function(cls.validate),
-            ]),
-            serialization=core_schema.plain_serializer_function_ser_schema(
-                lambda x: str(x)
-            ),
-        )
-
-    @classmethod
-    def validate(cls, v: Any) -> ObjectId:
-        if not ObjectId.is_valid(v):
-            raise ValueError("Invalid ObjectId")
-        return ObjectId(v)
+from pydantic import BaseModel, Field, EmailStr, ConfigDict, field_validator
 
 class MongoBaseModel(BaseModel):
-    id: Optional[PyObjectId] = Field(alias="_id", default=None)
+    id: Optional[str] = Field(alias="_id", default=None)
+
+    @field_validator("id", mode="before", check_fields=False)
+    @classmethod
+    def stringify_id(cls, v: Any) -> Any:
+        if isinstance(v, ObjectId):
+            return str(v)
+        return v
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -66,8 +50,6 @@ class InventoryBase(BaseModel):
     name: str
     price: float
     rating: float
-    reviews: 
-    currency: str = "USD"
     stock: int
     category: Optional[str] = None
     isActive: Optional[bool] = True
