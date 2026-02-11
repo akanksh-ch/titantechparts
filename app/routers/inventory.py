@@ -4,6 +4,7 @@ from app.models import InventoryCreate, InventoryInDB
 from app.database import db
 from app.auth import get_current_active_user
 from datetime import datetime
+from bson import ObjectId
 
 # Define InventoryResponse locally if not in models or patch it.
 # Actually I didn't define InventoryResponse in models.py, I defined InventoryInDB.
@@ -42,3 +43,14 @@ async def create_inventory_item(item: InventoryCreate, current_user: dict = Depe
     result = await db["Inventory"].insert_one(item_dict)
     created_item = await db["Inventory"].find_one({"_id": result.inserted_id})
     return InventoryInDB(**created_item)
+
+@router.get("/{id}", response_model=InventoryInDB)
+async def read_inventory_item(id: str):
+    if not ObjectId.is_valid(id):
+        raise HTTPException(status_code=400, detail="Invalid ID format")
+    
+    item = await db["Inventory"].find_one({"_id": ObjectId(id)})
+    if item is None:
+        raise HTTPException(status_code=404, detail="Item not found")
+        
+    return InventoryInDB(**item)
