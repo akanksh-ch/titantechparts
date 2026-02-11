@@ -1,7 +1,7 @@
 {
   "$jsonSchema": {
     "bsonType": "object",
-    "required": ["userId", "items", "amount", "currency", "createdAt"],
+    "required": ["userId", "items", "amount", "currency", "createdAt", "address", "phoneNumber"],
     "additionalProperties": false,
     "properties": {
       "_id": {
@@ -65,6 +65,51 @@
       "updatedAt": {
         "bsonType": "date",
         "description": "Last update timestamp"
+      },
+      "address": {
+        "bsonType": "object",
+        "required": ["recipientName", "line1", "postTown", "postcode"],
+        "additionalProperties": false,
+        "description": "UK delivery address per Royal Mail standards",
+        "properties": {
+          "recipientName": {
+            "bsonType": "string",
+            "maxLength": 100,
+            "description": "Name or organization receiving the order"
+          },
+          "line1": {
+            "bsonType": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "description": "House number/building name + thoroughfare (e.g., '92 Acacia Avenue')"
+          },
+          "line2": {
+            "bsonType": "string",
+            "maxLength": 100,
+            "description": "Optional flat/unit/department (e.g., 'Flat 1B')"
+          },
+          "postTown": {
+            "bsonType": "string",
+            "maxLength": 35,
+            "description": "Post town in uppercase (e.g., 'LONDON')"
+          },
+          "postcode": {
+            "bsonType": "string",
+            "pattern": "^[A-Z]{1,2}[0-9][0-9A-Z]?\\s?[0-9][A-Z]{2}$",
+            "description": "UK postcode (e.g., 'SW1A 1AA')"
+          },
+          "county": {
+            "bsonType": "string",
+            "maxLength": 35,
+            "description": "Optional traditional county (e.g., 'Surrey')"
+          }
+        }
+        
+      },
+      "phoneNumber": {
+        "bsonType": "string",
+        "pattern": "^\\+?[1-9]\\d{1,14}$",
+        "description": "Phone number in E.164 format (e.g., '+447900123456')"
       }
     }
   }
