@@ -133,17 +133,14 @@ export default function ProductPage() {
                         </div>
 
                         {/* Additional Info */}
-                        <div className="grid grid-cols-2 gap-4 py-6 border-t border-border">
+                        <div className="py-6 border-t border-border">
                             <div>
                                 <span className="text-sm text-muted-foreground block mb-1">Stock Status</span>
                                 <span className={`font-medium ${product.stock > 0 ? "text-green-600" : "text-red-500"}`}>
                                     {product.stock > 0 ? "In Stock" : "Out of Stock"}
                                 </span>
                             </div>
-                            <div>
-                                <span className="text-sm text-muted-foreground block mb-1">SKU</span>
-                                <span className="font-medium">{product.sku || (product._id || product.id).substring(0, 8).toUpperCase()}</span>
-                            </div>
+
                         </div>
                     </div>
                 </div>
