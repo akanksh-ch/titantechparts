@@ -66,7 +66,7 @@ export default function ProductPage() {
                     <div className="space-y-4">
                         <div className="aspect-square bg-muted rounded-xl overflow-hidden border border-border">
                             <ImageWithFallback
-                                src={product.image}
+                                src={product.imageUrl}
                                 alt={product.name}
                                 className="w-full h-full object-cover"
                             />
@@ -118,7 +118,7 @@ export default function ProductPage() {
                                             id: product._id || product.id,
                                             name: product.name,
                                             price: product.price,
-                                            image: product.image,
+                                            image: product.imageUrl,
                                             category: product.category,
                                         });
                                     }
