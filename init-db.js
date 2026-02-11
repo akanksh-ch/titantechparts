@@ -43,24 +43,10 @@ validatorFiles.forEach(f => {
 });
 
 try {
-  load(initPath + "SeedUsers.js");
-  print("--- SUCCESS: Loaded SeedUsers.js ---");
-} catch (e) {
-  print("--- SKIP/FAIL: SeedUsers.js (" + e.message + ") ---");
-}
-
-try {
   load(initPath + "SeedInventory.js");
   print("--- SUCCESS: Loaded SeedInventory.js ---");
 } catch (e) {
   print("--- SKIP/FAIL: SeedInventory.js (" + e.message + ") ---");
-}
-
-try {
-  load(initPath + "SeedOrders.js");
-  print("--- SUCCESS: Loaded SeedOrders.js ---");
-} catch (e) {
-  print("--- SKIP/FAIL: SeedOrders.js (" + e.message + ") ---");
 }
 
 print("--- Database initialisation complete with dynamic validators ---");
