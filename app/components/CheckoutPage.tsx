@@ -10,53 +10,15 @@ import {
 } from "lucide-react";
 import { ImageWithFallback } from "~/components/figma/ImageWithFallback";
 import { ordersApi } from "~/utils/api";
-
-interface CheckoutPageProps {
-  cartItems: any[];
-  onUpdateQuantity: (id: number, quantity: number) => void;
-  onRemoveItem: (id: number) => void;
-}
-
-// UK validation utilities
-const validateUKPostcode = (postcode: string): boolean => {
-  const ukPostcodeRegex = /^[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2}$/i;
-  return ukPostcodeRegex.test(postcode.trim());
-};
-
-const validateUKPhoneNumber = (phone: string): boolean => {
-  const ukPhoneRegex = /^(?:\+44|0)(?:\d{10}|1\d{9}|2\d{9}|3\d{9}|7\d{9})$/;
-  return ukPhoneRegex.test(phone.replace(/\s/g, ""));
-};
-
-const validateCardNumber = (cardNumber: string): boolean => {
-  const cleaned = cardNumber.replace(/\s/g, "");
-  return /^\d{13,19}$/.test(cleaned);
-};
-
-const validateExpiryDate = (expiryDate: string): boolean => {
-  const regex = /^(0[1-9]|1[0-2])\/\d{2}$/;
-  if (!regex.test(expiryDate)) return false;
-
-  const [month, year] = expiryDate.split("/");
-  const expiry = new Date(2000 + parseInt(year), parseInt(month));
-  return expiry > new Date();
-};
-
-const validateCVV = (cvv: string): boolean => {
-  return /^\d{3,4}$/.test(cvv);
-};
-
-const validateAddress1 = (address: string): boolean => {
-  return address.trim().length >= 5 && /^[a-zA-Z0-9\s,.'\-()]+$/.test(address);
-};
-
-const validateAddress2 = (address: string): boolean => {
-  // Address 2 is optional, but if provided must be valid
-  return (
-    address === "" ||
-    (address.trim().length >= 2 && /^[a-zA-Z0-9\s,.'\-()]+$/.test(address))
-  );
-};
+import {
+  validateUKPostcode,
+  validateUKPhoneNumber,
+  validateCardNumber,
+  validateExpiryDate,
+  validateCVV,
+  validateAddress1,
+  validateAddress2,
+} from "~/utils/validation";
 
 interface CheckoutPageProps {
   cartItems: any[];
@@ -240,7 +202,10 @@ export function CheckoutPage({
                       </Link>
                     </div>
                     <div className="flex-1">
-                      <Link to={`/product/${item.id}`} className="hover:text-primary transition-colors">
+                      <Link
+                        to={`/product/${item.id}`}
+                        className="hover:text-primary transition-colors"
+                      >
                         <h3 className="mb-1">{item.name}</h3>
                       </Link>
                       <p className="text-sm text-muted-foreground mb-2">
