@@ -52,6 +52,7 @@ class InventoryBase(BaseModel):
     rating: float
     stock: int
     category: Optional[str] = None
+    imageUrl: Optional[str] = None
     description: Optional[str] = None
     isActive: Optional[bool] = True
     reviews: List[Dict[str, Any]] = []
