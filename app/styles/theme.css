@@ -180,4 +180,36 @@
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
   }
+
+  /* Cursor rules: pointer (hand) for clickable interactive elements;
+     default/arrow or text cursors for inputs, selects, and menus. */
+
+  a[href],
+  button,
+  input[type="button"],
+  input[type="submit"],
+  [role="button"],
+  [role="link"],
+  .clickable {
+    cursor: pointer;
+  }
+
+  /* Text inputs should show text cursor */
+  input[type="text"],
+  input[type="search"],
+  input[type="email"],
+  input[type="password"],
+  textarea {
+    cursor: text;
+  }
+
+  /* Selects, menus, and general UI navigation keep default arrow cursor */
+  select,
+  option,
+  .menu,
+  .menu-item,
+  [role="menu"],
+  [role="menuitem"] {
+    cursor: default;
+  }
 }

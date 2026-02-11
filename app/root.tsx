@@ -13,6 +13,7 @@ import "./app.css";
 
 import { Header } from "~/components/Header";
 import { CartProvider, useCart } from "~/context/cart";
+import { WishlistProvider } from "~/context/wishlist";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -53,7 +54,9 @@ function AppShell() {
 
   return (
     <>
-      {!isLoginPage && !isRegisterPage && <Header cartItemCount={cartItemCount} />}
+      {!isLoginPage && !isRegisterPage && (
+        <Header cartItemCount={cartItemCount} />
+      )}
       <Outlet />
     </>
   );
@@ -62,7 +65,9 @@ function AppShell() {
 export default function App() {
   return (
     <CartProvider>
-      <AppShell />
+      <WishlistProvider>
+        <AppShell />
+      </WishlistProvider>
     </CartProvider>
   );
 }
