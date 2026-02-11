@@ -12,6 +12,7 @@ export default [
   route("checkout", "routes/checkout.tsx"),
   route("orders", "routes/orders.tsx"),
   route("wishlist", "routes/wishlist.tsx"),
+  route("product/:id", "routes/product.tsx"),
   route("login", "routes/login.tsx"),
   route("register", "routes/register.tsx"),
 ] satisfies RouteConfig;

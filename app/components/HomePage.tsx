@@ -108,11 +108,13 @@ export function HomePage({ onAddToCart }: HomePageProps) {
                 className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex flex-col"
               >
                 <div className="aspect-square overflow-hidden bg-muted relative group">
-                  <ImageWithFallback
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+                  <Link to={`/product/${product._id || product.id}`}>
+                    <ImageWithFallback
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </Link>
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <button
@@ -133,11 +135,10 @@ export function HomePage({ onAddToCart }: HomePageProps) {
                         aria-label="Add to wishlist"
                       >
                         <Heart
-                          className={`w-5 h-5 ${
-                            isInWishlist(product._id || product.id)
-                              ? "fill-red-500 text-red-500"
-                              : "text-gray-400"
-                          }`}
+                          className={`w-5 h-5 ${isInWishlist(product._id || product.id)
+                            ? "fill-red-500 text-red-500"
+                            : "text-gray-400"
+                            }`}
                         />
                       </button>
                     </TooltipTrigger>
@@ -150,7 +151,9 @@ export function HomePage({ onAddToCart }: HomePageProps) {
                   <p className="text-sm text-muted-foreground mb-1">
                     {product.category}
                   </p>
-                  <h3 className="mb-2 line-clamp-2">{product.name}</h3>
+                  <Link to={`/product/${product._id || product.id}`} className="block">
+                    <h3 className="mb-2 line-clamp-2 hover:text-primary transition-colors">{product.name}</h3>
+                  </Link>
                   <div className="flex items-center gap-2 mb-3 mt-auto">
                     <div className="flex items-center gap-1">
                       <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
