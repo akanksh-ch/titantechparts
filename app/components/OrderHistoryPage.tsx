@@ -241,11 +241,11 @@ export function OrderHistoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background py-8">
-      <div className="max-w-5xl mx-auto px-4">
+    <div className="min-h-screen bg-background py-6 sm:py-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4">
         {/* Header with User Info */}
-        <div className="mb-8">
-          <h1 className="mb-2">Order History</h1>
+        <div className="mb-6 sm:mb-8">
+          <h1 className="mb-1 text-2xl sm:text-3xl">Order History</h1>
           {username && (
             <p className="text-muted-foreground">
               Welcome back,{" "}
@@ -267,18 +267,20 @@ export function OrderHistoryPage() {
                 className="bg-card border border-border rounded-lg overflow-hidden"
               >
                 {/* Order Header */}
-                <div className="bg-muted px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                  <div className="flex flex-col md:flex-row md:items-center gap-4">
+                <div className="bg-muted px-4 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
                     <div>
                       <p className="text-sm text-muted-foreground">Order ID</p>
-                      <p className="font-mono text-sm">{order._id}</p>
+                      <p className="font-mono text-sm break-words">
+                        {order._id}
+                      </p>
                     </div>
-                    <div className="hidden md:block w-px h-10 bg-border"></div>
+                    <div className="hidden sm:block w-px h-8 bg-border" />
                     <div>
                       <p className="text-sm text-muted-foreground">
                         Date Placed
                       </p>
-                      <p>
+                      <p className="text-sm">
                         {new Date(order.createdAt).toLocaleDateString("en-US", {
                           year: "numeric",
                           month: "long",
@@ -286,28 +288,28 @@ export function OrderHistoryPage() {
                         })}
                       </p>
                     </div>
-                    <div className="hidden md:block w-px h-10 bg-border"></div>
+                    <div className="hidden sm:block w-px h-8 bg-border" />
                     <div>
                       <p className="text-sm text-muted-foreground">Total</p>
-                      <p>${order.amount.toFixed(2)}</p>
+                      <p className="text-sm">${order.amount.toFixed(2)}</p>
                     </div>
                   </div>
                   <div
-                    className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg ${status.bgColor} ${status.color} w-fit`}
+                    className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg ${status.bgColor} ${status.color} mt-2 sm:mt-0 w-fit`}
                   >
                     <StatusIcon className="w-4 h-4" />
-                    <span>{status.label}</span>
+                    <span className="text-sm">{status.label}</span>
                   </div>
                 </div>
 
                 {/* Order Items */}
-                <div className="p-6 space-y-4">
+                <div className="p-4 sm:p-6 space-y-4">
                   {order.items.map((item, index) => (
                     <div
                       key={`${order._id}-${item.inventoryId}-${index}`}
-                      className="flex gap-4"
+                      className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-start"
                     >
-                      <div className="w-20 h-20 bg-muted rounded-lg overflow-hidden flex-shrink-0">
+                      <div className="w-20 h-20 sm:w-24 sm:h-24 bg-muted rounded-lg overflow-hidden flex-shrink-0">
                         <ImageWithFallback
                           src={item.image}
                           alt={item.name}
@@ -315,22 +317,26 @@ export function OrderHistoryPage() {
                         />
                       </div>
                       <div className="flex-1">
-                        <h4>{item.name}</h4>
-                        <p className="text-sm text-muted-foreground">
+                        <h4 className="text-sm sm:text-base font-medium">
+                          {item.name}
+                        </h4>
+                        <p className="text-xs sm:text-sm text-muted-foreground">
                           Quantity: {item.quantity}
                         </p>
-                        <p className="text-sm">${item.unitPrice.toFixed(2)}</p>
+                        <p className="text-xs sm:text-sm">
+                          ${item.unitPrice.toFixed(2)}
+                        </p>
                       </div>
                     </div>
                   ))}
 
                   {/* Order Actions */}
-                  <div className="flex gap-3 pt-4 border-t border-border">
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-border">
                     {order.status === "delivered" && (
                       <>
                         <Tooltip>
                           <TooltipTrigger asChild>
-                            <button className="px-4 py-2 border border-border rounded-lg hover:bg-accent transition-colors">
+                            <button className="w-full sm:w-auto px-4 py-2 border border-border rounded-lg hover:bg-accent transition-colors">
                               Buy Again
                             </button>
                           </TooltipTrigger>
@@ -343,7 +349,7 @@ export function OrderHistoryPage() {
                           <TooltipTrigger asChild>
                             <button
                               onClick={() => openReturnModal(order._id)}
-                              className="px-4 py-2 bg-destructive text-destructive-foreground rounded-lg hover:opacity-90 transition-opacity"
+                              className="w-full sm:w-auto px-4 py-2 bg-destructive text-destructive-foreground rounded-lg hover:opacity-90 transition-opacity"
                             >
                               Return Order
                             </button>
@@ -357,7 +363,7 @@ export function OrderHistoryPage() {
                     {order.status === "shipped" && order.trackingNumber && (
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <button className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity">
+                          <button className="w-full sm:w-auto px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity">
                             Track Package
                           </button>
                         </TooltipTrigger>
@@ -369,7 +375,7 @@ export function OrderHistoryPage() {
 
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <button className="px-4 py-2 border border-border rounded-lg hover:bg-accent transition-colors">
+                        <button className="w-full sm:w-auto px-4 py-2 border border-border rounded-lg hover:bg-accent transition-colors">
                           View Details
                         </button>
                       </TooltipTrigger>

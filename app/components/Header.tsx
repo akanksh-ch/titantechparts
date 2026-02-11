@@ -34,24 +34,26 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
 
   return (
     <header className="bg-card border-b border-border sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
+        <div className="flex items-center justify-between gap-2 sm:gap-4">
           {/* Logo */}
           <Link
             to="/home"
-            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+            className="flex items-center gap-1 sm:gap-2 hover:opacity-80 transition-opacity flex-shrink-0"
           >
-            <div className="bg-primary rounded-full p-2">
-              <ShoppingBag className="w-5 h-5 text-primary-foreground" />
+            <div className="bg-primary rounded-full p-1.5 sm:p-2">
+              <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5 text-primary-foreground" />
             </div>
-            <span className="font-medium">ShopHub</span>
+            <span className="font-medium text-sm sm:text-base hidden xs:inline">
+              ShopHub
+            </span>
           </Link>
 
           {/* Navigation */}
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden lg:flex items-center gap-4 md:gap-6">
             <Link
               to="/home"
-              className={`hover:text-primary transition-colors ${
+              className={`text-sm hover:text-primary transition-colors ${
                 currentPath === "/home" ? "text-primary" : "text-foreground"
               }`}
             >
@@ -59,7 +61,7 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
             </Link>
             <Link
               to="/search"
-              className={`hover:text-primary transition-colors ${
+              className={`text-sm hover:text-primary transition-colors ${
                 currentPath === "/search" ? "text-primary" : "text-foreground"
               }`}
             >
@@ -68,7 +70,7 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
             {authenticated && (
               <Link
                 to="/orders"
-                className={`hover:text-primary transition-colors ${
+                className={`text-sm hover:text-primary transition-colors ${
                   currentPath === "/orders" ? "text-primary" : "text-foreground"
                 }`}
               >
@@ -78,7 +80,7 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
           </nav>
 
           {/* Actions */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link

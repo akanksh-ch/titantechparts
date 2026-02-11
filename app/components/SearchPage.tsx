@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router";
 import { Search, Star, SlidersHorizontal, Heart } from "lucide-react";
+import * as Slider from "@radix-ui/react-slider";
 import {
   Tooltip,
   TooltipTrigger,
@@ -35,6 +36,13 @@ export function SearchPage({ onAddToCart }: SearchPageProps) {
   const [sortBy, setSortBy] = useState("Relevance");
   const [priceRange, setPriceRange] = useState([0, 3000]);
   const [showFilters, setShowFilters] = useState(false);
+
+  const PRICE_MIN = 0;
+  const PRICE_MAX = 3000;
+  const minPercent =
+    ((priceRange[0] - PRICE_MIN) / (PRICE_MAX - PRICE_MIN)) * 100;
+  const maxPercent =
+    ((priceRange[1] - PRICE_MIN) / (PRICE_MAX - PRICE_MIN)) * 100;
 
   // State for loading and products
   const [products, setProducts] = useState<Product[]>([]);
@@ -125,32 +133,55 @@ export function SearchPage({ onAddToCart }: SearchPageProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 py-6 sm:py-8">
         {/* Search Bar */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <div className="relative max-w-2xl mx-auto">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search for products..."
-              className="w-full pl-12 pr-4 py-3 bg-card border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
+              className="w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-2 sm:py-3 bg-card border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm sm:text-base"
             />
           </div>
         </div>
 
-        <div className="flex gap-8">
+        {/* Toggle Filters Button (Mobile) */}
+        <div className="flex gap-4 lg:gap-8">
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className="lg:hidden flex items-center gap-2 mb-4 bg-card border border-border rounded-lg px-4 py-2 hover:bg-accent transition-colors"
+          >
+            <SlidersHorizontal className="w-4 h-4" />
+            <span className="text-sm">Filters</span>
+          </button>
+        </div>
+
+        <div className="flex gap-4 sm:gap-6 lg:gap-8">
           {/* Filters Sidebar */}
           <aside
-            className={`${showFilters ? "block" : "hidden"} lg:block w-64 flex-shrink-0`}
+            className={`${
+              showFilters ? "block" : "hidden"
+            } lg:block w-full sm:w-64 flex-shrink-0`}
           >
-            <div className="bg-card border border-border rounded-lg p-6">
-              <h3 className="mb-4">Filters</h3>
+            <div className="bg-card border border-border rounded-lg p-4 sm:p-6">
+              <div className="flex items-center justify-between mb-4 lg:block">
+                <h3 className="text-base sm:text-lg font-semibold">Filters</h3>
+                <button
+                  onClick={() => setShowFilters(false)}
+                  className="lg:hidden text-muted-foreground hover:text-foreground"
+                >
+                  ✕
+                </button>
+              </div>
 
               {/* Category Filter */}
               <div className="mb-6">
-                <h4 className="mb-3">Category</h4>
+                <h4 className="mb-3 text-sm sm:text-base font-semibold">
+                  Category
+                </h4>
                 <div className="space-y-2">
                   {categories.map((category) => (
                     <button
@@ -164,7 +195,7 @@ export function SearchPage({ onAddToCart }: SearchPageProps) {
                         }
                         setSearchParams(searchParams);
                       }}
-                      className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
+                      className={`w-full text-left px-3 py-2 rounded-lg transition-colors text-sm ${
                         selectedCategory === category
                           ? "bg-primary text-primary-foreground"
                           : "hover:bg-accent"
@@ -178,19 +209,26 @@ export function SearchPage({ onAddToCart }: SearchPageProps) {
 
               {/* Price Range */}
               <div className="mb-6">
-                <h4 className="mb-3">Price Range</h4>
+                <h4 className="mb-3 text-sm sm:text-base font-semibold">
+                  Price Range
+                </h4>
                 <div className="space-y-3">
-                  <input
-                    type="range"
-                    min="0"
-                    max="3000"
-                    value={priceRange[1]}
-                    onChange={(e) =>
-                      setPriceRange([priceRange[0], parseInt(e.target.value)])
-                    }
-                    className="w-full"
-                  />
-                  <div className="flex items-center justify-between text-sm text-muted-foreground">
+                  <Slider.Root
+                    className="relative flex w-full items-center h-8"
+                    value={priceRange}
+                    onValueChange={setPriceRange}
+                    min={PRICE_MIN}
+                    max={PRICE_MAX}
+                    step={1}
+                  >
+                    <Slider.Track className="relative h-2 flex-grow bg-gray-200 rounded">
+                      <Slider.Range className="absolute h-full bg-indigo-500 rounded" />
+                    </Slider.Track>
+                    <Slider.Thumb className="block h-5 w-5 rounded-full bg-indigo-600 border-2 border-white shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+                    <Slider.Thumb className="block h-5 w-5 rounded-full bg-indigo-600 border-2 border-white shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+                  </Slider.Root>
+
+                  <div className="flex items-center justify-between text-xs sm:text-sm text-muted-foreground">
                     <span>${priceRange[0]}</span>
                     <span>${priceRange[1]}</span>
                   </div>
@@ -200,57 +238,13 @@ export function SearchPage({ onAddToCart }: SearchPageProps) {
           </aside>
 
           {/* Products Grid */}
-          <div className="flex-1">
-            {/* Toolbar */}
-            <div className="flex items-center justify-between mb-6">
-              <p className="text-muted-foreground">
-                {loading
-                  ? "Loading..."
-                  : `${filteredProducts.length} ${filteredProducts.length === 1 ? "product" : "products"} found`}
-              </p>
-              <div className="flex items-center gap-4">
-                <button
-                  onClick={() => setShowFilters(!showFilters)}
-                  className="lg:hidden flex items-center gap-2 px-4 py-2 border border-border rounded-lg hover:bg-accent transition-colors"
-                >
-                  <SlidersHorizontal className="w-4 h-4" />
-                  Filters
-                </button>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="px-4 py-2 bg-card border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
-                >
-                  {sortOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            {/* Error Message */}
-            {error && (
-              <div className="p-4 bg-destructive/10 border border-destructive rounded-lg text-destructive mb-6">
-                {error}
-              </div>
-            )}
-
-            {/* Loading State */}
-            {loading && (
-              <div className="text-center py-12">
-                <p className="text-muted-foreground">Loading products...</p>
-              </div>
-            )}
-
-            {/* Products */}
+          <div className="flex-1 w-full">
             {!loading && !error && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
                 {filteredProducts.map((product) => (
                   <div
                     key={product._id}
-                    className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
+                    className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex flex-col"
                   >
                     <div className="aspect-square overflow-hidden bg-muted relative">
                       <ImageWithFallback
@@ -278,7 +272,7 @@ export function SearchPage({ onAddToCart }: SearchPageProps) {
                             aria-label="Add to wishlist"
                           >
                             <Heart
-                              className={`w-5 h-5 ${
+                              className={`w-4 h-4 sm:w-5 sm:h-5 ${
                                 isInWishlist(product._id)
                                   ? "fill-red-500 text-red-500"
                                   : "text-gray-400"
@@ -292,38 +286,48 @@ export function SearchPage({ onAddToCart }: SearchPageProps) {
                       </Tooltip>
                       {product.stock === 0 && (
                         <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                          <span className="bg-destructive text-destructive-foreground px-4 py-2 rounded-lg">
+                          <span className="bg-destructive text-destructive-foreground px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm">
                             Out of Stock
                           </span>
                         </div>
                       )}
                     </div>
-                    <div className="p-4">
-                      <p className="text-sm text-muted-foreground mb-1">
+                    <div className="p-3 sm:p-4 flex flex-col flex-grow">
+                      <p className="text-xs sm:text-sm text-muted-foreground mb-1">
                         {product.category}
                       </p>
-                      <h3 className="mb-2">{product.name}</h3>
+                      <h3 className="mb-2 line-clamp-2 text-sm sm:text-base">
+                        {product.name}
+                      </h3>
                       <div className="flex items-center gap-2 mb-3">
                         <div className="flex items-center gap-1">
-                          <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                          <span className="text-sm">
+                          <Star className="w-3 h-3 sm:w-4 sm:h-4 fill-yellow-400 text-yellow-400" />
+                          <span className="text-xs sm:text-sm">
                             {product.rating?.toFixed(1) || "N/A"}
                           </span>
                         </div>
-                        <span className="text-sm text-muted-foreground">
+                        <span className="text-xs sm:text-sm text-muted-foreground">
                           ({product.reviews?.length || 0})
                         </span>
                       </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-xl">
+                      <div className="flex items-center justify-between mt-auto gap-2">
+                        <span className="text-base sm:text-lg font-bold">
                           ${product.price.toFixed(2)}
                         </span>
                         <button
-                          onClick={() => onAddToCart(product)}
+                          onClick={() =>
+                            onAddToCart({
+                              id: product._id,
+                              name: product.name,
+                              price: product.price,
+                              image: product.imageUrl || "",
+                              category: product.category,
+                            })
+                          }
                           disabled={product.stock === 0}
-                          className="bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="bg-primary text-primary-foreground px-2 sm:px-4 py-2 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm whitespace-nowrap"
                         >
-                          {product.stock > 0 ? "Add to Cart" : "Unavailable"}
+                          {product.stock > 0 ? "Add" : "N/A"}
                         </button>
                       </div>
                     </div>
