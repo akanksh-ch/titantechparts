@@ -1,6 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 
-const API_BASE = "http://localhost:8000"; // Backend API server
+const API_BASE = import.meta.env.VITE_API_BASE; // Backend API server
 
 interface DecodedToken {
   sub: string; // username or email
