@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { ImageWithFallback } from "~/components/figma/ImageWithFallback";
 import { ordersApi } from "~/utils/api";
+import { isAuthenticated } from "~/utils/auth";
 import {
   validateUKPostcode,
   validateUKPhoneNumber,
@@ -35,8 +36,7 @@ export function CheckoutPage({
   const [step, setStep] = useState<"cart" | "checkout">("cart");
   const [formData, setFormData] = useState({
     email: "",
-    firstName: "",
-    lastName: "",
+    fullName: "",
     phone: "",
     address1: "",
     address2: "",
@@ -76,11 +76,8 @@ export function CheckoutPage({
     }
 
     // Name validation
-    if (!formData.firstName || formData.firstName.trim().length < 2) {
-      newErrors.firstName = "First name must be at least 2 characters";
-    }
-    if (!formData.lastName || formData.lastName.trim().length < 2) {
-      newErrors.lastName = "Last name must be at least 2 characters";
+    if (!formData.fullName || formData.fullName.trim().length < 2) {
+      newErrors.fullName = "Full name must be at least 2 characters";
     }
 
     // Phone validation
@@ -131,6 +128,12 @@ export function CheckoutPage({
 
   const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!isAuthenticated()) {
+      alert("Please log in to complete your order.");
+      navigate("/login");
+      return;
+    }
 
     if (!validateForm()) {
       return; // Form validation failed, errors are displayed
@@ -271,8 +274,9 @@ export function CheckoutPage({
                         type="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.email ? "border-red-500" : "border-border"
-                          }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                          errors.email ? "border-red-500" : "border-border"
+                        }`}
                         placeholder="you@example.com"
                       />
                       {errors.email && (
@@ -295,8 +299,9 @@ export function CheckoutPage({
                         type="tel"
                         value={formData.phone}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.phone ? "border-red-500" : "border-border"
-                          }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                          errors.phone ? "border-red-500" : "border-border"
+                        }`}
                         placeholder="020 7946 0958 or +44 20 7946 0958"
                       />
                       {errors.phone && (
@@ -316,51 +321,28 @@ export function CheckoutPage({
                     Shipping Address (UK)
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                    <div>
+                    <div className="sm:col-span-2">
                       <label
-                        htmlFor="firstName"
+                        htmlFor="fullName"
                         className="block mb-1 sm:mb-2 text-sm"
                       >
-                        First Name <span className="text-red-500">*</span>
+                        Full Name <span className="text-red-500">*</span>
                       </label>
                       <input
-                        id="firstName"
-                        name="firstName"
+                        id="fullName"
+                        name="fullName"
                         type="text"
-                        value={formData.firstName}
+                        value={formData.fullName}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.firstName ? "border-red-500" : "border-border"
-                          }`}
-                        placeholder="John"
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                          errors.fullName ? "border-red-500" : "border-border"
+                        }`}
+                        placeholder="John Doe"
                       />
-                      {errors.firstName && (
+                      {errors.fullName && (
                         <div className="flex items-center gap-2 mt-1 text-red-500 text-xs">
                           <AlertCircle className="w-3 h-3" />
-                          {errors.firstName}
-                        </div>
-                      )}
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="lastName"
-                        className="block mb-1 sm:mb-2 text-sm"
-                      >
-                        Last Name <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        id="lastName"
-                        name="lastName"
-                        type="text"
-                        value={formData.lastName}
-                        onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.lastName ? "border-red-500" : "border-border"
-                          }`}
-                        placeholder="Doe"
-                      />
-                      {errors.lastName && (
-                        <div className="flex items-center gap-2 mt-1 text-red-500 text-xs">
-                          <AlertCircle className="w-3 h-3" />
-                          {errors.lastName}
+                          {errors.fullName}
                         </div>
                       )}
                     </div>
@@ -377,8 +359,9 @@ export function CheckoutPage({
                         type="text"
                         value={formData.address1}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.address1 ? "border-red-500" : "border-border"
-                          }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                          errors.address1 ? "border-red-500" : "border-border"
+                        }`}
                         placeholder="123 Main Street"
                       />
                       {errors.address1 && (
@@ -402,8 +385,9 @@ export function CheckoutPage({
                         type="text"
                         value={formData.address2}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.address2 ? "border-red-500" : "border-border"
-                          }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                          errors.address2 ? "border-red-500" : "border-border"
+                        }`}
                         placeholder="Apartment, suite, floor, etc. (optional)"
                       />
                       {errors.address2 && (
@@ -426,8 +410,9 @@ export function CheckoutPage({
                         type="text"
                         value={formData.city}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.city ? "border-red-500" : "border-border"
-                          }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                          errors.city ? "border-red-500" : "border-border"
+                        }`}
                         placeholder="London"
                       />
                       {errors.city && (
@@ -450,8 +435,9 @@ export function CheckoutPage({
                         type="text"
                         value={formData.county}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.county ? "border-red-500" : "border-border"
-                          }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                          errors.county ? "border-red-500" : "border-border"
+                        }`}
                         placeholder="Greater London"
                       />
                       {errors.county && (
@@ -474,8 +460,9 @@ export function CheckoutPage({
                         type="text"
                         value={formData.postcode}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.postcode ? "border-red-500" : "border-border"
-                          }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                          errors.postcode ? "border-red-500" : "border-border"
+                        }`}
                         placeholder="SW1A 1AA"
                       />
                       {errors.postcode && (
@@ -509,8 +496,9 @@ export function CheckoutPage({
                         placeholder="1234 5678 9012 3456"
                         value={formData.cardNumber}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.cardNumber ? "border-red-500" : "border-border"
-                          }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                          errors.cardNumber ? "border-red-500" : "border-border"
+                        }`}
                       />
                       {errors.cardNumber && (
                         <div className="flex items-center gap-2 mt-1 text-red-500 text-xs">
@@ -532,8 +520,9 @@ export function CheckoutPage({
                         type="text"
                         value={formData.cardName}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.cardName ? "border-red-500" : "border-border"
-                          }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                          errors.cardName ? "border-red-500" : "border-border"
+                        }`}
                         placeholder="John Doe"
                       />
                       {errors.cardName && (
@@ -558,10 +547,11 @@ export function CheckoutPage({
                           placeholder="MM/YY"
                           value={formData.expiryDate}
                           onChange={handleInputChange}
-                          className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.expiryDate
-                            ? "border-red-500"
-                            : "border-border"
-                            }`}
+                          className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                            errors.expiryDate
+                              ? "border-red-500"
+                              : "border-border"
+                          }`}
                         />
                         {errors.expiryDate && (
                           <div className="flex items-center gap-2 mt-1 text-red-500 text-xs">
@@ -584,8 +574,9 @@ export function CheckoutPage({
                           placeholder="123"
                           value={formData.cvv}
                           onChange={handleInputChange}
-                          className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.cvv ? "border-red-500" : "border-border"
-                            }`}
+                          className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                            errors.cvv ? "border-red-500" : "border-border"
+                          }`}
                         />
                         {errors.cvv && (
                           <div className="flex items-center gap-2 mt-1 text-red-500 text-xs">
