@@ -14,6 +14,12 @@ export function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -81,6 +87,7 @@ export function LoginPage() {
                   className="w-full px-3 sm:px-4 py-2 bg-input-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring pr-10 sm:pr-12 text-sm sm:text-base"
                   placeholder="Enter your password"
                   required
+                  minLength={8}
                   disabled={isLoading}
                 />
                 <button
