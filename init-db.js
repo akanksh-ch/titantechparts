@@ -5,7 +5,8 @@
 db = db.getSiblingDB('titantechparts');
 
 // Directory where Docker/Podman mounts your files
-const initPath = '/docker-entrypoint-initdb.d/';
+//const initPath = '/docker-entrypoint-initdb.d/';
+const initPath = './';
 
 // 1. Discover validator files in the entrypoint directory
 // Replaced listFiles() with global fs.readdirSync()
