@@ -233,7 +233,7 @@ export function CheckoutPage({
                     <div className="w-24 h-24 bg-muted rounded-lg overflow-hidden flex-shrink-0">
                       <Link to={`/product/${item.id}`}>
                         <ImageWithFallback
-                          src={item.image}
+                          src={item.imageUrl || item.image}
                           alt={item.name}
                           className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                         />
@@ -306,9 +306,8 @@ export function CheckoutPage({
                         type="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
-                          errors.email ? "border-red-500" : "border-border"
-                        }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.email ? "border-red-500" : "border-border"
+                          }`}
                         placeholder="you@example.com"
                       />
                       {errors.email && (
@@ -331,9 +330,8 @@ export function CheckoutPage({
                         type="tel"
                         value={formData.phone}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
-                          errors.phone ? "border-red-500" : "border-border"
-                        }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.phone ? "border-red-500" : "border-border"
+                          }`}
                         placeholder="020 7946 0958 or +44 20 7946 0958"
                       />
                       {errors.phone && (
@@ -366,9 +364,8 @@ export function CheckoutPage({
                         type="text"
                         value={formData.firstName}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
-                          errors.firstName ? "border-red-500" : "border-border"
-                        }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.firstName ? "border-red-500" : "border-border"
+                          }`}
                         placeholder="John"
                       />
                       {errors.firstName && (
@@ -391,9 +388,8 @@ export function CheckoutPage({
                         type="text"
                         value={formData.lastName}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
-                          errors.lastName ? "border-red-500" : "border-border"
-                        }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.lastName ? "border-red-500" : "border-border"
+                          }`}
                         placeholder="Doe"
                       />
                       {errors.lastName && (
@@ -416,9 +412,8 @@ export function CheckoutPage({
                         type="text"
                         value={formData.address1}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
-                          errors.address1 ? "border-red-500" : "border-border"
-                        }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.address1 ? "border-red-500" : "border-border"
+                          }`}
                         placeholder="123 Main Street"
                       />
                       {errors.address1 && (
@@ -442,9 +437,8 @@ export function CheckoutPage({
                         type="text"
                         value={formData.address2}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
-                          errors.address2 ? "border-red-500" : "border-border"
-                        }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.address2 ? "border-red-500" : "border-border"
+                          }`}
                         placeholder="Apartment, suite, floor, etc. (optional)"
                       />
                       {errors.address2 && (
@@ -467,9 +461,8 @@ export function CheckoutPage({
                         type="text"
                         value={formData.city}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
-                          errors.city ? "border-red-500" : "border-border"
-                        }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.city ? "border-red-500" : "border-border"
+                          }`}
                         placeholder="London"
                       />
                       {errors.city && (
@@ -492,9 +485,8 @@ export function CheckoutPage({
                         type="text"
                         value={formData.county}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
-                          errors.county ? "border-red-500" : "border-border"
-                        }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.county ? "border-red-500" : "border-border"
+                          }`}
                         placeholder="Greater London"
                       />
                       {errors.county && (
@@ -517,9 +509,8 @@ export function CheckoutPage({
                         type="text"
                         value={formData.postcode}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
-                          errors.postcode ? "border-red-500" : "border-border"
-                        }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.postcode ? "border-red-500" : "border-border"
+                          }`}
                         placeholder="SW1A 1AA"
                       />
                       {errors.postcode && (
@@ -553,9 +544,8 @@ export function CheckoutPage({
                         placeholder="1234 5678 9012 3456"
                         value={formData.cardNumber}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
-                          errors.cardNumber ? "border-red-500" : "border-border"
-                        }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.cardNumber ? "border-red-500" : "border-border"
+                          }`}
                       />
                       {errors.cardNumber && (
                         <div className="flex items-center gap-2 mt-1 text-red-500 text-xs">
@@ -577,9 +567,8 @@ export function CheckoutPage({
                         type="text"
                         value={formData.cardName}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
-                          errors.cardName ? "border-red-500" : "border-border"
-                        }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.cardName ? "border-red-500" : "border-border"
+                          }`}
                         placeholder="John Doe"
                       />
                       {errors.cardName && (
@@ -604,11 +593,10 @@ export function CheckoutPage({
                           placeholder="MM/YY"
                           value={formData.expiryDate}
                           onChange={handleInputChange}
-                          className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
-                            errors.expiryDate
-                              ? "border-red-500"
-                              : "border-border"
-                          }`}
+                          className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.expiryDate
+                            ? "border-red-500"
+                            : "border-border"
+                            }`}
                         />
                         {errors.expiryDate && (
                           <div className="flex items-center gap-2 mt-1 text-red-500 text-xs">
@@ -631,9 +619,8 @@ export function CheckoutPage({
                           placeholder="123"
                           value={formData.cvv}
                           onChange={handleInputChange}
-                          className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
-                            errors.cvv ? "border-red-500" : "border-border"
-                          }`}
+                          className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.cvv ? "border-red-500" : "border-border"
+                            }`}
                         />
                         {errors.cvv && (
                           <div className="flex items-center gap-2 mt-1 text-red-500 text-xs">
