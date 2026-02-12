@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { inventoryApi } from "~/utils/api";
 
 interface InventoryItem {
@@ -25,6 +25,27 @@ export function AdminDashboardPage() {
   const [savingId, setSavingId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+
+  const handleNewItemImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      setNewItem((previous) => ({
+        ...previous,
+        imageUrl: "",
+      }));
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = typeof reader.result === "string" ? reader.result : "";
+      setNewItem((previous) => ({
+        ...previous,
+        imageUrl: result,
+      }));
+    };
+    reader.readAsDataURL(file);
+  };
 
   useEffect(() => {
     const fetchInventory = async () => {
@@ -279,16 +300,10 @@ export function AdminDashboardPage() {
                   placeholder="Stock"
                 />
                 <input
-                  type="text"
-                  value={newItem.imageUrl}
-                  onChange={(event) =>
-                    setNewItem((previous) => ({
-                      ...previous,
-                      imageUrl: event.target.value,
-                    }))
-                  }
+                  type="file"
+                  accept="image/*"
+                  onChange={handleNewItemImageUpload}
                   className="px-3 py-2 bg-input-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
-                  placeholder="Image URL (optional)"
                 />
                 <button
                   type="button"
