@@ -21,6 +21,7 @@ interface OrderItem {
   inventoryId: string;
   name: string;
   image?: string;
+  imageUrl?: string;
   quantity: number;
   unitPrice: number;
   lineTotal: number;
@@ -311,7 +312,7 @@ export function OrderHistoryPage() {
                     >
                       <div className="w-20 h-20 sm:w-24 sm:h-24 bg-muted rounded-lg overflow-hidden flex-shrink-0">
                         <ImageWithFallback
-                          src={item.image}
+                          src={item.imageUrl || item.image}
                           alt={item.name}
                           className="w-full h-full object-cover"
                         />
@@ -429,7 +430,7 @@ export function OrderHistoryPage() {
                         <div className="flex gap-4">
                           <div className="w-16 h-16 bg-muted rounded-lg overflow-hidden flex-shrink-0">
                             <ImageWithFallback
-                              src={item.image}
+                              src={item.imageUrl || item.image}
                               alt={item.name}
                               className="w-full h-full object-cover"
                             />
