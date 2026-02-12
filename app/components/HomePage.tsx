@@ -114,7 +114,7 @@ export function HomePage({ onAddToCart }: HomePageProps) {
                 <div className="aspect-square overflow-hidden bg-muted relative group">
                   <Link to={`/product/${product._id || product.id}`}>
                     <ImageWithFallback
-                      src={product.image}
+                      src={product.imageUrl}
                       alt={product.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
@@ -130,7 +130,7 @@ export function HomePage({ onAddToCart }: HomePageProps) {
                               id: product._id || product.id,
                               name: product.name,
                               price: product.price,
-                              image: product.image,
+                              image: product.imageUrl,
                               category: product.category,
                             });
                           }

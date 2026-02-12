@@ -17,7 +17,7 @@ export function WishlistPage({ onAddToCart }: WishlistPageProps) {
         id: item.id,
         name: item.name,
         price: item.price,
-        image: item.image,
+        image: item.imageUrl || item.image,
         category: item.category,
       });
       removeFromWishlist(item.id);
@@ -61,7 +61,7 @@ export function WishlistPage({ onAddToCart }: WishlistPageProps) {
                 <div className="w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-muted">
                   <Link to={`/product/${item.id}`}>
                     <ImageWithFallback
-                      src={item.image}
+                      src={item.imageUrl || item.image}
                       alt={item.name}
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                     />
