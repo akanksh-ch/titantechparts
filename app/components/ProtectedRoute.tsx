@@ -1,15 +1,23 @@
-import type { ReactNode } from 'react';
-import { Navigate } from 'react-router';
-import { isAuthenticated } from '~/utils/auth';
+import type { ReactNode } from "react";
+import { Navigate } from "react-router";
+import { isAdmin, isAuthenticated } from "~/utils/auth";
 
 interface ProtectedRouteProps {
-    children: ReactNode;
+  children: ReactNode;
+  adminOnly?: boolean;
 }
 
-export function ProtectedRoute({ children }: ProtectedRouteProps) {
-    if (!isAuthenticated()) {
-        return <Navigate to="/login" replace />;
-    }
+export function ProtectedRoute({
+  children,
+  adminOnly = false,
+}: ProtectedRouteProps) {
+  if (!isAuthenticated()) {
+    return <Navigate to="/login" replace />;
+  }
 
-    return <>{children}</>;
+  if (adminOnly && !isAdmin()) {
+    return <Navigate to="/home" replace />;
+  }
+
+  return <>{children}</>;
 }
