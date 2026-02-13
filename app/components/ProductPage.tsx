@@ -1,5 +1,6 @@
- import { mockProduct } from "./mockProduct";
+import { mockProduct } from "./mockProduct";
 import "./ProductPage.css";
+import { formatGBP } from "~/utils/currency";
 
 export default function ProductPage() {
   const product = mockProduct;
@@ -16,7 +17,7 @@ export default function ProductPage() {
 
       <p className="product-description">{product.description}</p>
 
-      <div className="product-price">${product.price.toFixed(2)}</div>
+      <div className="product-price">{formatGBP(product.price)}</div>
 
       <hr />
 

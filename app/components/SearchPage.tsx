@@ -10,6 +10,7 @@ import {
 import { ImageWithFallback } from "~/components/figma/ImageWithFallback";
 import { inventoryApi } from "~/utils/api";
 import { useWishlist } from "~/context/wishlist";
+import { formatGBP } from "~/utils/currency";
 
 interface SearchPageProps {
   onAddToCart: (product: any) => void;
@@ -195,10 +196,11 @@ export function SearchPage({ onAddToCart }: SearchPageProps) {
                         }
                         setSearchParams(searchParams);
                       }}
-                      className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${selectedCategory === category
-                        ? "bg-primary text-primary-foreground"
-                        : "hover:bg-accent"
-                        }`}
+                      className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
+                        selectedCategory === category
+                          ? "bg-primary text-primary-foreground"
+                          : "hover:bg-accent"
+                      }`}
                     >
                       {category}
                     </button>
@@ -228,8 +230,8 @@ export function SearchPage({ onAddToCart }: SearchPageProps) {
                   </Slider.Root>
 
                   <div className="flex items-center justify-between text-xs sm:text-sm text-muted-foreground">
-                    <span>${priceRange[0]}</span>
-                    <span>${priceRange[1]}</span>
+                    <span>{formatGBP(priceRange[0])}</span>
+                    <span>{formatGBP(priceRange[1])}</span>
                   </div>
                 </div>
               </div>
@@ -273,10 +275,11 @@ export function SearchPage({ onAddToCart }: SearchPageProps) {
                             aria-label="Add to wishlist"
                           >
                             <Heart
-                              className={`w-5 h-5 ${isInWishlist(product._id)
-                                ? "fill-red-500 text-red-500"
-                                : "text-gray-400"
-                                }`}
+                              className={`w-5 h-5 ${
+                                isInWishlist(product._id)
+                                  ? "fill-red-500 text-red-500"
+                                  : "text-gray-400"
+                              }`}
                             />
                           </button>
                         </TooltipTrigger>
@@ -314,10 +317,12 @@ export function SearchPage({ onAddToCart }: SearchPageProps) {
                       </div>
                       <div className="flex items-center justify-between mt-auto gap-2">
                         <span className="text-base sm:text-lg font-bold">
-                          ${product.price.toFixed(2)}
+                          {formatGBP(product.price)}
                         </span>
                         <button
-                          onClick={() => onAddToCart({ ...product, id: product._id })}
+                          onClick={() =>
+                            onAddToCart({ ...product, id: product._id })
+                          }
                           disabled={product.stock === 0}
                           className="bg-primary text-primary-foreground px-2 sm:px-4 py-2 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm whitespace-nowrap"
                         >

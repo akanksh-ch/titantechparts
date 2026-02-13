@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { ImageWithFallback } from "~/components/figma/ImageWithFallback";
 import { inventoryApi } from "~/utils/api";
 import { useWishlist } from "~/context/wishlist";
+import { formatGBP } from "~/utils/currency";
 
 interface HomePageProps {
   onAddToCart: (product: any) => void;
@@ -139,10 +140,11 @@ export function HomePage({ onAddToCart }: HomePageProps) {
                         aria-label="Add to wishlist"
                       >
                         <Heart
-                          className={`w-5 h-5 ${isInWishlist(product._id || product.id)
-                            ? "fill-red-500 text-red-500"
-                            : "text-gray-400"
-                            }`}
+                          className={`w-5 h-5 ${
+                            isInWishlist(product._id || product.id)
+                              ? "fill-red-500 text-red-500"
+                              : "text-gray-400"
+                          }`}
                         />
                       </button>
                     </TooltipTrigger>
@@ -155,8 +157,13 @@ export function HomePage({ onAddToCart }: HomePageProps) {
                   <p className="text-xs sm:text-sm text-muted-foreground mb-1">
                     {product.category}
                   </p>
-                  <Link to={`/product/${product._id || product.id}`} className="block">
-                    <h3 className="mb-2 line-clamp-2 hover:text-primary transition-colors">{product.name}</h3>
+                  <Link
+                    to={`/product/${product._id || product.id}`}
+                    className="block"
+                  >
+                    <h3 className="mb-2 line-clamp-2 hover:text-primary transition-colors">
+                      {product.name}
+                    </h3>
                   </Link>
                   <div className="flex items-center gap-2 mb-3 mt-auto">
                     <div className="flex items-center gap-1">
@@ -175,7 +182,7 @@ export function HomePage({ onAddToCart }: HomePageProps) {
                   </div>
                   <div className="flex items-center justify-between mt-2 gap-2">
                     <span className="text-lg sm:text-xl font-bold">
-                      ${product.price}
+                      {formatGBP(product.price)}
                     </span>
                     <button
                       onClick={() =>

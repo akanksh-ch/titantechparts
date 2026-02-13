@@ -20,6 +20,7 @@ import {
   validateAddress1,
   validateAddress2,
 } from "~/utils/validation";
+import { formatGBP } from "~/utils/currency";
 
 interface CheckoutPageProps {
   cartItems: any[];
@@ -610,23 +611,21 @@ export function CheckoutPage({
               <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6 text-sm sm:text-base">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                  <span>{formatGBP(subtotal)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Shipping</span>
-                  <span>
-                    {shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}
-                  </span>
+                  <span>{shipping === 0 ? "FREE" : formatGBP(shipping)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Tax</span>
-                  <span>${tax.toFixed(2)}</span>
+                  <span>{formatGBP(tax)}</span>
                 </div>
                 <div className="border-t border-border pt-2 sm:pt-3">
                   <div className="flex justify-between">
                     <span className="font-semibold">Total</span>
                     <span className="text-lg sm:text-xl font-bold">
-                      ${total.toFixed(2)}
+                      {formatGBP(total)}
                     </span>
                   </div>
                 </div>
@@ -634,7 +633,7 @@ export function CheckoutPage({
 
               {shipping > 0 && (
                 <p className="text-xs sm:text-sm text-muted-foreground mb-4 p-3 bg-accent rounded-lg">
-                  Add ${(50 - subtotal).toFixed(2)} more for free shipping!
+                  Add {formatGBP(50 - subtotal)} more for free shipping!
                 </p>
               )}
 

@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { useWishlist } from "~/context/wishlist";
 import { Button } from "~/components/ui/button";
 import { ImageWithFallback } from "~/components/figma/ImageWithFallback";
+import { formatGBP } from "~/utils/currency";
 
 interface WishlistPageProps {
   onAddToCart?: (product: any) => void;
@@ -72,7 +73,10 @@ export function WishlistPage({ onAddToCart }: WishlistPageProps) {
                 <div className="flex-1">
                   <div className="flex justify-between items-start mb-2">
                     <div>
-                      <Link to={`/product/${item.id}`} className="hover:text-primary transition-colors">
+                      <Link
+                        to={`/product/${item.id}`}
+                        className="hover:text-primary transition-colors"
+                      >
                         <h3 className="font-semibold text-lg">{item.name}</h3>
                       </Link>
                       <p className="text-sm text-muted-foreground">
@@ -80,7 +84,7 @@ export function WishlistPage({ onAddToCart }: WishlistPageProps) {
                       </p>
                     </div>
                     <p className="text-base sm:text-lg font-bold text-primary flex-shrink-0">
-                      ${item.price.toFixed(2)}
+                      {formatGBP(item.price)}
                     </p>
                   </div>
 
