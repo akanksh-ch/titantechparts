@@ -5,7 +5,13 @@ An e-commerce website for computer parts.
 
 ### Installation
 
-```
+```bash
 npm install
 npm run dev
+```
+
+### Docker
+
+```bash
+docker-compose up -d
 ```

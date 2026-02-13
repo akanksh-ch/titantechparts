@@ -145,6 +145,15 @@ export function CheckoutPage({
           inventoryId: item._id,
           quantity: item.quantity,
         })),
+        address: {
+          recipientName: `${formData.firstName} ${formData.lastName}`.trim(),
+          line1: formData.address1,
+          line2: formData.address2 || "", // Ensure string
+          postTown: formData.city.toUpperCase(), // Best practice for UK
+          postcode: formData.postcode,
+          county: formData.county || "",
+        },
+        phoneNumber: formData.phone,
       };
 
       await ordersApi.create(orderData);

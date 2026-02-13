@@ -87,8 +87,8 @@ export const inventoryApi = {
  */
 export const ordersApi = {
   create: async (orderData: any) => {
-    const response = await fetchWithAuth("/orders", {
-      method: "POST",
+    const response = await fetchWithAuth('/orders/', {
+      method: 'POST',
       body: JSON.stringify(orderData),
     });
     return response.json();
