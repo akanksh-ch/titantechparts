@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import { Navigate } from "react-router";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 import { isAdmin, isAuthenticated } from "~/utils/auth";
 
 interface ProtectedRouteProps {
@@ -11,12 +12,27 @@ export function ProtectedRoute({
   children,
   adminOnly = false,
 }: ProtectedRouteProps) {
-  if (!isAuthenticated()) {
-    return <Navigate to="/login" replace />;
+  const navigate = useNavigate();
+  const authenticated = isAuthenticated();
+  const admin = isAdmin();
+
+  useEffect(() => {
+    if (!authenticated) {
+      navigate("/login", { replace: true });
+      return;
+    }
+
+    if (adminOnly && !admin) {
+      navigate("/home", { replace: true });
+    }
+  }, [adminOnly, admin, authenticated, navigate]);
+
+  if (!authenticated) {
+    return null;
   }
 
-  if (adminOnly && !isAdmin()) {
-    return <Navigate to="/home" replace />;
+  if (adminOnly && !admin) {
+    return null;
   }
 
   return <>{children}</>;

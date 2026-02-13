@@ -1,36 +1,9 @@
 import { jwtDecode } from "jwt-decode";
 
 const API_BASE = import.meta.env.VITE_API_BASE; // Backend API server
-const LOCAL_ADMIN_USERNAME = "admin";
-const LOCAL_ADMIN_PASSWORD = "Admin@12345";
-
-const base64UrlEncode = (value: string): string => {
-  if (typeof window !== "undefined") {
-    return window
-      .btoa(value)
-      .replace(/=/g, "")
-      .replace(/\+/g, "-")
-      .replace(/\//g, "_");
-  }
-
-  return Buffer.from(value, "utf-8")
-    .toString("base64")
-    .replace(/=/g, "")
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_");
-};
-
-const createLocalAdminToken = (): string => {
-  const header = { alg: "none", typ: "JWT" };
-  const payload = {
-    sub: LOCAL_ADMIN_USERNAME,
-    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24,
-    permissions: ["admin"],
-    roles: ["admin"],
-  };
-
-  return `${base64UrlEncode(JSON.stringify(header))}.${base64UrlEncode(JSON.stringify(payload))}.`;
-};
+const CART_STORAGE_KEY = "cartItems";
+const WISHLIST_STORAGE_KEY = "wishlistItems";
+const GUEST_SCOPE = "guest";
 
 interface DecodedToken {
   sub: string; // username or email
@@ -46,6 +19,12 @@ const getDecodedToken = (): DecodedToken | null => {
   if (!token) return null;
 
   try {
+    const tokenParts = token.split(".");
+    if (tokenParts.length !== 3 || !tokenParts[2]) {
+      logout();
+      return null;
+    }
+
     const decoded = jwtDecode<DecodedToken>(token);
     if (decoded.exp * 1000 < Date.now()) {
       logout();
@@ -53,6 +32,7 @@ const getDecodedToken = (): DecodedToken | null => {
     }
     return decoded;
   } catch {
+    logout();
     return null;
   }
 };
@@ -96,19 +76,6 @@ export const isAdmin = (): boolean => {
 export const login = async (username: string, password: string) => {
   if (!(username.length > 0) || !(password.length > 0)) {
     throw new Error("Username or password was not provided");
-  }
-
-  if (username === LOCAL_ADMIN_USERNAME && password === LOCAL_ADMIN_PASSWORD) {
-    const token = createLocalAdminToken();
-    localStorage.setItem("token", token);
-    localStorage.setItem("username", LOCAL_ADMIN_USERNAME);
-    localStorage.setItem("email", "admin@titantechparts.local");
-
-    return {
-      access_token: token,
-      token_type: "bearer",
-      is_local_admin: true,
-    };
   }
 
   const formData = new FormData();
@@ -217,8 +184,17 @@ export const register = async (
  */
 export const logout = () => {
   if (typeof window === "undefined") return;
+
+  const guestCartKey = `${CART_STORAGE_KEY}:${GUEST_SCOPE}`;
+  const guestWishlistKey = `${WISHLIST_STORAGE_KEY}:${GUEST_SCOPE}`;
+
   localStorage.removeItem("token");
   localStorage.removeItem("username");
+  localStorage.removeItem("email");
+  localStorage.removeItem(CART_STORAGE_KEY);
+  localStorage.removeItem(WISHLIST_STORAGE_KEY);
+  localStorage.removeItem(guestCartKey);
+  localStorage.removeItem(guestWishlistKey);
 };
 
 /**
