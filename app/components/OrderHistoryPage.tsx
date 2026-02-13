@@ -122,7 +122,7 @@ export function OrderHistoryPage() {
       };
 
       // Call return API (would need to be implemented on backend)
-      console.log("Submitting return:", returnPayload);
+      // TODO: send returnPayload to backend when API available
       // await ordersApi.createReturn(returnPayload);
 
       // For now, show success message
@@ -154,7 +154,7 @@ export function OrderHistoryPage() {
         reason: returnReason || "Customer requested partial return",
       };
 
-      console.log("Submitting partial return:", returnPayload);
+      // TODO: send partial return payload to backend when API available
       // await ordersApi.createReturn(returnPayload);
 
       alert("Return request submitted successfully!");

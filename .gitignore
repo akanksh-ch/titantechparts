@@ -15,3 +15,7 @@ venv/
 .pytest_cache/
 .vscode/
 .idea/
+
+# Build optimization
+.tsbuildinfo
+.vite/
