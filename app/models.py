@@ -69,10 +69,19 @@ class InventoryUpdate(BaseModel):
     isActive: Optional[bool] = None
 
 class InventoryInDB(InventoryBase, MongoBaseModel):
-    createdAt: Optional[datetime] = None
     updatedAt: Optional[datetime] = None
 
 # --- Order Models ---
+
+class ShippingAddress(BaseModel):
+    recipientName: str = Field(..., max_length=100)
+    line1: str = Field(..., min_length=1, max_length=100)
+    line2: Optional[str] = Field(None, max_length=100)
+    postTown: str = Field(..., max_length=35)
+    postcode: str = Field(..., pattern=r"^[A-Z]{1,2}[0-9][0-9A-Z]?\s?[0-9][A-Z]{2}$")
+    county: Optional[str] = Field(None, max_length=35)
+
+
 class OrderItem(BaseModel):
     inventoryId: str 
     name: str
@@ -81,15 +90,29 @@ class OrderItem(BaseModel):
     unitPrice: float
     lineTotal: float
 
+    @field_validator("inventoryId", mode="before")
+    @classmethod
+    def stringify_inventory_id(cls, v):
+        return str(v) if isinstance(v, ObjectId) else v
+
 class OrderBase(BaseModel):
     userId: str
     items: List[OrderItem]
     amount: float
     currency: str
     status: str = "pending"
+    address: ShippingAddress
+    phoneNumber: str = Field(..., pattern=r"^\+?[1-9]\d{1,14}$")
+
+    @field_validator("userId", mode="before")
+    @classmethod
+    def stringify_user_id(cls, v):
+        return str(v) if isinstance(v, ObjectId) else v
 
 class OrderCreate(BaseModel):
     items: List[dict]
+    address: ShippingAddress
+    phoneNumber: str
 
 class OrderInDB(OrderBase, MongoBaseModel):
     createdAt: datetime = Field(default_factory=datetime.utcnow)
