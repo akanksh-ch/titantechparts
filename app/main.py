@@ -5,12 +5,13 @@ from fastapi.staticfiles import StaticFiles
 
 app = FastAPI(title="TitanTechParts Backend")
 
+
 app.mount("/images", StaticFiles(directory="images"), name="images")
 
 origins = [
     "http://localhost:3000",
     "http://localhost:8080",
-    "*", # For development
+    "http://localhost:5173",
 ]
 
 app.add_middleware(
