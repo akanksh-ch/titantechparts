@@ -1,13 +1,11 @@
-import {
-  ShoppingCart,
-  Search,
-  User,
-  ShoppingBag,
-  LogOut,
-  Heart,
-} from "lucide-react";
+import { ShoppingCart, Search, User, LogOut, Heart } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router";
-import { isAuthenticated, getCurrentUsername, logout } from "~/utils/auth";
+import {
+  isAdmin,
+  isAuthenticated,
+  getCurrentUsername,
+  logout,
+} from "~/utils/auth";
 import { useWishlist } from "~/context/wishlist";
 import {
   Tooltip,
@@ -24,6 +22,7 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
   const navigate = useNavigate();
   const currentPath = location.pathname;
   const authenticated = isAuthenticated();
+  const admin = isAdmin();
   const username = getCurrentUsername();
   const { wishlistItemCount } = useWishlist();
 
@@ -59,7 +58,12 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
             >
               Home
             </Link>
-            <Link to="/about" className="about-link">
+            <Link
+              to="/about"
+              className={`text-sm hover:text-primary transition-colors ${
+                currentPath === "/about" ? "text-primary" : "text-foreground"
+              }`}
+            >
               About Us
             </Link>
             <Link
@@ -70,7 +74,7 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
             >
               Shop
             </Link>
-            {authenticated && (
+            {authenticated && !admin && (
               <Link
                 to="/orders"
                 className={`text-sm hover:text-primary transition-colors ${
@@ -78,6 +82,16 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
                 }`}
               >
                 Orders
+              </Link>
+            )}
+            {authenticated && admin && (
+              <Link
+                to="/admin"
+                className={`text-sm hover:text-primary transition-colors ${
+                  currentPath === "/admin" ? "text-primary" : "text-foreground"
+                }`}
+              >
+                Admin
               </Link>
             )}
           </nav>

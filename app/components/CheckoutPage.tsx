@@ -10,53 +10,16 @@ import {
 } from "lucide-react";
 import { ImageWithFallback } from "~/components/figma/ImageWithFallback";
 import { ordersApi } from "~/utils/api";
-
-interface CheckoutPageProps {
-  cartItems: any[];
-  onUpdateQuantity: (id: number, quantity: number) => void;
-  onRemoveItem: (id: number) => void;
-}
-
-// UK validation utilities
-const validateUKPostcode = (postcode: string): boolean => {
-  const ukPostcodeRegex = /^[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2}$/i;
-  return ukPostcodeRegex.test(postcode.trim());
-};
-
-const validateUKPhoneNumber = (phone: string): boolean => {
-  const ukPhoneRegex = /^(?:\+44|0)(?:\d{10}|1\d{9}|2\d{9}|3\d{9}|7\d{9})$/;
-  return ukPhoneRegex.test(phone.replace(/\s/g, ""));
-};
-
-const validateCardNumber = (cardNumber: string): boolean => {
-  const cleaned = cardNumber.replace(/\s/g, "");
-  return /^\d{13,19}$/.test(cleaned);
-};
-
-const validateExpiryDate = (expiryDate: string): boolean => {
-  const regex = /^(0[1-9]|1[0-2])\/\d{2}$/;
-  if (!regex.test(expiryDate)) return false;
-
-  const [month, year] = expiryDate.split("/");
-  const expiry = new Date(2000 + parseInt(year), parseInt(month));
-  return expiry > new Date();
-};
-
-const validateCVV = (cvv: string): boolean => {
-  return /^\d{3,4}$/.test(cvv);
-};
-
-const validateAddress1 = (address: string): boolean => {
-  return address.trim().length >= 5 && /^[a-zA-Z0-9\s,.'\-()]+$/.test(address);
-};
-
-const validateAddress2 = (address: string): boolean => {
-  // Address 2 is optional, but if provided must be valid
-  return (
-    address === "" ||
-    (address.trim().length >= 2 && /^[a-zA-Z0-9\s,.'\-()]+$/.test(address))
-  );
-};
+import { isAuthenticated } from "~/utils/auth";
+import {
+  validateUKPostcode,
+  validateUKPhoneNumber,
+  validateCardNumber,
+  validateExpiryDate,
+  validateCVV,
+  validateAddress1,
+  validateAddress2,
+} from "~/utils/validation";
 
 interface CheckoutPageProps {
   cartItems: any[];
@@ -73,8 +36,7 @@ export function CheckoutPage({
   const [step, setStep] = useState<"cart" | "checkout">("cart");
   const [formData, setFormData] = useState({
     email: "",
-    firstName: "",
-    lastName: "",
+    fullName: "",
     phone: "",
     address1: "",
     address2: "",
@@ -114,11 +76,8 @@ export function CheckoutPage({
     }
 
     // Name validation
-    if (!formData.firstName || formData.firstName.trim().length < 2) {
-      newErrors.firstName = "First name must be at least 2 characters";
-    }
-    if (!formData.lastName || formData.lastName.trim().length < 2) {
-      newErrors.lastName = "Last name must be at least 2 characters";
+    if (!formData.fullName || formData.fullName.trim().length < 2) {
+      newErrors.fullName = "Full name must be at least 2 characters";
     }
 
     // Phone validation
@@ -169,6 +128,12 @@ export function CheckoutPage({
 
   const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!isAuthenticated()) {
+      alert("Please log in to complete your order.");
+      navigate("/login");
+      return;
+    }
 
     if (!validateForm()) {
       return; // Form validation failed, errors are displayed
@@ -240,7 +205,10 @@ export function CheckoutPage({
                       </Link>
                     </div>
                     <div className="flex-1">
-                      <Link to={`/product/${item.id}`} className="hover:text-primary transition-colors">
+                      <Link
+                        to={`/product/${item.id}`}
+                        className="hover:text-primary transition-colors"
+                      >
                         <h3 className="mb-1">{item.name}</h3>
                       </Link>
                       <p className="text-sm text-muted-foreground mb-2">
@@ -306,8 +274,9 @@ export function CheckoutPage({
                         type="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.email ? "border-red-500" : "border-border"
-                          }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                          errors.email ? "border-red-500" : "border-border"
+                        }`}
                         placeholder="you@example.com"
                       />
                       {errors.email && (
@@ -330,8 +299,9 @@ export function CheckoutPage({
                         type="tel"
                         value={formData.phone}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.phone ? "border-red-500" : "border-border"
-                          }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                          errors.phone ? "border-red-500" : "border-border"
+                        }`}
                         placeholder="020 7946 0958 or +44 20 7946 0958"
                       />
                       {errors.phone && (
@@ -351,51 +321,28 @@ export function CheckoutPage({
                     Shipping Address (UK)
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                    <div>
+                    <div className="sm:col-span-2">
                       <label
-                        htmlFor="firstName"
+                        htmlFor="fullName"
                         className="block mb-1 sm:mb-2 text-sm"
                       >
-                        First Name <span className="text-red-500">*</span>
+                        Full Name <span className="text-red-500">*</span>
                       </label>
                       <input
-                        id="firstName"
-                        name="firstName"
+                        id="fullName"
+                        name="fullName"
                         type="text"
-                        value={formData.firstName}
+                        value={formData.fullName}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.firstName ? "border-red-500" : "border-border"
-                          }`}
-                        placeholder="John"
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                          errors.fullName ? "border-red-500" : "border-border"
+                        }`}
+                        placeholder="John Doe"
                       />
-                      {errors.firstName && (
+                      {errors.fullName && (
                         <div className="flex items-center gap-2 mt-1 text-red-500 text-xs">
                           <AlertCircle className="w-3 h-3" />
-                          {errors.firstName}
-                        </div>
-                      )}
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="lastName"
-                        className="block mb-1 sm:mb-2 text-sm"
-                      >
-                        Last Name <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        id="lastName"
-                        name="lastName"
-                        type="text"
-                        value={formData.lastName}
-                        onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.lastName ? "border-red-500" : "border-border"
-                          }`}
-                        placeholder="Doe"
-                      />
-                      {errors.lastName && (
-                        <div className="flex items-center gap-2 mt-1 text-red-500 text-xs">
-                          <AlertCircle className="w-3 h-3" />
-                          {errors.lastName}
+                          {errors.fullName}
                         </div>
                       )}
                     </div>
@@ -412,8 +359,9 @@ export function CheckoutPage({
                         type="text"
                         value={formData.address1}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.address1 ? "border-red-500" : "border-border"
-                          }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                          errors.address1 ? "border-red-500" : "border-border"
+                        }`}
                         placeholder="123 Main Street"
                       />
                       {errors.address1 && (
@@ -437,8 +385,9 @@ export function CheckoutPage({
                         type="text"
                         value={formData.address2}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.address2 ? "border-red-500" : "border-border"
-                          }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                          errors.address2 ? "border-red-500" : "border-border"
+                        }`}
                         placeholder="Apartment, suite, floor, etc. (optional)"
                       />
                       {errors.address2 && (
@@ -461,8 +410,9 @@ export function CheckoutPage({
                         type="text"
                         value={formData.city}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.city ? "border-red-500" : "border-border"
-                          }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                          errors.city ? "border-red-500" : "border-border"
+                        }`}
                         placeholder="London"
                       />
                       {errors.city && (
@@ -485,8 +435,9 @@ export function CheckoutPage({
                         type="text"
                         value={formData.county}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.county ? "border-red-500" : "border-border"
-                          }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                          errors.county ? "border-red-500" : "border-border"
+                        }`}
                         placeholder="Greater London"
                       />
                       {errors.county && (
@@ -509,8 +460,9 @@ export function CheckoutPage({
                         type="text"
                         value={formData.postcode}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.postcode ? "border-red-500" : "border-border"
-                          }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                          errors.postcode ? "border-red-500" : "border-border"
+                        }`}
                         placeholder="SW1A 1AA"
                       />
                       {errors.postcode && (
@@ -544,8 +496,9 @@ export function CheckoutPage({
                         placeholder="1234 5678 9012 3456"
                         value={formData.cardNumber}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.cardNumber ? "border-red-500" : "border-border"
-                          }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                          errors.cardNumber ? "border-red-500" : "border-border"
+                        }`}
                       />
                       {errors.cardNumber && (
                         <div className="flex items-center gap-2 mt-1 text-red-500 text-xs">
@@ -567,8 +520,9 @@ export function CheckoutPage({
                         type="text"
                         value={formData.cardName}
                         onChange={handleInputChange}
-                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.cardName ? "border-red-500" : "border-border"
-                          }`}
+                        className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                          errors.cardName ? "border-red-500" : "border-border"
+                        }`}
                         placeholder="John Doe"
                       />
                       {errors.cardName && (
@@ -593,10 +547,11 @@ export function CheckoutPage({
                           placeholder="MM/YY"
                           value={formData.expiryDate}
                           onChange={handleInputChange}
-                          className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.expiryDate
-                            ? "border-red-500"
-                            : "border-border"
-                            }`}
+                          className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                            errors.expiryDate
+                              ? "border-red-500"
+                              : "border-border"
+                          }`}
                         />
                         {errors.expiryDate && (
                           <div className="flex items-center gap-2 mt-1 text-red-500 text-xs">
@@ -619,8 +574,9 @@ export function CheckoutPage({
                           placeholder="123"
                           value={formData.cvv}
                           onChange={handleInputChange}
-                          className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${errors.cvv ? "border-red-500" : "border-border"
-                            }`}
+                          className={`w-full px-3 sm:px-4 py-2 bg-input-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm ${
+                            errors.cvv ? "border-red-500" : "border-border"
+                          }`}
                         />
                         {errors.cvv && (
                           <div className="flex items-center gap-2 mt-1 text-red-500 text-xs">
