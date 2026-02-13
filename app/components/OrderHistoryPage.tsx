@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { ImageWithFallback } from "~/components/figma/ImageWithFallback";
 import { ordersApi } from "~/utils/api";
 import { getCurrentUsername } from "~/utils/auth";
+import { formatGBP } from "~/utils/currency";
 import {
   Tooltip,
   TooltipTrigger,
@@ -292,7 +293,7 @@ export function OrderHistoryPage() {
                     <div className="hidden sm:block w-px h-8 bg-border" />
                     <div>
                       <p className="text-sm text-muted-foreground">Total</p>
-                      <p className="text-sm">${order.amount.toFixed(2)}</p>
+                      <p className="text-sm">{formatGBP(order.amount)}</p>
                     </div>
                   </div>
                   <div
@@ -325,7 +326,7 @@ export function OrderHistoryPage() {
                           Quantity: {item.quantity}
                         </p>
                         <p className="text-xs sm:text-sm">
-                          ${item.unitPrice.toFixed(2)}
+                          {formatGBP(item.unitPrice)}
                         </p>
                       </div>
                     </div>
@@ -438,8 +439,8 @@ export function OrderHistoryPage() {
                           <div className="flex-1">
                             <h4 className="font-medium">{item.name}</h4>
                             <p className="text-sm text-muted-foreground">
-                              Available: {item.quantity} × $
-                              {item.unitPrice.toFixed(2)}
+                              Available: {item.quantity} ×{" "}
+                              {formatGBP(item.unitPrice)}
                             </p>
                           </div>
                           <div className="flex items-center gap-2">
