@@ -21,8 +21,8 @@ async def create_order(order_create: OrderCreate, current_user: dict = Depends(g
     
     # order_create.items is a list of dicts {inventoryId, quantity}
     for item in order_create.items:
-        inventory_id = item["inventoryId"]
-        quantity = item["quantity"]
+        inventory_id = item.inventoryId
+        quantity = item.quantity
         
         inventory_item = await db["Inventory"].find_one({"_id": ObjectId(inventory_id)})
         if not inventory_item:

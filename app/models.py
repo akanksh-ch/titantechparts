@@ -109,8 +109,12 @@ class OrderBase(BaseModel):
     def stringify_user_id(cls, v):
         return str(v) if isinstance(v, ObjectId) else v
 
+class OrderItemCreate(BaseModel):
+    inventoryId: str
+    quantity: int
+
 class OrderCreate(BaseModel):
-    items: List[dict]
+    items: List[OrderItemCreate]
     address: ShippingAddress
     phoneNumber: str
 
