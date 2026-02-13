@@ -1,5 +1,37 @@
 import * as React from "react";
 
+const WISHLIST_STORAGE_KEY = "wishlistItems";
+
+const getStorageScope = (): string => {
+  if (typeof window === "undefined") return "guest";
+
+  const username = localStorage.getItem("username")?.trim().toLowerCase();
+  return username && username.length > 0 ? username : "guest";
+};
+
+const getScopedWishlistStorageKey = () =>
+  `${WISHLIST_STORAGE_KEY}:${getStorageScope()}`;
+
+const parseWishlistItems = (stored: string | null): WishlistItem[] => {
+  if (!stored) return [];
+
+  try {
+    const parsed = JSON.parse(stored);
+    if (!Array.isArray(parsed)) return [];
+
+    return parsed.filter(
+      (item): item is WishlistItem =>
+        item &&
+        (typeof item.id === "string" || typeof item.id === "number") &&
+        typeof item.name === "string" &&
+        typeof item.price === "number" &&
+        typeof item.category === "string",
+    );
+  } catch {
+    return [];
+  }
+};
+
 export interface WishlistItem {
   id: number | string;
   name: string;
@@ -23,7 +55,56 @@ const WishlistContext = React.createContext<WishlistContextValue | undefined>(
 );
 
 export function WishlistProvider({ children }: { children: React.ReactNode }) {
-  const [wishlistItems, setWishlistItems] = React.useState<WishlistItem[]>([]);
+  const wishlistStorageKey = getScopedWishlistStorageKey();
+
+  const [wishlistItems, setWishlistItems] = React.useState<WishlistItem[]>(
+    () => {
+      if (typeof window === "undefined") return [];
+
+      const scopedItems = parseWishlistItems(
+        localStorage.getItem(wishlistStorageKey),
+      );
+      if (scopedItems.length > 0) return scopedItems;
+
+      const legacyItems = parseWishlistItems(
+        localStorage.getItem(WISHLIST_STORAGE_KEY),
+      );
+      if (legacyItems.length > 0) {
+        localStorage.setItem(wishlistStorageKey, JSON.stringify(legacyItems));
+        localStorage.removeItem(WISHLIST_STORAGE_KEY);
+      }
+
+      return legacyItems;
+    },
+  );
+
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const scopedItems = parseWishlistItems(
+      localStorage.getItem(wishlistStorageKey),
+    );
+    if (scopedItems.length > 0) {
+      setWishlistItems(scopedItems);
+      return;
+    }
+
+    const legacyItems = parseWishlistItems(
+      localStorage.getItem(WISHLIST_STORAGE_KEY),
+    );
+    if (legacyItems.length > 0) {
+      localStorage.setItem(wishlistStorageKey, JSON.stringify(legacyItems));
+      localStorage.removeItem(WISHLIST_STORAGE_KEY);
+    }
+
+    setWishlistItems(legacyItems);
+  }, [wishlistStorageKey]);
+
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    localStorage.setItem(wishlistStorageKey, JSON.stringify(wishlistItems));
+  }, [wishlistItems, wishlistStorageKey]);
 
   const addToWishlist = React.useCallback((product: WishlistItem) => {
     setWishlistItems((prev) => {

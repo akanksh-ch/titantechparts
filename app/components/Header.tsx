@@ -1,4 +1,4 @@
-import { ShoppingCart, Search, User, LogOut, Heart } from "lucide-react";
+import { ShoppingCart, Search, User, LogOut, Heart, Menu } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router";
 import {
   isAdmin,
@@ -7,6 +7,12 @@ import {
   logout,
 } from "~/utils/auth";
 import { useWishlist } from "~/context/wishlist";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
 import {
   Tooltip,
   TooltipTrigger,
@@ -34,18 +40,18 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
   return (
     <header className="bg-card border-b border-border sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
-        <div className="flex items-center justify-between gap-2 sm:gap-4">
+        <div className="flex items-center justify-between gap-1 sm:gap-4 min-w-0">
           {/* Logo */}
           <Link
             to="/home"
-            className="flex items-center gap-1 sm:gap-2 hover:opacity-80 transition-opacity flex-shrink-0"
+            className="flex items-center gap-1 sm:gap-2 hover:opacity-80 transition-opacity shrink min-w-0"
           >
             <img
               src="/TTP_Logo.png"
               alt="TitanTechParts Logo"
-              className="h-10 w-auto"
+              className="h-8 sm:h-10 w-auto"
             />
-            <span className="font-medium">TitanTechParts</span>
+            <span className="font-medium hidden sm:inline">TitanTechParts</span>
           </Link>
 
           {/* Navigation */}
@@ -97,7 +103,33 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
           </nav>
 
           {/* Actions */}
-          <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
+          <div className="flex items-center gap-1 sm:gap-3 md:gap-4 shrink-0">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  className="p-2 hover:bg-accent rounded-lg transition-colors lg:hidden"
+                  aria-label="Open navigation menu"
+                >
+                  <Menu className="w-5 h-5" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-40 lg:hidden">
+                <DropdownMenuItem asChild>
+                  <Link to="/about">About Us</Link>
+                </DropdownMenuItem>
+                {authenticated && !admin && (
+                  <DropdownMenuItem asChild>
+                    <Link to="/orders">Orders</Link>
+                  </DropdownMenuItem>
+                )}
+                {authenticated && admin && (
+                  <DropdownMenuItem asChild>
+                    <Link to="/admin">Admin</Link>
+                  </DropdownMenuItem>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
