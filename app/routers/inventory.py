@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List
-from app.models import InventoryCreate, InventoryInDB
+from app.models import InventoryCreate, InventoryInDB, ReviewCreate
 from app.database import db
 from app.auth import get_current_active_user
 from datetime import datetime
@@ -70,3 +70,50 @@ async def read_inventory_item(id: str):
             review["reviewerId"] = str(review["reviewerId"])
         
     return InventoryInDB(**item)
+
+@router.post("/{id}/reviews", response_model=InventoryInDB)
+async def add_review(
+    id: str,
+    review: ReviewCreate,
+    current_user = Depends(get_current_active_user),
+):
+    if not ObjectId.is_valid(id):
+        raise HTTPException(status_code=400, detail="Invalid ID format")
+
+    item = await db["Inventory"].find_one({"_id": ObjectId(id)})
+    if item is None:
+        raise HTTPException(status_code=404, detail="Item not found")
+
+    # Build review document matching DB validator schema
+    review_doc = {
+        "reviewerId": ObjectId(current_user.id),
+        "reviewer": current_user.username,
+        "text": review.text,
+        "rating": int(review.rating),
+        "date": datetime.utcnow(),
+    }
+
+    # Push to reviews array
+    await db["Inventory"].update_one(
+        {"_id": ObjectId(id)},
+        {"$push": {"reviews": review_doc}},
+    )
+
+    # Recalculate average rating
+    updated = await db["Inventory"].find_one({"_id": ObjectId(id)})
+    reviews = updated.get("reviews", [])
+    if reviews:
+        avg = sum(r.get("rating", 0) for r in reviews) / len(reviews)
+        await db["Inventory"].update_one(
+            {"_id": ObjectId(id)},
+            {"$set": {"rating": round(avg, 1)}},
+        )
+        updated["rating"] = round(avg, 1)
+
+    # Serialise for response
+    updated["_id"] = str(updated["_id"])
+    for r in updated.get("reviews", []):
+        if "reviewerId" in r:
+            r["reviewerId"] = str(r["reviewerId"])
+
+    return InventoryInDB(**updated)
