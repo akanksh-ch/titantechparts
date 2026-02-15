@@ -29,6 +29,26 @@ export const inventoryApi = {
     return response.json();
   },
 
+  addReview: async (
+    id: string,
+    reviewData: {
+      rating: number;
+      text: string;
+    },
+  ) => {
+    const response = await fetchWithAuth(`/inventory/${id}/reviews`, {
+      method: "POST",
+      body: JSON.stringify(reviewData),
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data?.detail || "Failed to submit review");
+    }
+
+    return data;
+  },
+
   create: async (itemData: {
     name: string;
     category: string;
@@ -87,8 +107,8 @@ export const inventoryApi = {
  */
 export const ordersApi = {
   create: async (orderData: any) => {
-    const response = await fetchWithAuth('/orders/', {
-      method: 'POST',
+    const response = await fetchWithAuth("/orders/", {
+      method: "POST",
       body: JSON.stringify(orderData),
     });
     return response.json();

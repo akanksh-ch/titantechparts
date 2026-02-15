@@ -16,3 +16,82 @@ body {
     color-scheme: dark;
   }
 }
+
+.hero-dynamic-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-orb {
+  position: absolute;
+  border-radius: 9999px;
+  background: color-mix(in oklab, var(--primary) 25%, transparent);
+  filter: blur(48px);
+  opacity: 0.7;
+  animation: heroFloat 9s ease-in-out infinite;
+}
+
+.hero-orb--left {
+  width: 18rem;
+  height: 18rem;
+  top: -6rem;
+  left: -5rem;
+}
+
+.hero-orb--right {
+  width: 20rem;
+  height: 20rem;
+  top: 1rem;
+  right: -6rem;
+  animation-delay: 1.2s;
+}
+
+.hero-orb--center {
+  width: 14rem;
+  height: 14rem;
+  bottom: -4rem;
+  left: 35%;
+  animation-delay: 2.1s;
+}
+
+.hero-sweep {
+  position: absolute;
+  inset: -30% -20%;
+  background: linear-gradient(
+    105deg,
+    transparent 20%,
+    color-mix(in oklab, var(--primary) 10%, transparent) 45%,
+    color-mix(in oklab, var(--primary) 18%, transparent) 50%,
+    color-mix(in oklab, var(--primary) 10%, transparent) 55%,
+    transparent 80%
+  );
+  animation: heroSweep 8s linear infinite;
+}
+
+@keyframes heroFloat {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-16px) scale(1.06);
+  }
+}
+
+@keyframes heroSweep {
+  0% {
+    transform: translateX(-12%);
+  }
+  100% {
+    transform: translateX(12%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-orb,
+  .hero-sweep {
+    animation: none;
+  }
+}
