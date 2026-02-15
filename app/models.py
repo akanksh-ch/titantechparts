@@ -71,6 +71,11 @@ class InventoryUpdate(BaseModel):
 class InventoryInDB(InventoryBase, MongoBaseModel):
     updatedAt: Optional[datetime] = None
 
+# --- Review Models ---
+class ReviewCreate(BaseModel):
+    rating: int = Field(..., ge=1, le=5)
+    text: str = Field(..., min_length=3)
+
 # --- Order Models ---
 
 class ShippingAddress(BaseModel):
