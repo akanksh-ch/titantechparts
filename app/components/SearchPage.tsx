@@ -59,16 +59,18 @@ export function SearchPage({ onAddToCart }: SearchPageProps) {
         const data = await inventoryApi.getAll();
 
         // Transform backend data to frontend format
-        const transformedProducts = data.map((item: any) => ({
-          _id: item.id,
-          name: item.name,
-          price: item.price,
-          rating: item.rating || 4.5,
-          reviews: item.reviews || [],
-          imageUrl: item.imageUrl,
-          category: item.category,
-          stock: item.stock,
-        }));
+        const transformedProducts = data
+          .map((item: any) => ({
+            _id: item._id || item.id,
+            name: item.name,
+            price: item.price,
+            rating: item.rating || 4.5,
+            reviews: item.reviews || [],
+            imageUrl: item.imageUrl,
+            category: item.category,
+            stock: item.stock,
+          }))
+          .filter((item: Product) => Boolean(item._id));
 
         setProducts(transformedProducts);
 
@@ -163,8 +165,9 @@ export function SearchPage({ onAddToCart }: SearchPageProps) {
         <div className="flex gap-4 sm:gap-6 lg:gap-8">
           {/* Filters Sidebar */}
           <aside
-            className={`${showFilters ? "block" : "hidden"
-              } lg:block w-full sm:w-64 flex-shrink-0`}
+            className={`${
+              showFilters ? "block" : "hidden"
+            } lg:block w-full sm:w-64 flex-shrink-0`}
           >
             <div className="bg-card border border-border rounded-lg p-4 sm:p-6">
               <div className="flex items-center justify-between mb-4 lg:block">
