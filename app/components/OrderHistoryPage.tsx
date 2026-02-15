@@ -374,17 +374,6 @@ export function OrderHistoryPage() {
                         </TooltipContent>
                       </Tooltip>
                     )}
-
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <button className="w-full sm:w-auto px-4 py-2 border border-border rounded-lg hover:bg-accent transition-colors">
-                          View Details
-                        </button>
-                      </TooltipTrigger>
-                      <TooltipContent sideOffset={4}>
-                        View order details
-                      </TooltipContent>
-                    </Tooltip>
                   </div>
                 </div>
               </div>

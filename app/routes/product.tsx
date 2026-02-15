@@ -14,18 +14,21 @@ import { useCart } from "~/context/cart";
 import { useWishlist } from "~/context/wishlist";
 import { Link } from "react-router";
 import { formatGBP } from "~/utils/currency";
-import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-} from "~/components/ui/tooltip";
+import { isAuthenticated, getCurrentUsername } from "~/utils/auth";
+import { Textarea } from "~/components/ui/textarea";
 
 export default function ProductPage() {
   const { id } = useParams();
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [reviewText, setReviewText] = useState("");
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewError, setReviewError] = useState("");
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+  const authenticated = isAuthenticated();
+  const currentUsername = getCurrentUsername();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -42,6 +45,38 @@ export default function ProductPage() {
 
     fetchProduct();
   }, [id]);
+
+  const handleReviewSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!id) return;
+    if (!authenticated) {
+      setReviewError("Please log in to leave a review.");
+      return;
+    }
+
+    const trimmed = reviewText.trim();
+    if (trimmed.length < 3) {
+      setReviewError("Review must be at least 3 characters.");
+      return;
+    }
+
+    try {
+      setIsSubmittingReview(true);
+      setReviewError("");
+      const updatedProduct = await inventoryApi.addReview(id, {
+        rating: reviewRating,
+        text: trimmed,
+      });
+      setProduct(updatedProduct);
+      setReviewText("");
+      setReviewRating(5);
+    } catch (error: any) {
+      setReviewError(error?.message || "Failed to submit review.");
+    } finally {
+      setIsSubmittingReview(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -179,6 +214,68 @@ export default function ProductPage() {
         {/* Reviews Section */}
         <div className="mt-20">
           <h2 className="text-2xl font-bold mb-8">Customer Reviews</h2>
+
+          <div className="bg-card border border-border rounded-lg p-6 mb-8">
+            {authenticated ? (
+              <form onSubmit={handleReviewSubmit} className="space-y-4">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Reviewing as {currentUsername || "User"}
+                  </p>
+                  <div className="flex items-center gap-2">
+                    {[1, 2, 3, 4, 5].map((starValue) => (
+                      <button
+                        key={starValue}
+                        type="button"
+                        onClick={() => setReviewRating(starValue)}
+                        className="p-1"
+                        aria-label={`Set rating to ${starValue}`}
+                      >
+                        <Star
+                          className={`w-5 h-5 ${
+                            starValue <= reviewRating
+                              ? "fill-yellow-400 text-yellow-400"
+                              : "text-border"
+                          }`}
+                        />
+                      </button>
+                    ))}
+                    <span className="text-sm text-muted-foreground ml-1">
+                      {reviewRating}/5
+                    </span>
+                  </div>
+                </div>
+
+                <Textarea
+                  value={reviewText}
+                  onChange={(event) => setReviewText(event.target.value)}
+                  placeholder="Share your experience with this product"
+                  rows={4}
+                  disabled={isSubmittingReview}
+                />
+
+                {reviewError && (
+                  <p className="text-sm text-destructive">{reviewError}</p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={isSubmittingReview}
+                  className="bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+                >
+                  {isSubmittingReview ? "Submitting..." : "Submit Review"}
+                </button>
+              </form>
+            ) : (
+              <p className="text-muted-foreground">
+                Please{" "}
+                <Link to="/login" className="text-primary hover:underline">
+                  log in
+                </Link>{" "}
+                to leave a review.
+              </p>
+            )}
+          </div>
 
           {product.reviews && product.reviews.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

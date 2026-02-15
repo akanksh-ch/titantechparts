@@ -48,13 +48,21 @@ export function HomePage({ onAddToCart }: HomePageProps) {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary/10 to-primary/5 py-8 sm:py-12 md:py-16 lg:py-20">
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary/10 to-primary/5 py-8 sm:py-12 md:py-16 lg:py-20">
+        <div className="hero-dynamic-bg" aria-hidden>
+          <div className="absolute inset-0 bg-[url('/images/HeroBG.jpeg')] bg-cover bg-center opacity-55" />
+          <div className="absolute inset-0 bg-background/10" />
+          <div className="hero-orb hero-orb--left" />
+          <div className="hero-orb hero-orb--right" />
+          <div className="hero-orb hero-orb--center" />
+          <div className="hero-sweep" />
+        </div>
         <div className="max-w-7xl mx-auto px-3 sm:px-4">
-          <div className="max-w-2xl">
+          <div className="relative z-10 max-w-2xl">
             <h1 className="mb-2 sm:mb-4 text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
               Upgrade Your Battlestation
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-4 sm:mb-6 md:mb-8">
+            <p className="text-base sm:text-lg md:text-xl text-white mb-4 sm:mb-6 md:mb-8">
               Discover high-performance PC parts at unbeatable prices. From
               flagship GPUs to ultra-fast storage, we have everything you need
               to build your dream rig.
